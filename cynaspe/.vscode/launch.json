@@ -12,10 +12,10 @@
         },
         {
             "type": "java",
-            "name": "App",
+            "name": "Main",
             "request": "launch",
             "vmArgs": "--module-path \"${workspaceFolder}/javafx-sdk-21.0.7/lib\" --add-modules javafx.controls,javafx.fxml",
-            "mainClass": "App",
+            "mainClass": "Main",
             "projectName": "cynaspe_c4d68424"
         }
     ]
