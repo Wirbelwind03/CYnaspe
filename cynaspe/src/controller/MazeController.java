@@ -1,14 +1,14 @@
 package controller;
 
 import enums.WallDirection;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import model.GridModel;
 import model.MazeModel;
 import model.TileModel;
-import utils.Kruskal;
+import utils.KruskalMazeGenerator;
 
 /**
  * Gere les données du labyrinte avec l'interface qui affice le labyrinthe
@@ -25,23 +25,38 @@ public class MazeController {
     public void initialize(){
         gc  = mazeCanvas.getGraphicsContext2D();
         
-        GridModel grid = new GridModel(10,10);
-        Kruskal.generateMaze(grid);
-        maze = new MazeModel(grid);
+        maze = new MazeModel(10,10);
+        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
 
-        for(int row = 0; row < maze.grid.numRows; row++){
-            for (int column = 0; column < maze.grid.numCols; column++){
-                TileModel tile = maze.grid.tiles[row][column];
+        while (!generator.isComplete()) {
+            generator.step();
+        }
+       
+        renderMaze();
+    }
 
+    /**
+     * Render the maze on the canvas
+     */
+    public void renderMaze(){
+        double rowSize = mazeCanvas.getHeight() / maze.numRows;
+        double colSize = mazeCanvas.getWidth() / maze.numCols;
+
+        for(int row = 0; row < maze.numRows; row++){
+            for (int column = 0; column < maze.numCols; column++){
+                TileModel tile = maze.tiles[row][column];
+
+                // Draw the start tile
                 if (row == 0 && column == 0)
-                    drawTile(tile, mazeCanvas.getWidth() / maze.grid.numRows, mazeCanvas.getHeight() / maze.grid.numCols, Color.LIGHTGREEN);
-                else if (row == maze.grid.numRows - 1 && column == maze.grid.numCols - 1)
-                    drawTile(tile, mazeCanvas.getWidth() / maze.grid.numRows, mazeCanvas.getHeight() / maze.grid.numCols, Color.RED);
+                    drawTile(tile, rowSize, colSize, Color.LIGHTGREEN);
+                // Draw the end tile
+                else if (row == maze.numRows - 1 && column == maze.numCols - 1)
+                    drawTile(tile, rowSize, colSize, Color.RED);
+                // Draw the other tiles
                 else
-                    drawTile(tile, mazeCanvas.getWidth() / maze.grid.numRows, mazeCanvas.getHeight() / maze.grid.numCols, Color.WHITE);
+                    drawTile(tile, rowSize, colSize, Color.WHITE);
             }
         }
-        
     }
 
     /**
