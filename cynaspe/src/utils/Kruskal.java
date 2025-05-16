@@ -5,23 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 import model.EdgeModel;
-import model.MazeModel;
+import model.GridModel;
 import model.TileModel;
 
 public class Kruskal {
-    private MazeModel maze;
-    private DisjointSet disjointSet = new DisjointSet();
+    public static void generateMaze(GridModel grid){
+        DisjointSet disjointSet = new DisjointSet();
 
-    public Kruskal(MazeModel maze){
-        this.maze = maze;
-        generateMaze();
-    }
-
-    public void generateMaze(){
-        List<EdgeModel> edges = maze.getEdges();
+        List<EdgeModel> edges = grid.getEdges();
         Collections.shuffle(edges);
 
-        for (TileModel[] row : maze.tiles){
+        for (TileModel[] row : grid.tiles){
             for (TileModel tile: row){
                 disjointSet.makeSet(tile);
             }
