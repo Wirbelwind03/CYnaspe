@@ -15,23 +15,9 @@ public class Main extends Application {
     
     @Override
     public void start(Stage s) throws Exception {
-        // s.setTitle("CYnaspe");
-
-        // Menu mazeMenu = new Menu("Maze");
-        // MenuItem newMazeMenuItem = new MenuItem("New");
-        // mazeMenu.getItems().add(newMazeMenuItem);
-
-        // MenuBar mainMenuBar = new MenuBar();
-        // mainMenuBar.getMenus().add(mazeMenu);
-
-        // VBox vb = new VBox(mainMenuBar);
-
-        // Scene sc = new Scene(vb, 500, 300);
-        // s.setScene(sc);
-        // s.show();
         Parent root = FXMLLoader.load(getClass().getResource("view/MazeView.fxml"));
         s.setTitle("CYnaspe");
-        s.setScene(new Scene(root, 300, 275));
+        s.setScene(new Scene(root, 512, 512));
         s.show();
     }
 }
