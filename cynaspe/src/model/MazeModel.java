@@ -8,6 +8,13 @@ public class MazeModel {
     public int numCols;
     public TileModel[][] tiles;
 
+    /**
+     * Construct a grid with the size given
+     * @param numRows
+     * The number of row for the grid
+     * @param numCols
+     * The number of column for the grid
+     */
     public MazeModel(int numRows, int numCols){
         this.numRows = numRows;
         this.numCols = numCols;
@@ -15,9 +22,9 @@ public class MazeModel {
     }
 
     /**
-     * Construit la grille à partir de la taille donnée
+     * Construct the grid by putting a TileModel in each row and column
      * @return
-     * Retourne une grille fait de TileModel
+     * A 2D array made of TileModel
      */
     private TileModel[][] ConstructGrid(){
         TileModel[][] tiles = new TileModel[numRows][];
@@ -30,6 +37,11 @@ public class MazeModel {
         return tiles;
     }
 
+    /**
+     * Get the edges of the grid
+     * @return
+     * A list of the edges of the grid
+     */
     public List<EdgeModel> getEdges(){
         List<EdgeModel> edges = new ArrayList<>();
         for (int row = 0; row < numRows; row++){

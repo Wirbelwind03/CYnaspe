@@ -5,47 +5,57 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.control.Cell;
-
 import enums.WallDirection;
 
 /**
- * Répresente une case
+ * Model that represent the case in a grid
  */
 public class TileModel {
-    public int row; // La ligne où se trouve la case
-    public int column; // La colonne où se trouve la case
-    public Map<WallDirection, Boolean> walls = new HashMap<>(); // Les murs de la case
-    public boolean isVisited = false; // Si la case a été visité
+    public int row; // The row where the tile is placed
+    public int column; // The column where the tile is placed
+    // The walls of the tile
+    // Represented like this
+    // {TOP: false, RIGHT: false, LEFT: false, BOTTOM: false}
+    public Map<WallDirection, Boolean> walls = new HashMap<>(); 
+    public boolean isVisited = false; // If the tile has been visited
 
     /**
-     * Construit une case a mettre dans une ligne et colonne
+     * Construct a case with the row and column given
      * @param row
-     * La ligne où se trouve la case 
+     * Row where the tile is placed
      * @param column
-     * La colonne où se trouve la case
+     * Column where the tile is placed
      */
     public TileModel(int row, int column){
         this.row = row;
         this.column = column;
-        // Mettre des murs dans toutes les directions
+        // Put walls in all direction of the tile
         for (WallDirection dir : WallDirection.values()) {
             walls.put(dir, true);
         }
     }
 
     /**
-     * Remove le mur de cette case pour accéder au voisin
+     * Remove the wall to get access to the neighbor
      * @param neighbor
-     * La case voisine dans lequel on veut accéder
+     * The tile we want to access
      */
     public void removeWall(TileModel neighbor) {
-        // Voir si la case est un voisin
+        // See if the tile is a neighbor by calculating the distance difference between the two
+        // For example : A case with (2,0) and the neighbor is (3,0)
+        // dx = 0 - 0 = 0
+        // dy = 3 - 2 = 1
+        // -> The neighbor is at the right
+        // Another example : A case (2,0) and the neighbor is (5,1)
+        // dx = 1 - 0 = 1
+        // dy = 5 - 2 = 3
+        // -> The neighbor is below
         int dx = neighbor.column - this.column;
         int dy = neighbor.row - this.row;
 
         /**
-         * Répresentation de comment on voit que c'est un voisin
+         * Schema of what the number represent for the neighbor
+         * With "o" being the tile
          *     -1 
          *      |
          * -1 --o-- 1
@@ -53,16 +63,16 @@ public class TileModel {
          *      1
          */
 
-        if (dx == 1) { // Le voisin est à droite
+        if (dx == 1) { // Neighbor is at the right
             walls.put(WallDirection.RIGHT, false);
             neighbor.walls.put(WallDirection.LEFT, false);
-        } else if (dx == -1) { // Le voision est à gauche
+        } else if (dx == -1) { // Neighbor is at the left
             walls.put(WallDirection.LEFT, false);
             neighbor.walls.put(WallDirection.RIGHT, false);
-        } else if (dy == 1) { // Le voisin est en dessous
+        } else if (dy == 1) { // Neighbor is below
             walls.put(WallDirection.BOTTOM, false);
             neighbor.walls.put(WallDirection.TOP, false);
-        } else if (dy == -1) { // Le voisin est au dessus
+        } else if (dy == -1) { // Neighbor is above
             walls.put(WallDirection.TOP, false);
             neighbor.walls.put(WallDirection.BOTTOM, false);
         }

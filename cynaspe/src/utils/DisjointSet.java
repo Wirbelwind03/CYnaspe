@@ -50,6 +50,7 @@ public class DisjointSet {
      * @param tile1
      * @param tile2
      * @return
+     * A boolean that say it the two args are connected
      */
     public boolean connected(TileModel tile1, TileModel tile2) {
         return find(tile1) == find(tile2);

@@ -26,21 +26,37 @@ public class KruskalMazeGenerator {
         }
     }
 
+    /**
+     * Move one step forward the algorithm
+     * @return
+     * A boolean that say if the algorithm has been finished or not
+     */
     public boolean step(){
-        if (currentIndex >= edges.size()) return false;
+        // If it complete, there isn't any more steps
+        if (isComplete()) return false;
 
         EdgeModel edge = edges.get(currentIndex++);
+        // If the two tiles arent connected
         if (!disjointSet.connected(edge.tile1, edge.tile2)){
+            // Connect the two tiles
             disjointSet.union(edge.tile1, edge.tile2);
+            // Remove the wall between the two
             edge.tile1.removeWall(edge.tile2);
 
+            // Tell that the two tiles are visited
             edge.tile1.isVisited = true;
             edge.tile2.isVisited = true;
         }
 
+        // There are steps remaining
         return true;
     }
 
+    /**
+     * Check if the algorithm has been completed
+     * @return
+     * A boolean that tell if the algorithm has been completed
+     */
     public boolean isComplete() {
         return currentIndex >= edges.size();
     }
