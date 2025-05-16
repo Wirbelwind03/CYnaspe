@@ -4,5 +4,5 @@
 <?import javafx.scene.control.*?>
 
 <Pane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MazeController">
-    <Canvas fx:id="mazeCanvas" height="200.0" width="200.0"/>
+    <Canvas fx:id="mazeCanvas" height="512.0" width="512.0"/>
 </Pane>
