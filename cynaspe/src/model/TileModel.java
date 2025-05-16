@@ -16,7 +16,7 @@ public class TileModel {
     public int row; // La ligne où se trouve la case
     public int column; // La colonne où se trouve la case
     public Map<WallDirection, Boolean> walls = new HashMap<>(); // Les murs de la case
-    boolean isVisited = false; // Si la case a été visité
+    public boolean isVisited = false; // Si la case a été visité
 
     /**
      * Construit une case a mettre dans une ligne et colonne

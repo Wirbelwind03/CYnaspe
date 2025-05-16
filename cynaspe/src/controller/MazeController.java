@@ -71,15 +71,20 @@ public class MazeController {
             for (int column = 0; column < maze.numCols; column++){
                 TileModel tile = maze.tiles[row][column];
 
+                Color color = null;
                 // Draw the start tile
                 if (row == 0 && column == 0)
-                    drawTile(tile, rowSize, colSize, Color.LIGHTGREEN);
+                    color = Color.LIGHTGREEN;
                 // Draw the end tile
                 else if (row == maze.numRows - 1 && column == maze.numCols - 1)
-                    drawTile(tile, rowSize, colSize, Color.RED);
+                    color = Color.RED;
                 // Draw the other tiles
+                else if (!tile.isVisited)
+                    color = Color.GREY;
                 else
-                    drawTile(tile, rowSize, colSize, Color.WHITE);
+                    color = Color.WHITE;
+
+                drawTile(tile, rowSize, colSize, color);
             }
         }
     }

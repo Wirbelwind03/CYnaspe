@@ -33,6 +33,9 @@ public class KruskalMazeGenerator {
         if (!disjointSet.connected(edge.tile1, edge.tile2)){
             disjointSet.union(edge.tile1, edge.tile2);
             edge.tile1.removeWall(edge.tile2);
+
+            edge.tile1.isVisited = true;
+            edge.tile2.isVisited = true;
         }
 
         return true;
