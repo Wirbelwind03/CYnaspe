@@ -28,17 +28,42 @@ public class MazeController {
         maze = new MazeModel(10,10);
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
 
-        while (!generator.isComplete()) {
-            generator.step();
-        }
-       
-        renderMaze();
+        /// instant
+        // while (!generator.isComplete()){
+        //     generator.step();
+        // }
+
+        /// step by step
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0;
+
+            @Override
+            public void handle(long now) {
+                // Update every 10 fps
+                if (now - lastUpdate >= 100_000_000) {
+                    lastUpdate = now;
+
+                    if (!generator.isComplete()) {
+                        generator.step();
+                        renderMaze();
+                    } else {
+                        stop();
+                    }
+                }
+            }
+        };
+
+        timer.start();
     }
+
 
     /**
      * Render the maze on the canvas
      */
     public void renderMaze(){
+        // Clear the entire canvas
+        gc.clearRect(0, 0, mazeCanvas.getWidth(), mazeCanvas.getHeight());
+
         double rowSize = mazeCanvas.getHeight() / maze.numRows;
         double colSize = mazeCanvas.getWidth() / maze.numCols;
 
@@ -80,6 +105,7 @@ public class MazeController {
         }
 
         gc.setStroke(Color.BLACK);
+        gc.setLineWidth(2);
 
         if (tileModel.walls.getOrDefault(WallDirection.TOP, false)) {
             gc.strokeLine(x, y, x + colSize, y);
