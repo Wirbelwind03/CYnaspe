@@ -24,8 +24,11 @@ public class MazeController {
     @FXML
     public void initialize(){
         gc  = mazeCanvas.getGraphicsContext2D();
-        
-        maze = new MazeModel(10,10);
+    }
+
+
+    public void constructMaze(int numRows, int numCols){
+        maze = new MazeModel(numRows, numCols);
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
 
         /// instant
@@ -55,7 +58,6 @@ public class MazeController {
 
         timer.start();
     }
-
 
     /**
      * Render the maze on the canvas
