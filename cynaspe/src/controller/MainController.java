@@ -39,7 +39,7 @@ public class MainController {
         Parent root = loader.load();
 
         MazeController mazeController = loader.getController();
-        mazeController.constructMaze(mazeConfigController.getMazeNumRows(), mazeConfigController.getMazeNumColumns());
+        mazeController.constructMaze(mazeConfigController);
 
         VBContainer.getChildren().add(root);
     }

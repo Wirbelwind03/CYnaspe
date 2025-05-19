@@ -3,7 +3,9 @@ package utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
+import controller.MazeConfigurationController;
 import model.EdgeModel;
 import model.MazeModel;
 import model.TileModel;
@@ -13,11 +15,11 @@ public class KruskalMazeGenerator {
     private List<EdgeModel> edges;
     private DisjointSet disjointSet;
 
-    public  KruskalMazeGenerator(MazeModel maze){
+    public  KruskalMazeGenerator(MazeModel maze, MazeConfigurationController mazeConfigurationController){
         disjointSet = new DisjointSet();
 
         edges = maze.getEdges();
-        Collections.shuffle(edges);
+        Collections.shuffle(edges, new Random(mazeConfigurationController.getMazeSeed()));
 
         for (TileModel[] row : maze.tiles){
             for (TileModel tile: row){

@@ -27,9 +27,9 @@ public class MazeController {
     }
 
 
-    public void constructMaze(int numRows, int numCols){
-        maze = new MazeModel(numRows, numCols);
-        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
+    public void constructMaze(MazeConfigurationController mazeConfigurationController){
+        maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
+        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController);
 
         /// instant
         // while (!generator.isComplete()){
