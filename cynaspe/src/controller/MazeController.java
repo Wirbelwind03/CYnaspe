@@ -1,6 +1,7 @@
 package controller;
 
 import enums.WallDirection;
+import enums.GenerationMode;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -29,34 +30,44 @@ public class MazeController {
 
     public void constructMaze(MazeConfigurationController mazeConfigurationController){
         maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
-        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController);
+        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
 
-        /// instant
-        // while (!generator.isComplete()){
-        //     generator.step();
-        // }
-
-        /// step by step
-        AnimationTimer timer = new AnimationTimer() {
-            private long lastUpdate = 0;
-
-            @Override
-            public void handle(long now) {
-                // Update every 10 fps
-                if (now - lastUpdate >= 100_000_000) {
-                    lastUpdate = now;
-
-                    if (!generator.isComplete()) {
-                        generator.step();
-                        renderMaze();
-                    } else {
-                        stop();
-                    }
+        switch (mazeConfigurationController.getGenerationMode()) {
+            case GenerationMode.COMPLETE:
+                // instant
+                while (!generator.isComplete()){
+                    generator.step();
                 }
-            }
-        };
+                break;
 
-        timer.start();
+            case GenerationMode.STEP:
+                /// step by step
+                AnimationTimer timer = new AnimationTimer() {
+                    private long lastUpdate = 0;
+
+                    @Override
+                    public void handle(long now) {
+                        // Update every 10 fps
+                        if (now - lastUpdate >= 100_000_000) {
+                            lastUpdate = now;
+
+                            if (!generator.isComplete()) {
+                                generator.step();
+                                renderMaze();
+                            } else {
+                                stop();
+                            }
+                        }
+                    }
+                };
+
+                timer.start();
+                break;
+        
+            
+            default:
+                break;
+        }
     }
 
     /**

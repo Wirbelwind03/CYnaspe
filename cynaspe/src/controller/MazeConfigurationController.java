@@ -2,24 +2,38 @@ package controller;
 
 import java.util.Random;
 
+import enums.DialogResult;
+import enums.GenerationMode;
+import enums.MazeType;
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class MazeConfigurationController {
 
-    @FXML
-    private VBox VBRoot;
+    public DialogResult dialogResult = DialogResult.CLOSED;
+
+    @FXML private GridPane GridPaneRoot;
+
+    @FXML private Spinner<Integer> SpinnerSeed;
+    
+    @FXML private Spinner<Integer> SpinnerNumCols;
+    @FXML private Spinner<Integer> SpinnerNumRows;
 
     @FXML
-    private Spinner<Integer> SpinnerSeed;
-    
+    private ToggleGroup MazeTypeGroup;
     @FXML
-    private Spinner<Integer> SpinnerMazeCols;
-    @FXML
-    private Spinner<Integer> SpinnerMazeRows;
+    private ToggleGroup GenerationModeGroup;
+
+    @FXML private RadioButton RadioButtonPerfectType;
+    @FXML private RadioButton RadioButtonImperfectType;
+    @FXML private RadioButton RadioButtonGenerationModeComplete;
+    @FXML private RadioButton RadioButtonGenerationModeStep;
 
     @FXML
     public void initialize(){
@@ -32,21 +46,27 @@ public class MazeConfigurationController {
         SpinnerSeed.setValueFactory(seedValueFactory);
 
         SpinnerValueFactory<Integer> mazeRowsValueFactory =
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(2,6);
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(2,256);
         mazeRowsValueFactory.setValue(2);
 
         SpinnerValueFactory<Integer> mazeColsValueFactory =
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(2,6);
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(2,256);
         mazeColsValueFactory.setValue(2);
 
-        SpinnerMazeCols.setValueFactory(mazeColsValueFactory);
-        SpinnerMazeRows.setValueFactory(mazeRowsValueFactory);
+        SpinnerNumCols.setValueFactory(mazeColsValueFactory);
+        SpinnerNumRows.setValueFactory(mazeRowsValueFactory);
+
+        RadioButtonPerfectType.setUserData(MazeType.PERFECT);
+        RadioButtonImperfectType.setUserData(MazeType.IMPERFECT);
+        RadioButtonGenerationModeComplete.setUserData(GenerationMode.COMPLETE);
+        RadioButtonGenerationModeStep.setUserData(GenerationMode.STEP);
     }
 
     @FXML
-    private void BOK_Click(){
-        Stage stage = (Stage) VBRoot.getScene().getWindow();
+    private void ButtonOK_Click(){
+        Stage stage = (Stage) GridPaneRoot.getScene().getWindow();
         stage.close();
+        dialogResult = DialogResult.OK;
     }
 
     public int getMazeSeed(){
@@ -54,10 +74,20 @@ public class MazeConfigurationController {
     }
 
     public int getMazeNumRows(){
-        return SpinnerMazeRows.getValue();
+        return SpinnerNumRows.getValue();
     }
 
     public int getMazeNumColumns(){
-        return SpinnerMazeCols.getValue();
+        return SpinnerNumCols.getValue();
+    }
+
+    public GenerationMode getGenerationMode(){
+        Toggle selected = GenerationModeGroup.getSelectedToggle();
+        return selected != null ? (GenerationMode) selected.getUserData() : null;
+    }
+
+    public MazeType getMazeType(){
+        Toggle selected = MazeTypeGroup.getSelectedToggle();
+        return selected != null ? (MazeType) selected.getUserData() : null;
     }
 }

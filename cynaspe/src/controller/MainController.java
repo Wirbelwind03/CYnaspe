@@ -1,5 +1,6 @@
 package controller;
 
+import enums.DialogResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +30,10 @@ public class MainController {
         configStage.initModality(Modality.APPLICATION_MODAL);
         configStage.setScene(new Scene(root));
         configStage.showAndWait(); // Pause the code and wait until the MazeConfigurationView is closed
-
-        createMaze();        
+        
+        if (mazeConfigController.dialogResult == DialogResult.OK){
+            createMaze();
+        }
     }
 
     private void createMaze() throws Exception {
@@ -41,6 +44,7 @@ public class MainController {
         MazeController mazeController = loader.getController();
         mazeController.constructMaze(mazeConfigController);
 
+        VBContainer.getChildren().clear();
         VBContainer.getChildren().add(root);
     }
 }
