@@ -69,23 +69,48 @@ public class MazeConfigurationController {
         dialogResult = DialogResult.OK;
     }
 
+    /**
+     * Get the seed of the maze
+     * @return
+     * The seed of the maze
+     */
     public int getMazeSeed(){
         return SpinnerSeed.getValue();
     }
 
+    /**
+     * Get the number of rows of the maze
+     * @return
+     * The number of rows of the maze
+     */
     public int getMazeNumRows(){
         return SpinnerNumRows.getValue();
     }
 
+    /**
+     * Get the number of columns of the maze
+     * @return
+     * The number of columns of the maze
+     */
     public int getMazeNumColumns(){
         return SpinnerNumCols.getValue();
     }
 
+    /**
+     * Get the generation mode of the maze
+     * @return
+     * The generation mode used for the maze
+     */
     public GenerationMode getGenerationMode(){
         Toggle selected = GenerationModeGroup.getSelectedToggle();
         return selected != null ? (GenerationMode) selected.getUserData() : null;
     }
 
+    /**
+     * Get the type of maze
+     * @return
+     * The type of maze (perfect or imperfect) used for the generation
+     */
     public MazeType getMazeType(){
         Toggle selected = MazeTypeGroup.getSelectedToggle();
         return selected != null ? (MazeType) selected.getUserData() : null;

@@ -30,8 +30,10 @@ public class MazeController {
 
     public void constructMaze(MazeConfigurationController mazeConfigurationController){
         maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
+        // Use Kruskal algorithm to generate the maze
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
 
+        // Show the maze generation depending on the mode
         switch (mazeConfigurationController.getGenerationMode()) {
             case GenerationMode.COMPLETE:
                 // instant
@@ -124,19 +126,23 @@ public class MazeController {
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
-
+        
+        // Draw the top wall
         if (tileModel.walls.getOrDefault(WallDirection.TOP, false)) {
             gc.strokeLine(x, y, x + colSize, y);
         }
 
+        // Draw the right wall
         if (tileModel.walls.getOrDefault(WallDirection.RIGHT, false)) {
             gc.strokeLine(x + colSize, y, x + colSize, y + rowSize);
         }
 
+        // Draw the bottom wall
         if (tileModel.walls.getOrDefault(WallDirection.BOTTOM, false)) {
             gc.strokeLine(x, y + rowSize, x + colSize, y + rowSize);
         }
 
+        //Draw the left wall
         if (tileModel.walls.getOrDefault(WallDirection.LEFT, false)) {
             gc.strokeLine(x, y, x, y + rowSize);
         }
