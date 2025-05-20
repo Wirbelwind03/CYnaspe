@@ -2,6 +2,7 @@ package controller;
 
 import enums.TileStatus;
 import enums.WallDirection;
+import enums.GenerationMode;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -25,45 +26,53 @@ public class MazeController {
     @FXML
     public void initialize(){
         gc  = mazeCanvas.getGraphicsContext2D();
-        
-        maze = new MazeModel(10,10);
-        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
-
-        /// instant
-        while (!generator.isComplete()){
-            generator.step();
-        }
-        renderMaze();
-        WallFollowerSolver wallFollowerSolver = new WallFollowerSolver(this);
-        wallFollowerSolver.solve();
-        renderMaze();
-
-        /// step by step
-        // AnimationTimer timer = new AnimationTimer() {
-        //     private long lastUpdate = 0;
-
-        //     @Override
-        //     public void handle(long now) {
-        //         // Update every 10 fps
-        //         if (now - lastUpdate >= 100_000_000) {
-        //             lastUpdate = now;
-
-        //             if (!generator.isComplete()) {
-        //                 generator.step();
-        //                 renderMaze();
-        //             } else {
-        //                 stop();
-                        
-        //             }
-        //         }
-        //     }
-        // };
-
-        // timer.start();
-
-        
     }
 
+
+    public void constructMaze(MazeConfigurationController mazeConfigurationController){
+        maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
+        // Use Kruskal algorithm to generate the maze
+        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
+
+        // Show the maze generation depending on the mode
+        switch (mazeConfigurationController.getGenerationMode()) {
+            case GenerationMode.COMPLETE:
+                // instant
+                while (!generator.isComplete()){
+                    generator.step();
+                }
+                renderMaze();
+                break;
+
+            case GenerationMode.STEP:
+                /// step by step
+                AnimationTimer timer = new AnimationTimer() {
+                    private long lastUpdate = 0;
+
+                    @Override
+                    public void handle(long now) {
+                        // Update every 10 fps
+                        if (now - lastUpdate >= 100_000_000) {
+                            lastUpdate = now;
+
+                            if (!generator.isComplete()) {
+                                generator.step();
+                                renderMaze();
+                            } else {
+                                stop();
+                            }
+                        }
+                    }
+                };
+
+                timer.start();
+                break;
+        
+            
+            default:
+                break;
+        }
+    }
 
     /**
      * Render the maze on the canvas
@@ -72,8 +81,7 @@ public class MazeController {
         // Clear the entire canvas
         gc.clearRect(0, 0, mazeCanvas.getWidth(), mazeCanvas.getHeight());
 
-        double rowSize = mazeCanvas.getHeight() / maze.numRows;
-        double colSize = mazeCanvas.getWidth() / maze.numCols;
+        double tileSize = Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
 
         for(int row = 0; row < maze.numRows; row++){
             for (int column = 0; column < maze.numCols; column++){
@@ -94,7 +102,7 @@ public class MazeController {
                 else
                     color = Color.WHITE;
 
-                drawTile(tile, rowSize, colSize, color);
+                drawTile(tile, tileSize, tileSize, color);
             }
         }
     }
@@ -121,19 +129,23 @@ public class MazeController {
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
-
+        
+        // Draw the top wall
         if (tileModel.walls.getOrDefault(WallDirection.TOP, false)) {
             gc.strokeLine(x, y, x + colSize, y);
         }
 
+        // Draw the right wall
         if (tileModel.walls.getOrDefault(WallDirection.RIGHT, false)) {
             gc.strokeLine(x + colSize, y, x + colSize, y + rowSize);
         }
 
+        // Draw the bottom wall
         if (tileModel.walls.getOrDefault(WallDirection.BOTTOM, false)) {
             gc.strokeLine(x, y + rowSize, x + colSize, y + rowSize);
         }
 
+        //Draw the left wall
         if (tileModel.walls.getOrDefault(WallDirection.LEFT, false)) {
             gc.strokeLine(x, y, x, y + rowSize);
         }

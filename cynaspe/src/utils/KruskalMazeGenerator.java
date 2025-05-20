@@ -1,23 +1,28 @@
 package utils;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
+import controller.MazeConfigurationController;
+import enums.MazeType;
 import model.EdgeModel;
 import model.MazeModel;
 import model.TileModel;
 
 public class KruskalMazeGenerator {
+    private MazeType mazeType = MazeType.PERFECT;
     private int currentIndex = 0;
     private List<EdgeModel> edges;
     private DisjointSet disjointSet;
 
-    public  KruskalMazeGenerator(MazeModel maze){
+    public  KruskalMazeGenerator(MazeModel maze, MazeConfigurationController mazeConfigurationController, MazeType mazeType){
+        this.mazeType = mazeType;
+
         disjointSet = new DisjointSet();
 
         edges = maze.getEdges();
-        Collections.shuffle(edges);
+        Collections.shuffle(edges, new Random(mazeConfigurationController.getMazeSeed()));
 
         for (TileModel[] row : maze.tiles){
             for (TileModel tile: row){
@@ -46,6 +51,10 @@ public class KruskalMazeGenerator {
             // Tell that the two tiles are visited
             edge.tile1.isVisited = true;
             edge.tile2.isVisited = true;
+        } else if (mazeType == MazeType.IMPERFECT){
+            if (Math.random() < 0.10) {
+                edge.tile1.removeWall(edge.tile2);
+            }
         }
 
         // There are steps remaining
