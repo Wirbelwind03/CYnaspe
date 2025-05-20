@@ -99,6 +99,8 @@ public class MazeController {
                     color = Color.GREY;
                 else if (tile.status == TileStatus.PATH)
                     color = Color.YELLOW;
+                else if (tile.status == TileStatus.VISITED)
+                    color = Color.DARKGRAY;
                 else
                     color = Color.WHITE;
 
