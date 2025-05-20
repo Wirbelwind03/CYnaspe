@@ -80,8 +80,7 @@ public class MazeController {
         // Clear the entire canvas
         gc.clearRect(0, 0, mazeCanvas.getWidth(), mazeCanvas.getHeight());
 
-        double rowSize = mazeCanvas.getHeight() / maze.numRows;
-        double colSize = mazeCanvas.getWidth() / maze.numCols;
+        double tileSize = Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
 
         for(int row = 0; row < maze.numRows; row++){
             for (int column = 0; column < maze.numCols; column++){
@@ -100,7 +99,7 @@ public class MazeController {
                 else
                     color = Color.WHITE;
 
-                drawTile(tile, rowSize, colSize, color);
+                drawTile(tile, tileSize, tileSize, color);
             }
         }
     }
