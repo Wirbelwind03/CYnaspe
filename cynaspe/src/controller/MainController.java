@@ -31,11 +31,15 @@ public class MainController {
         configStage.setScene(new Scene(root));
         configStage.showAndWait(); // Pause the code and wait until the MazeConfigurationView is closed
         
+        // If the dialog has the result OK, create the maze
         if (mazeConfigController.dialogResult == DialogResult.OK){
             createMaze();
         }
     }
 
+    /**
+     * Create the maze 
+     */
     private void createMaze() throws Exception {
         // Show the MazeView
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MazeView.fxml"));
