@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import enums.TileStatus;
 import enums.WallDirection;
 
 /**
@@ -18,6 +19,8 @@ public class TileModel {
     // {TOP: false, RIGHT: false, LEFT: false, BOTTOM: false}
     public Map<WallDirection, Boolean> walls = new HashMap<>(); 
     public boolean isVisited = false; // If the tile has been visited
+
+    public TileStatus status = TileStatus.UNVISITED;
 
     /**
      * Construct a case with the row and column given
@@ -78,4 +81,20 @@ public class TileModel {
         }
     }
 
+    public boolean hasWallWith(TileModel neighbor) {
+        int dx = neighbor.column - this.column;
+        int dy = neighbor.row - this.row;
+
+        if (dx == 1) { // Neighbor is at the right
+            return this.walls.getOrDefault(WallDirection.RIGHT, true);
+        } else if (dx == -1) { // Neighbor is at the left
+            return this.walls.getOrDefault(WallDirection.LEFT, true);
+        } else if (dy == 1) { // Neighbor is below
+            return this.walls.getOrDefault(WallDirection.BOTTOM, true);
+        } else if (dy == -1) { // Neighbor is above
+            return this.walls.getOrDefault(WallDirection.TOP, true);
+        }
+
+        return false;
+    }
 }

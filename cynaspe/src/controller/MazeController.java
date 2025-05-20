@@ -1,5 +1,6 @@
 package controller;
 
+import enums.TileStatus;
 import enums.WallDirection;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -9,17 +10,17 @@ import javafx.scene.paint.Color;
 import model.MazeModel;
 import model.TileModel;
 import utils.KruskalMazeGenerator;
+import algorithms.WallFollowerSolver;
 
 /**
  * Gere les données du labyrinte avec l'interface qui affice le labyrinthe
  */
 public class MazeController {    
     
-    @FXML
-    private Canvas mazeCanvas;
+    @FXML private Canvas mazeCanvas;
     private GraphicsContext gc;
 
-    private MazeModel maze;
+    public MazeModel maze;
 
     @FXML
     public void initialize(){
@@ -29,31 +30,38 @@ public class MazeController {
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze);
 
         /// instant
-        // while (!generator.isComplete()){
-        //     generator.step();
-        // }
+        while (!generator.isComplete()){
+            generator.step();
+        }
+        renderMaze();
+        WallFollowerSolver wallFollowerSolver = new WallFollowerSolver(this);
+        wallFollowerSolver.solve();
+        renderMaze();
 
         /// step by step
-        AnimationTimer timer = new AnimationTimer() {
-            private long lastUpdate = 0;
+        // AnimationTimer timer = new AnimationTimer() {
+        //     private long lastUpdate = 0;
 
-            @Override
-            public void handle(long now) {
-                // Update every 10 fps
-                if (now - lastUpdate >= 100_000_000) {
-                    lastUpdate = now;
+        //     @Override
+        //     public void handle(long now) {
+        //         // Update every 10 fps
+        //         if (now - lastUpdate >= 100_000_000) {
+        //             lastUpdate = now;
 
-                    if (!generator.isComplete()) {
-                        generator.step();
-                        renderMaze();
-                    } else {
-                        stop();
-                    }
-                }
-            }
-        };
+        //             if (!generator.isComplete()) {
+        //                 generator.step();
+        //                 renderMaze();
+        //             } else {
+        //                 stop();
+                        
+        //             }
+        //         }
+        //     }
+        // };
 
-        timer.start();
+        // timer.start();
+
+        
     }
 
 
@@ -81,6 +89,8 @@ public class MazeController {
                 // Draw the other tiles
                 else if (!tile.isVisited)
                     color = Color.GREY;
+                else if (tile.status == TileStatus.PATH)
+                    color = Color.YELLOW;
                 else
                     color = Color.WHITE;
 
@@ -129,4 +139,11 @@ public class MazeController {
         }
     }
 
+    public TileModel getStartTile(){
+        return maze.tiles[0][0];
+    }
+
+    public TileModel getEndTile(){
+        return maze.tiles[maze.numRows - 1][maze.numCols - 1];
+    }
 }

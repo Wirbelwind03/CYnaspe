@@ -17,7 +17,7 @@ public class Main extends Application {
     public void start(Stage s) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("view/MazeView.fxml"));
         s.setTitle("CYnaspe");
-        s.setScene(new Scene(root, 512, 512));
+        s.setScene(new Scene(root));
         s.show();
     }
 }
