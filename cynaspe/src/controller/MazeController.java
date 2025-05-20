@@ -40,6 +40,7 @@ public class MazeController {
                 while (!generator.isComplete()){
                     generator.step();
                 }
+                renderMaze();
                 break;
 
             case GenerationMode.STEP:
