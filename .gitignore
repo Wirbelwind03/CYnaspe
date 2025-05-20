@@ -1,1 +1,16 @@
-bin/
+cynaspe/bin/Main.class
+cynaspe/bin/controller/MainController.class
+cynaspe/bin/controller/MazeConfigurationController.class
+cynaspe/bin/controller/MazeController.class
+cynaspe/bin/controller/MazeController$1.class
+cynaspe/bin/enums/DialogResult.class
+cynaspe/bin/enums/GenerationMode.class
+cynaspe/bin/enums/MazeType.class
+cynaspe/bin/enums/WallDirection.class
+cynaspe/bin/io/MazeReader.class
+cynaspe/bin/io/MazeWriter.class
+cynaspe/bin/model/EdgeModel.class
+cynaspe/bin/model/MazeModel.class
+cynaspe/bin/model/TileModel.class
+cynaspe/bin/utils/DisjointSet.class
+cynaspe/bin/utils/KruskalMazeGenerator.class
