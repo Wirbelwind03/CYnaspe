@@ -5,7 +5,7 @@ import enums.TileStatus;
 
 import model.TileModel;
 
-public class WallFollowerSolver {
+public class WallFollowerSolver implements ISolverAlgorithm {
 
     private MazeController mazeController;
     private TileModel current;
