@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
@@ -25,6 +26,11 @@ public class MainController {
     @FXML private Canvas mazeCanvas;
 
     @FXML private ToggleGroup MazeSolverGroup;
+
+    @FXML private Label LabelPath;
+    @FXML private Label LabelVisitedTiles;
+    @FXML private Label LabelGenerationTime;
+
 
     @FXML
     public void initialize(){
@@ -137,6 +143,8 @@ public class MainController {
 
         Toggle selected = MazeSolverGroup.getSelectedToggle();
         if (mazeController.maze != null){
+            mazeController.isGenerating = true;
+
             mazeController.maze.resetTileStatus();
             solverAlgorithm = new DjikstraSolver(mazeController);
             AnimationTimer timer = new AnimationTimer() {
@@ -146,9 +154,13 @@ public class MainController {
                 public void handle(long now) {
                     if (now - lastUpdate >= 100_000_000) {
                         lastUpdate = now;
+                        LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
                         boolean done = solverAlgorithm.step();
                         mazeController.renderMaze();
-                        if (done) stop();
+                        if (done){
+                            stop();
+                            mazeController.isGenerating = false;
+                        } 
                     }
                 }
             };
