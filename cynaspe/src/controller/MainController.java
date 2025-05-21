@@ -56,9 +56,15 @@ public class MainController {
     }
 
     @FXML
+    private void onMazeCanvasEntered(MouseEvent event){
+        mazeCanvas.requestFocus();
+    }
+
+    @FXML
     private void onMazeCanvasClicked(MouseEvent event) {
         if (mazeController.isGenerating) return;
-        if (mazeController.maze == null && mazeController.hoveredTile != null) return;
+        if (mazeController.maze == null) return;
+        if (mazeController.hoveredTile == null) return;
         
         mazeController.addWall(mazeController.hoveredTile, mazeController.hoveredWall);
 
@@ -91,7 +97,8 @@ public class MainController {
     @FXML
     private void onMazeCanvasKeyPressed(KeyEvent event){
         if (mazeController.isGenerating) return;
-        if (mazeController.maze == null && mazeController.hoveredTile == null) return;
+        if (mazeController.maze == null) return;
+        if (mazeController.hoveredTile == null) return;
 
         switch (event.getCode()) {
             case UP:
@@ -130,6 +137,7 @@ public class MainController {
 
         Toggle selected = MazeSolverGroup.getSelectedToggle();
         if (mazeController.maze != null){
+            mazeController.maze.resetTileStatus();
             solverAlgorithm = new DjikstraSolver(mazeController);
             AnimationTimer timer = new AnimationTimer() {
                 private long lastUpdate = 0;
