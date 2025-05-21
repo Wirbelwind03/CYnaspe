@@ -28,6 +28,7 @@ public class DjikstraSolver implements ISolverAlgorithm {
     private PriorityQueue<TileModel> queue;
     private boolean isFinished = false;
     private boolean pathTraced = false;
+    private int pathCount = 0;
 
     public DjikstraSolver(MazeController mazeController) {
         this.mazeController = mazeController;
@@ -91,15 +92,29 @@ public class DjikstraSolver implements ISolverAlgorithm {
         return false;
     }
 
+    @Override
+    public int getVisitedCount(){
+        return visited.size();
+    }
+
+    @Override
+    public int getPathCount(){
+        return pathCount;
+    }
+
     private void renderPath() {
         TileModel step = mazeController.getEndTile();
         while (step != null && previous.containsKey(step)) {
             step.status = TileStatus.PATH;
+            pathCount++;
             step = previous.get(step);
         }
 
         if (step == mazeController.getStartTile()) {
             mazeController.getStartTile().status = TileStatus.PATH;
+            pathCount++;
         }
     }
+
+    
 }
