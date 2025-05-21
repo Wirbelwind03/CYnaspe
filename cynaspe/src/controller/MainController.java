@@ -50,23 +50,17 @@ public class MainController {
 
     @FXML
     public void onMazeCanvasClicked(MouseEvent event) {
-        if (mazeController.maze == null) return;
-    
-        double x = event.getX();
-        double y = event.getY();
-    
-        double tileSize = mazeController.getTileSize();
-    
-        int column = (int)(x / tileSize);
-        int row = (int)(y / tileSize);
-    
-        if (mazeController.isInsideMaze(row, column)) {
-            //System.out.println("Clicked tile: row = " + row + ", column = " + column);
-        }
+        if (mazeController.isGenerating) return;
+        if (mazeController.maze == null && mazeController.hoveredTile != null) return;
+        
+        mazeController.addWall(mazeController.hoveredTile, mazeController.hoveredWall);
+
+        mazeController.renderMaze();
     }
 
     @FXML
     public void onMazeCanvasMouseMoved(MouseEvent event) {
+        if (mazeController.isGenerating) return;
         if (mazeController.maze == null) return;
     
         double x = event.getX();
@@ -84,32 +78,32 @@ public class MainController {
 
     @FXML
     public void onMazeCanvasKeyPressed(KeyEvent event){
+        if (mazeController.isGenerating) return;
         if (mazeController.maze == null && mazeController.hoveredTile == null) return;
 
         switch (event.getCode()) {
             case UP:
-                if (mazeController.hoveredTile.row == 0 
-                || mazeController.hoveredTile.isWallPresent(WallDirection.TOP))
+                if (mazeController.hoveredTile.row == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.TOP;
                 break;
             case RIGHT:
-                if (mazeController.hoveredTile.column == mazeController.maze.numCols - 1
-                || mazeController.hoveredTile.isWallPresent(WallDirection.RIGHT))
+                if (mazeController.hoveredTile.column == mazeController.maze.numCols - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.RIGHT;
                 break;
             case DOWN:
-                if (mazeController.hoveredTile.row == mazeController.maze.numRows - 1
-                || mazeController.hoveredTile.isWallPresent(WallDirection.BOTTOM))
+                if (mazeController.hoveredTile.row == mazeController.maze.numRows - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.BOTTOM;
                 break;
             case LEFT:
-                if (mazeController.hoveredTile.column == 0 
-                || mazeController.hoveredTile.isWallPresent(WallDirection.LEFT))
+                if (mazeController.hoveredTile.column == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.LEFT;
+                break;
+            case DELETE:
+                mazeController.removeWall(mazeController.hoveredTile, mazeController.hoveredWall);
                 break;
             default:
                 return;
