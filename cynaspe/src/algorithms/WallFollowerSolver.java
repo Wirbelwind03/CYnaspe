@@ -16,7 +16,7 @@ public class WallFollowerSolver implements ISolverAlgorithm {
         this.current = mazeController.getStartTile();
         this.direction = 1; // Start at the left
     }
-
+    
     public void solve() {
         TileModel end = mazeController.getEndTile();
 
@@ -67,6 +67,12 @@ public class WallFollowerSolver implements ISolverAlgorithm {
             case 3: return (col > 0) ? mazeController.maze.tiles[row][col - 1] : null; // Left
             default: return null;
         }
+    }
+
+    @Override
+    public boolean step() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'step'");
     }
 }
 
