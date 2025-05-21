@@ -21,7 +21,7 @@ public class TileModel {
     public TileStatus status = TileStatus.UNVISITED;
 
     /**
-     * Construct a case with the row and column given
+     * Construct a tile with the row and column given
      * @param row
      * Row where the tile is placed
      * @param column
@@ -39,7 +39,7 @@ public class TileModel {
     /**
      * Remove the wall to get access to the neighbor
      * @param neighbor
-     * The tile we want to access
+     * The neighbor tile we want to access
      */
     public void removeWall(TileModel neighbor) {
         // See if the tile is a neighbor by calculating the distance difference between the two
@@ -64,6 +64,7 @@ public class TileModel {
          *      1
          */
 
+        // Get the direction of the tile
         if (dx == 1) { // Neighbor is at the right
             walls.put(WallDirection.RIGHT, false);
             neighbor.walls.put(WallDirection.LEFT, false);
@@ -79,10 +80,44 @@ public class TileModel {
         }
     }
 
+    /**
+     * Remove a wall from the tile
+     * @param wallDirection
+     * The direction of the wall we want to remove
+     */
+    public void removeWall(WallDirection wallDirection){
+        // Check if the tile has a wall in the given direction
+        if (isWallPresent(wallDirection)){
+            // Update the walls Hashmap
+            walls.put(wallDirection, false);
+        }
+    }
+
+    /**
+     * Add a wall from the tile
+     * @param wallDirection
+     * The direction of the wall we want to add
+     */
+    public void addWall(WallDirection wallDirection){
+        // Check if the tile has a wall in the given direction
+        if (isWallPresent(wallDirection)){
+            // Update the walls Hashmap
+            walls.put(wallDirection, true);
+        }
+    }
+
+    /**
+     * Check if the tile has a wall with the neighbor
+     * @param neighbor
+     * The neighbor of the tile we want to see if there's a wall
+     * @return
+     * If there's a wall
+     */
     public boolean hasWallWith(TileModel neighbor) {
         int dx = neighbor.column - this.column;
         int dy = neighbor.row - this.row;
 
+        // Get the direction of the neighbor
         if (dx == 1) { // Neighbor is at the right
             return this.walls.getOrDefault(WallDirection.RIGHT, true);
         } else if (dx == -1) { // Neighbor is at the left
@@ -96,6 +131,13 @@ public class TileModel {
         return false;
     }
 
+    /**
+     * Check if the tile has a wall in the given direction
+     * @param direction
+     * The direction of the wall
+     * @return
+     * A boolean that is True if there's a wall, or False if there's not
+     */
     public boolean isWallPresent(WallDirection direction) {
         return walls.getOrDefault(direction, false) == true;
     }
