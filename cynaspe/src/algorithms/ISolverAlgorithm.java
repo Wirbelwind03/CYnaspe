@@ -1,5 +1,5 @@
 package algorithms;
 
 public interface ISolverAlgorithm {
-    public void solve();
+    public boolean step();
 }
