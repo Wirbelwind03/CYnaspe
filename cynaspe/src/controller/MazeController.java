@@ -17,6 +17,9 @@ public class MazeController {
     private Canvas mazeCanvas;
     private GraphicsContext gc;
 
+    public TileModel hoveredTile = null;
+    public WallDirection hoveredWall = WallDirection.RIGHT;
+
     public MazeController(Canvas mazeCanvas) {
         this.mazeCanvas = mazeCanvas;
         this.gc = this.mazeCanvas.getGraphicsContext2D();
@@ -106,7 +109,7 @@ public class MazeController {
                 else
                     color = Color.WHITE;
 
-                drawTile(tile, tileSize, tileSize, color);
+                drawTile(tile, tileSize, color);
             }
         }
     }
@@ -122,36 +125,45 @@ public class MazeController {
      * @param color
      * La couleur de la case
      */
-    public void drawTile(TileModel tileModel, double rowSize, double colSize, Color color){
-        long x = Math.round(tileModel.column * colSize);
-        long y = Math.round(tileModel.row * rowSize);
+    public void drawTile(TileModel tileModel, double tileSize, Color color){
+        long x = Math.round(tileModel.column * tileSize);
+        long y = Math.round(tileModel.row * tileSize);
 
         if (color != null){
             gc.setFill(color);
-            gc.fillRect(x, y, colSize, rowSize);
+            gc.fillRect(x, y, tileSize, tileSize);
         }
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
         
-        // Draw the top wall
-        if (tileModel.walls.getOrDefault(WallDirection.TOP, false)) {
-            gc.strokeLine(x, y, x + colSize, y);
-        }
+        for (WallDirection direction : WallDirection.values()){
+            if (!tileModel.walls.getOrDefault(direction, false)) continue;
 
-        // Draw the right wall
-        if (tileModel.walls.getOrDefault(WallDirection.RIGHT, false)) {
-            gc.strokeLine(x + colSize, y, x + colSize, y + rowSize);
+            drawWall(tileModel, tileSize, direction);
         }
+    
+        drawHoveredWall(tileSize);
+    }
 
-        // Draw the bottom wall
-        if (tileModel.walls.getOrDefault(WallDirection.BOTTOM, false)) {
-            gc.strokeLine(x, y + rowSize, x + colSize, y + rowSize);
+    private void drawWall(TileModel tile, double tileSize, WallDirection wallDirection){
+        double x = tile.column * tileSize;
+        double y = tile.row * tileSize;
+
+        switch (wallDirection) {
+            case TOP: gc.strokeLine(x, y, x + tileSize, y); break;
+            case RIGHT: gc.strokeLine(x + tileSize, y, x + tileSize, y + tileSize); break;
+            case BOTTOM: gc.strokeLine(x, y + tileSize, x + tileSize, y + tileSize); break;
+            case LEFT: gc.strokeLine(x, y, x, y + tileSize); break;
         }
+    }
 
-        //Draw the left wall
-        if (tileModel.walls.getOrDefault(WallDirection.LEFT, false)) {
-            gc.strokeLine(x, y, x, y + rowSize);
+    private void drawHoveredWall(double tileSize){
+        if (hoveredTile != null){
+            gc.setStroke(Color.color(0, 0, 0, 0.3)); // transparent blue
+            gc.setLineWidth(6);
+    
+            drawWall(hoveredTile, tileSize, hoveredWall);
         }
     }
 
