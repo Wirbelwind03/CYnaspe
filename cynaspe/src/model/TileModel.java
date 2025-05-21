@@ -95,4 +95,8 @@ public class TileModel {
 
         return false;
     }
+
+    public boolean isWallPresent(WallDirection direction) {
+        return walls.getOrDefault(direction, false) == true;
+    }
 }
