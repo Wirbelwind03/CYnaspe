@@ -3,6 +3,7 @@ package controller;
 import algorithms.DjikstraSolver;
 import algorithms.ISolverAlgorithm;
 import enums.DialogResult;
+import enums.GenerationMode;
 import enums.WallDirection;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -11,26 +12,33 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utils.Helpers;
 
 public class MainController {
     private MazeController mazeController;
     private ISolverAlgorithm solverAlgorithm;
 
-    @FXML private Canvas mazeCanvas;
+    @FXML private Canvas mazeCanvas; // Canvas for rendering the maze
 
-    @FXML private ToggleGroup MazeSolverGroup;
+    @FXML private ToggleGroup MazeSolverGroup; // Radio buttons group for the maze solving algorithm
+    
+    @FXML private ToggleGroup MazeSolverModeGroup; // Radio buttons group for the solving mode 
+    @FXML private RadioButton RadioButtonMazeSolverModeComplete;
+    @FXML private RadioButton RadioButtonMazeSolverModeStep;
+    @FXML private Button MazeButtonSolve;
 
-    @FXML private Label LabelPath;
-    @FXML private Label LabelVisitedTiles;
-    @FXML private Label LabelGenerationTime;
-
+    @FXML private Label LabelPath; // Label showing the number of path tiles 
+    @FXML private Label LabelVisitedTiles; // Label showing the number of tiles visited
+    @FXML private Label LabelGenerationTime; // Label showing the maze solving generation time
 
     @FXML
     public void initialize(){
@@ -38,6 +46,12 @@ public class MainController {
 
         mazeCanvas.setFocusTraversable(true);
         mazeCanvas.setOnKeyPressed(this::onMazeCanvasKeyPressed);
+
+        RadioButtonMazeSolverModeComplete.setUserData(GenerationMode.COMPLETE);
+        RadioButtonMazeSolverModeStep.setUserData(GenerationMode.STEP);
+        MazeSolverModeGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            MazeButtonSolve.setDisable(newToggle == null);
+        });
     }
 
     @FXML
@@ -141,30 +155,50 @@ public class MainController {
     private void MazeButtonSolveOnAction(){
         if (mazeController.isGenerating) return;
 
-        Toggle selected = MazeSolverGroup.getSelectedToggle();
+        GenerationMode solveMode = Helpers.getSelectedUserData(MazeSolverModeGroup);
+        if (solveMode == null) return;
+
+        Toggle selectedSolverAlgorithm = MazeSolverGroup.getSelectedToggle();
+
         if (mazeController.maze != null){
             mazeController.isGenerating = true;
-
+            
             mazeController.maze.resetTileStatus();
             solverAlgorithm = new DjikstraSolver(mazeController);
-            AnimationTimer timer = new AnimationTimer() {
-                private long lastUpdate = 0;
-                
-                @Override
-                public void handle(long now) {
-                    if (now - lastUpdate >= 100_000_000) {
-                        lastUpdate = now;
-                        LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
-                        boolean done = solverAlgorithm.step();
-                        mazeController.renderMaze();
-                        if (done){
-                            stop();
-                            mazeController.isGenerating = false;
-                        } 
+
+            switch (solveMode) {
+                case GenerationMode.COMPLETE:
+                    while (!solverAlgorithm.isComplete()){
+                        solverAlgorithm.step();
                     }
-                }
-            };
-            timer.start();
+                    mazeController.renderMaze();
+                    break;
+
+                case GenerationMode.STEP:
+                    AnimationTimer timer = new AnimationTimer() {
+                        private long lastUpdate = 0;
+                        
+                        @Override
+                        public void handle(long now) {
+                            if (now - lastUpdate >= 100_000_000) {
+                                lastUpdate = now;
+                                LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
+                                boolean done = solverAlgorithm.step();
+                                mazeController.renderMaze();
+                                if (done){
+                                    stop();
+                                    mazeController.isGenerating = false;
+                                } 
+                            }
+                        }
+                    };
+                    timer.start();
+                    break;
+            
+                default:
+                    break;
+            }
+
         }
     }
 }
