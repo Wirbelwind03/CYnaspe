@@ -1,13 +1,15 @@
 package controller;
 
 import enums.DialogResult;
-
+import enums.WallDirection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,6 +22,9 @@ public class MainController {
     @FXML
     public void initialize(){
         mazeController = new MazeController(mazeCanvas);
+
+        mazeCanvas.setFocusTraversable(true);
+        mazeCanvas.setOnKeyPressed(this::onMazeCanvasKeyPressed);
     }
 
     @FXML
@@ -43,7 +48,8 @@ public class MainController {
         }
     }
 
-    public void onMazeCanvasClicked(javafx.scene.input.MouseEvent event) {
+    @FXML
+    public void onMazeCanvasClicked(MouseEvent event) {
         if (mazeController.maze == null) return;
     
         double x = event.getX();
@@ -55,7 +61,60 @@ public class MainController {
         int row = (int)(y / tileSize);
     
         if (mazeController.isInsideMaze(row, column)) {
-            System.out.println("Clicked tile: row = " + row + ", column = " + column);
+            //System.out.println("Clicked tile: row = " + row + ", column = " + column);
         }
+    }
+
+    @FXML
+    public void onMazeCanvasMouseMoved(MouseEvent event) {
+        if (mazeController.maze == null) return;
+    
+        double x = event.getX();
+        double y = event.getY();
+    
+        double tileSize = mazeController.getTileSize();
+    
+        int column = (int)(x / tileSize);
+        int row = (int)(y / tileSize);
+    
+        if (mazeController.isInsideMaze(row, column)) {
+            mazeController.hoveredTile = mazeController.maze.getTile(row, column); 
+        }
+    }
+
+    @FXML
+    public void onMazeCanvasKeyPressed(KeyEvent event){
+        if (mazeController.maze == null && mazeController.hoveredTile == null) return;
+
+        switch (event.getCode()) {
+            case UP:
+                if (mazeController.hoveredTile.row == 0 
+                || mazeController.hoveredTile.isWallPresent(WallDirection.TOP))
+                    return;
+                mazeController.hoveredWall = WallDirection.TOP;
+                break;
+            case RIGHT:
+                if (mazeController.hoveredTile.column == mazeController.maze.numCols - 1
+                || mazeController.hoveredTile.isWallPresent(WallDirection.RIGHT))
+                    return;
+                mazeController.hoveredWall = WallDirection.RIGHT;
+                break;
+            case DOWN:
+                if (mazeController.hoveredTile.row == mazeController.maze.numRows - 1
+                || mazeController.hoveredTile.isWallPresent(WallDirection.BOTTOM))
+                    return;
+                mazeController.hoveredWall = WallDirection.BOTTOM;
+                break;
+            case LEFT:
+                if (mazeController.hoveredTile.column == 0 
+                || mazeController.hoveredTile.isWallPresent(WallDirection.LEFT))
+                    return;
+                mazeController.hoveredWall = WallDirection.LEFT;
+                break;
+            default:
+                return;
+        }
+
+        mazeController.renderMaze();
     }
 }
