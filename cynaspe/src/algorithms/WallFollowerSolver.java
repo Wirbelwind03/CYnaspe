@@ -74,5 +74,17 @@ public class WallFollowerSolver implements ISolverAlgorithm {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'step'");
     }
+
+    @Override
+    public int getVisitedCount() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getVisitedCount'");
+    }
+
+    @Override
+    public int getPathCount() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPathCount'");
+    }
 }
 
