@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <MenuBar prefWidth="629.0">
         <menus>
@@ -20,7 +20,6 @@
                   <MenuItem disable="true" mnemonicParsing="false" text="Sauvegarder" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Options" />
         </menus>
       </MenuBar>
       <GridPane VBox.vgrow="ALWAYS">
