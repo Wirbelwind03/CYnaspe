@@ -26,8 +26,11 @@ public class DjikstraSolver implements ISolverAlgorithm {
     private Set<TileModel> visited;
     // Queue used to always expand the closest unvisited tile next
     private PriorityQueue<TileModel> queue;
+
     private boolean isFinished = false;
-    private boolean pathTraced = false;
+    private TileModel pathStep = null;
+    private boolean pathTracing = false;
+
     private int pathCount = 0;
 
     public DjikstraSolver(MazeController mazeController) {
@@ -37,8 +40,6 @@ public class DjikstraSolver implements ISolverAlgorithm {
         previous = new HashMap<>();
         visited = new HashSet<>();
         queue = new PriorityQueue<>(Comparator.comparingInt(distance::get));
-        isFinished = false;
-        pathTraced = false;
 
         for (int r = 0; r < mazeController.maze.numRows; r++) {
             for (int c = 0; c < mazeController.maze.numCols; c++) {
@@ -54,42 +55,60 @@ public class DjikstraSolver implements ISolverAlgorithm {
 
     @Override
     public boolean step(){
-        if (isFinished) {
-            if (!pathTraced) {
-                renderPath();
-                pathTraced = true;
+        if (!isFinished) {
+            if (!queue.isEmpty()) {
+                TileModel current = queue.poll();
+
+                if (visited.contains(current)) return false;
+    
+                visited.add(current);
+                current.status = TileStatus.VISITED;
+    
+                if (current == mazeController.getEndTile()) {
+                    isFinished = true;
+                    pathTracing = true;
+                    pathStep = current;
+                    return false;
+                }
+    
+                for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                    if (visited.contains(neighbor)) continue;
+    
+                    int alt = distance.get(current) + 1;
+                    if (alt < distance.get(neighbor)) {
+                        distance.put(neighbor, alt);
+                        previous.put(neighbor, current);
+                        queue.add(neighbor);
+                    }
+                }
+    
+                return false;
+            } else {
+                // No more tiles to explore
+                isFinished = true;
+                pathTracing = true;
+                pathStep = mazeController.getEndTile();
+                return false;
             }
-            return true; // fully done
         }
 
-        if (queue.isEmpty()) {
-            isFinished = true;
-            return true;
-        }
-
-        TileModel current = queue.poll();
-        if (visited.contains(current)) return false;
-
-        visited.add(current);
-        current.status = TileStatus.VISITED;
-
-        if (current == mazeController.getEndTile()) {
-            isFinished = true;
-            return false;
-        }
-
-        for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
-            if (visited.contains(neighbor)) continue;
-
-            int alt = distance.get(current) + 1;
-            if (alt < distance.get(neighbor)) {
-                distance.put(neighbor, alt);
-                previous.put(neighbor, current);
-                queue.add(neighbor);
+        if (pathTracing && pathStep != null) {
+            if (previous.containsKey(pathStep)) {
+                pathStep.status = TileStatus.PATH;
+                pathStep = previous.get(pathStep);
+                return false; // Continue tracing
+            } else {
+                // Reached the start tile
+                if (pathStep == mazeController.getStartTile()) {
+                    pathStep.status = TileStatus.PATH;
+                }
+                pathStep = null;
+                pathTracing = false;
+                return true;
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override
@@ -102,18 +121,9 @@ public class DjikstraSolver implements ISolverAlgorithm {
         return pathCount;
     }
 
-    private void renderPath() {
-        TileModel step = mazeController.getEndTile();
-        while (step != null && previous.containsKey(step)) {
-            step.status = TileStatus.PATH;
-            pathCount++;
-            step = previous.get(step);
-        }
-
-        if (step == mazeController.getStartTile()) {
-            mazeController.getStartTile().status = TileStatus.PATH;
-            pathCount++;
-        }
+    @Override
+    public boolean isComplete() {
+        return isFinished && !pathTracing && pathStep == null;
     }
 
     
