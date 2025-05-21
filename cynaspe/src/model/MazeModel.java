@@ -136,4 +136,29 @@ public class MazeModel {
             neighbor.removeWall(oppositeWallDirection);
         }
     }
+
+    public List<TileModel> getAccessibleNeighbors(TileModel tile) {
+        List<TileModel> neighbors = new ArrayList<>();
+        int r = tile.row;
+        int c = tile.column;
+
+        if (r > 0) {
+            TileModel up = tiles[r - 1][c];
+            if (!tile.hasWallWith(up)) neighbors.add(up);
+        }
+        if (r < numRows - 1) {
+            TileModel down = tiles[r + 1][c];
+            if (!tile.hasWallWith(down)) neighbors.add(down);
+        }
+        if (c > 0) {
+            TileModel left = tiles[r][c - 1];
+            if (!tile.hasWallWith(left)) neighbors.add(left);
+        }
+        if (c < numCols - 1) {
+            TileModel right = tiles[r][c + 1];
+            if (!tile.hasWallWith(right)) neighbors.add(right);
+        }
+
+        return neighbors;
+    }
 }
