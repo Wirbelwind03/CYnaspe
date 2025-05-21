@@ -31,7 +31,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Canvas fx:id="mazeCanvas" height="200.0" width="200.0" GridPane.columnIndex="1" />
+            <Canvas fx:id="mazeCanvas" height="200.0" onMouseClicked="#onMazeCanvasClicked" width="200.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

@@ -42,4 +42,20 @@ public class MainController {
             mazeController.constructMaze(mazeConfigController);
         }
     }
+
+    public void onMazeCanvasClicked(javafx.scene.input.MouseEvent event) {
+        if (mazeController.maze == null) return;
+    
+        double x = event.getX();
+        double y = event.getY();
+    
+        double tileSize = mazeController.getTileSize();
+    
+        int column = (int)(x / tileSize);
+        int row = (int)(y / tileSize);
+    
+        if (mazeController.isInsideMaze(row, column)) {
+            System.out.println("Clicked tile: row = " + row + ", column = " + column);
+        }
+    }
 }

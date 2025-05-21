@@ -83,7 +83,7 @@ public class MazeController {
         // Clear the entire canvas
         gc.clearRect(0, 0, mazeCanvas.getWidth(), mazeCanvas.getHeight());
 
-        double tileSize = Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
+        double tileSize = getTileSize();
 
         for(int row = 0; row < maze.numRows; row++){
             for (int column = 0; column < maze.numCols; column++){
@@ -155,11 +155,22 @@ public class MazeController {
         }
     }
 
+    public double getTileSize(){
+        return Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
+    }
+
     public TileModel getStartTile(){
         return maze.tiles[0][0];
     }
 
     public TileModel getEndTile(){
         return maze.tiles[maze.numRows - 1][maze.numCols - 1];
+    }
+
+    public boolean isInsideMaze(int row, int column){
+        if (row >= 0 && row < maze.numRows && column >= 0 && column < maze.numCols) {
+            return true;
+        }
+        return false;
     }
 }
