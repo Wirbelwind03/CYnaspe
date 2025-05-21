@@ -1,20 +1,37 @@
 package controller;
 
 import enums.DialogResult;
+import enums.GenerationMode;
+import enums.TileStatus;
+import enums.WallDirection;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.MazeModel;
+import model.TileModel;
+import utils.KruskalMazeGenerator;
 
 public class MainController {
     private MazeConfigurationController mazeConfigController;
+    private MazeController mazeController;
 
     @FXML
-    private VBox VBContainer;
+    private Canvas mazeCanvas;
+
+    @FXML
+    public void initialize(){
+        mazeController = new MazeController(mazeCanvas);
+    }
 
     @FXML
     private void MBMazeNew_Click(ActionEvent event) throws Exception{
@@ -33,22 +50,7 @@ public class MainController {
         
         // If the dialog has the result OK, create the maze
         if (mazeConfigController.dialogResult == DialogResult.OK){
-            createMaze();
+            mazeController.constructMaze(mazeConfigController);
         }
-    }
-
-    /**
-     * Create the maze 
-     */
-    private void createMaze() throws Exception {
-        // Show the MazeView
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MazeView.fxml"));
-        Parent root = loader.load();
-
-        MazeController mazeController = loader.getController();
-        mazeController.constructMaze(mazeConfigController);
-
-        VBContainer.getChildren().clear();
-        VBContainer.getChildren().add(root);
     }
 }
