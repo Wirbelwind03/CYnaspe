@@ -13,7 +13,7 @@ import model.TileModel;
 import utils.KruskalMazeGenerator;
 
 public class MazeController {
-    private MazeModel maze;
+    public MazeModel maze;
     private Canvas mazeCanvas;
     private GraphicsContext gc;
 
