@@ -1,6 +1,8 @@
 package utils;
 
 import enums.WallDirection;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 
 public class Helpers {
     /**
@@ -18,5 +20,17 @@ public class Helpers {
             case RIGHT: return WallDirection.LEFT;
             default: throw new IllegalArgumentException("Unknown direction: " + direction);
         }
+    }
+
+    /**
+     * 
+     * @param <T>
+     * @param group
+     * @return
+     */
+    public static <T> T getSelectedUserData(ToggleGroup group) {
+        if (group == null) return null;
+        Toggle selected = group.getSelectedToggle();
+        return selected != null ? (T) selected.getUserData() : null;
     }
 }
