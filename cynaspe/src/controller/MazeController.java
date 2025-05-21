@@ -88,7 +88,13 @@ public class MazeController {
      */
     public void renderMaze(){
         // Clear the entire canvas
-        gc.clearRect(0, 0, mazeCanvas.getWidth(), mazeCanvas.getHeight());
+        double width = mazeCanvas.getWidth();
+        double height = mazeCanvas.getHeight();
+
+        gc.setGlobalAlpha(1.0);
+        gc.setFill(Color.WHITE); // Background color
+        gc.fillRect(0, 0, width, height); // Clear with the background color
+        gc.clearRect(0, 0, width, height); // Clear the canvas
 
         double tileSize = getTileSize();
 
