@@ -1,13 +1,18 @@
 package controller;
 
+import algorithms.DjikstraSolver;
+import algorithms.ISolverAlgorithm;
 import enums.DialogResult;
 import enums.WallDirection;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -15,9 +20,11 @@ import javafx.stage.Stage;
 
 public class MainController {
     private MazeController mazeController;
+    private ISolverAlgorithm solverAlgorithm;
 
-    @FXML
-    private Canvas mazeCanvas;
+    @FXML private Canvas mazeCanvas;
+
+    @FXML private ToggleGroup MazeSolverGroup;
 
     @FXML
     public void initialize(){
@@ -49,7 +56,7 @@ public class MainController {
     }
 
     @FXML
-    public void onMazeCanvasClicked(MouseEvent event) {
+    private void onMazeCanvasClicked(MouseEvent event) {
         if (mazeController.isGenerating) return;
         if (mazeController.maze == null && mazeController.hoveredTile != null) return;
         
@@ -59,7 +66,7 @@ public class MainController {
     }
 
     @FXML
-    public void onMazeCanvasMouseMoved(MouseEvent event) {
+    private void onMazeCanvasMouseMoved(MouseEvent event) {
         if (mazeController.isGenerating) return;
         if (mazeController.maze == null) return;
     
@@ -77,7 +84,12 @@ public class MainController {
     }
 
     @FXML
-    public void onMazeCanvasKeyPressed(KeyEvent event){
+    private void onMazeCanvasMouseExited(MouseEvent mouseEvent){
+        mazeController.hoveredTile = null;
+    }
+
+    @FXML
+    private void onMazeCanvasKeyPressed(KeyEvent event){
         if (mazeController.isGenerating) return;
         if (mazeController.maze == null && mazeController.hoveredTile == null) return;
 
@@ -110,5 +122,29 @@ public class MainController {
         }
 
         mazeController.renderMaze();
+    }
+
+    @FXML
+    private void MazeButtonSolveOnAction(){
+        if (mazeController.isGenerating) return;
+
+        Toggle selected = MazeSolverGroup.getSelectedToggle();
+        if (mazeController.maze != null){
+            solverAlgorithm = new DjikstraSolver(mazeController);
+            AnimationTimer timer = new AnimationTimer() {
+                private long lastUpdate = 0;
+                
+                @Override
+                public void handle(long now) {
+                    if (now - lastUpdate >= 100_000_000) {
+                        lastUpdate = now;
+                        boolean done = solverAlgorithm.step();
+                        mazeController.renderMaze();
+                        if (done) stop();
+                    }
+                }
+            };
+            timer.start();
+        }
     }
 }
