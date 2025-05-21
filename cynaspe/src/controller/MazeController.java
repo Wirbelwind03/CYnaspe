@@ -16,6 +16,8 @@ public class MazeController {
     public MazeModel maze;
     private Canvas mazeCanvas;
     private GraphicsContext gc;
+    
+    public boolean isGenerating = false;
 
     public TileModel hoveredTile = null;
     public WallDirection hoveredWall = WallDirection.RIGHT;
@@ -50,6 +52,7 @@ public class MazeController {
                 break;
 
             case GenerationMode.STEP:
+                isGenerating = true;
                 /// step by step
                 AnimationTimer timer = new AnimationTimer() {
                     private long lastUpdate = 0;
@@ -65,6 +68,7 @@ public class MazeController {
                                 renderMaze();
                             } else {
                                 stop();
+                                isGenerating = false;
                             }
                         }
                     }
@@ -160,7 +164,12 @@ public class MazeController {
 
     private void drawHoveredWall(double tileSize){
         if (hoveredTile != null){
-            gc.setStroke(Color.color(0, 0, 0, 0.3)); // transparent blue
+            if (hoveredTile.isWallPresent(hoveredWall)){
+                gc.setStroke(Color.color(1, 0, 0, 0.3)); 
+            } else {
+                gc.setStroke(Color.color(0, 0, 0, 0.3));
+            }
+
             gc.setLineWidth(6);
     
             drawWall(hoveredTile, tileSize, hoveredWall);
@@ -180,9 +189,22 @@ public class MazeController {
     }
 
     public boolean isInsideMaze(int row, int column){
-        if (row >= 0 && row < maze.numRows && column >= 0 && column < maze.numCols) {
-            return true;
+        return maze.isInsideMaze(row, column);
+    }
+
+    public void addWall(TileModel tile, WallDirection wallDirection){
+        if (!tile.isWallPresent(wallDirection)){
+            tile.walls.put(wallDirection, true);
         }
-        return false;
+        // add wall of neighbor too
+    }
+
+    public void removeWall(TileModel tile, WallDirection wallDirection){
+        if (tile.isWallPresent(wallDirection)){
+            tile.walls.put(wallDirection, false);
+        }
+        // remove wall of neighbor too
+
+        
     }
 }
