@@ -1,34 +1,36 @@
 package controller;
 
+import enums.GenerationMode;
 import enums.TileStatus;
 import enums.WallDirection;
-import enums.GenerationMode;
 import javafx.animation.AnimationTimer;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import model.MazeModel;
 import model.TileModel;
 import utils.KruskalMazeGenerator;
-import algorithms.WallFollowerSolver;
 
-/**
- * Gere les données du labyrinte avec l'interface qui affice le labyrinthe
- */
-public class MazeController {    
-    
-    @FXML private Canvas mazeCanvas;
+public class MazeController {
+    public MazeModel maze;
+    private Canvas mazeCanvas;
     private GraphicsContext gc;
 
-    public MazeModel maze;
+    public MazeController(Canvas mazeCanvas) {
+        this.mazeCanvas = mazeCanvas;
+        this.gc = this.mazeCanvas.getGraphicsContext2D();
 
-    @FXML
-    public void initialize(){
-        gc  = mazeCanvas.getGraphicsContext2D();
+        Region cell = (Region) this.mazeCanvas.getParent();
+
+        // Take the entire cell size
+        this.mazeCanvas.widthProperty().bind(cell.widthProperty());
+        this.mazeCanvas.heightProperty().bind(cell.heightProperty());
     }
 
-
+    /**
+     * Create the maze 
+     */
     public void constructMaze(MazeConfigurationController mazeConfigurationController){
         maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
         // Use Kruskal algorithm to generate the maze

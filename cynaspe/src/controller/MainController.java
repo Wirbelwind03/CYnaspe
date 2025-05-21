@@ -1,20 +1,26 @@
 package controller;
 
 import enums.DialogResult;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.canvas.Canvas;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainController {
-    private MazeConfigurationController mazeConfigController;
+    private MazeController mazeController;
 
     @FXML
-    private VBox VBContainer;
+    private Canvas mazeCanvas;
+
+    @FXML
+    public void initialize(){
+        mazeController = new MazeController(mazeCanvas);
+    }
 
     @FXML
     private void MBMazeNew_Click(ActionEvent event) throws Exception{
@@ -22,7 +28,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MazeConfigurationView.fxml"));
         Parent root = loader.load();
         // Get the controller of the MazeConfigurationView
-        mazeConfigController = loader.getController();
+        MazeConfigurationController mazeConfigController = loader.getController();
 
         // Show the window for the configuration of the maze
         Stage configStage = new Stage();
@@ -33,22 +39,7 @@ public class MainController {
         
         // If the dialog has the result OK, create the maze
         if (mazeConfigController.dialogResult == DialogResult.OK){
-            createMaze();
+            mazeController.constructMaze(mazeConfigController);
         }
-    }
-
-    /**
-     * Create the maze 
-     */
-    private void createMaze() throws Exception {
-        // Show the MazeView
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MazeView.fxml"));
-        Parent root = loader.load();
-
-        MazeController mazeController = loader.getController();
-        mazeController.constructMaze(mazeConfigController);
-
-        VBContainer.getChildren().clear();
-        VBContainer.getChildren().add(root);
     }
 }
