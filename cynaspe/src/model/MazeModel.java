@@ -52,4 +52,8 @@ public class MazeModel {
         }
         return edges;
     }
+
+    public TileModel getTile(int row, int column){
+        return tiles[row][column];
+    }
 }
