@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.WallDirection;
+import utils.Helpers;
+
 public class MazeModel {
     public int numRows;
     public int numCols;
@@ -55,5 +58,82 @@ public class MazeModel {
 
     public TileModel getTile(int row, int column){
         return tiles[row][column];
+    }
+
+    /**
+     * Get the neighbor of a tile, with the direction choose
+     * @param tile
+     * The tile which we want to get the neighbor
+     * @param direction
+     * The direction the neighbor is going to be get
+     * @return
+     * The neighbor tile
+     */
+    public TileModel getNeighbor(TileModel tile, WallDirection direction) {
+        int newRow = tile.row;
+        int newCol = tile.column;
+
+        switch (direction) {
+            case TOP:    newRow--; break;
+            case BOTTOM: newRow++; break;
+            case LEFT:   newCol--; break;
+            case RIGHT:  newCol++; break;
+        }
+
+        //
+        if (isInsideMaze(newRow, newCol)) {
+            return tiles[newRow][newCol];
+        }
+        return null;
+    }
+
+    /**
+     * Check if the row and column are still inside the maze
+     * @param row
+     * The row we want to check
+     * @param column
+     * The column we want to check
+     * @return
+     * A boolean that is True if it's inside the maze, and False if not
+     */
+    public boolean isInsideMaze(int row, int column){
+        if (row >= 0 && row < numRows && column >= 0 && column < numCols) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Add a wall to a tile
+     * @param tile
+     * The tile we want to add a wall
+     * @param wallDirection
+     * The direction of the wall we want to add
+     */
+    public void addWall(TileModel tile, WallDirection wallDirection){
+        tile.addWall(wallDirection);
+        // Add the wall to the neighbor too
+        TileModel neighbor = getNeighbor(tile, wallDirection);
+        if (neighbor != null){
+            WallDirection oppositeWallDirection = Helpers.getOppositeDirection(wallDirection);
+            neighbor.addWall(oppositeWallDirection);
+        }
+    }
+
+    /**
+     * Remove the wall of a tile
+     * @param tile
+     * The tile we want to remove a wall
+     * @param wallDirection
+     * The direction of the wall we want to remove
+     */
+    public void removeWall(TileModel tile, WallDirection wallDirection){
+        tile.removeWall(wallDirection);
+        // Remove the wall of the neighbor too
+        TileModel neighbor = getNeighbor(tile, wallDirection);
+        if (neighbor != null){
+            WallDirection oppositeWallDirection = Helpers.getOppositeDirection(wallDirection);
+            neighbor.removeWall(oppositeWallDirection);
+        }
     }
 }
