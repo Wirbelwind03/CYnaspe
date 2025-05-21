@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.TileStatus;
 import enums.WallDirection;
 import utils.Helpers;
 
@@ -38,6 +39,17 @@ public class MazeModel {
             }
         }
         return tiles;
+    }
+
+    /**
+     * Reset all the tiles to unvisited
+     */
+    public void resetTileStatus(){
+        for (TileModel[] row : tiles){
+            for (TileModel tile: row){
+                tile.status = TileStatus.UNVISITED;
+            }
+        }
     }
 
     /**
