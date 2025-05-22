@@ -5,6 +5,7 @@ import java.io.File;
 import algorithms.BreadthFirstSolver;
 import algorithms.DjikstraSolver;
 import algorithms.ISolverAlgorithm;
+import algorithms.RecursiveMazeSolver;
 import enums.DialogResult;
 import enums.GenerationMode;
 import enums.SolveAlgorithms;
@@ -181,22 +182,22 @@ public class MainController extends Controller {
 
         switch (event.getCode()) {
             // Arrow keys
-            case UP:
+            case Z:
                 if (mazeController.hoveredTile.row == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.TOP;
                 break;
-            case RIGHT:
+            case D:
                 if (mazeController.hoveredTile.column == mazeController.maze.numCols - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.RIGHT;
                 break;
-            case DOWN:
+            case S:
                 if (mazeController.hoveredTile.row == mazeController.maze.numRows - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.BOTTOM;
                 break;
-            case LEFT:
+            case Q:
                 if (mazeController.hoveredTile.column == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.LEFT;
@@ -324,7 +325,7 @@ public class MainController extends Controller {
 
         switch (selectedSolverAlgorithms) {
             case SolveAlgorithms.DFS:
-                
+                solverAlgorithm = new RecursiveMazeSolver(mazeController);
                 break;
 
             case SolveAlgorithms.BFS:
@@ -336,7 +337,6 @@ public class MainController extends Controller {
                 break;
         
             default:
-                solverAlgorithm = new BreadthFirstSolver(mazeController);
                 break;
         }
 
