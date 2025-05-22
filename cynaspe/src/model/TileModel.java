@@ -173,6 +173,17 @@ public class TileModel {
         return wallBits.toString();
     }
 
+    /**
+     * Get the walls of the tile by reading the wallBits
+     * @param wallBits
+     * The bits of the wall, 
+     * Order is TOP -> RIGHT -> BOTTOM -> LEFT
+     * @return
+     * Map of the actual walls
+     * Example : 
+     * 0100
+     * = {TOP: false, RIGHT: true, LEFT: false, BOTTOM: false}
+     */
     public static Map<WallDirection, Boolean> getWalls(String wallBits){
         Map<WallDirection, Boolean> walls = new HashMap<>();
         walls.put(WallDirection.TOP,    wallBits.charAt(0) == '1');

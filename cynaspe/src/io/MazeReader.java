@@ -17,8 +17,11 @@ public class MazeReader {
         try {
 
             List<String> lines = Files.readAllLines(path);
+            // Get the first line, which contains the size of the maze
             String firstLine = lines.get(0);
+            // Separate the strings of the first line, by separating the ","
             String[] mazeSizeParts = firstLine.split(",");
+            // Transform the string into integers
             int numRows = Integer.parseInt(mazeSizeParts[0]);
             int numCols = Integer.parseInt(mazeSizeParts[1]);
 
