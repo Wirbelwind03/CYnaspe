@@ -15,6 +15,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +28,9 @@ import utils.Helpers;
 public class MainController {
     private MazeController mazeController;
     private ISolverAlgorithm solverAlgorithm;
+
+    @FXML private Spinner<Integer> SpinnerGenerationSpeed;
+    @FXML private Label LabelGenerationStatus;
 
     @FXML private Canvas mazeCanvas; // Canvas for rendering the maze
 
@@ -42,6 +47,11 @@ public class MainController {
 
     @FXML
     public void initialize(){
+        SpinnerValueFactory<Integer> generationSpeedValueFactory = 
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(1,60);
+        generationSpeedValueFactory.setValue(10);
+        SpinnerGenerationSpeed.setValueFactory(generationSpeedValueFactory);
+
         mazeController = new MazeController(mazeCanvas);
 
         mazeCanvas.setFocusTraversable(true);
@@ -71,7 +81,7 @@ public class MainController {
         
         // If the dialog has the result OK, create the maze
         if (mazeConfigController.dialogResult == DialogResult.OK){
-            mazeController.constructMaze(mazeConfigController);
+            mazeController.constructMaze(mazeConfigController, LabelGenerationStatus, SpinnerGenerationSpeed);
         }
     }
 
@@ -180,7 +190,7 @@ public class MainController {
                         
                         @Override
                         public void handle(long now) {
-                            if (now - lastUpdate >= 100_000_000) {
+                            if (now - lastUpdate >= mazeController.getFPS(SpinnerGenerationSpeed.getValue())) {
                                 lastUpdate = now;
                                 LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
                                 boolean done = solverAlgorithm.step();
