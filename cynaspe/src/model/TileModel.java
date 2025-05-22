@@ -100,7 +100,7 @@ public class TileModel {
      */
     public void addWall(WallDirection wallDirection){
         // Check if the tile has a wall in the given direction
-        if (isWallPresent(wallDirection)){
+        if (!isWallPresent(wallDirection)){
             // Update the walls Hashmap
             walls.put(wallDirection, true);
         }
