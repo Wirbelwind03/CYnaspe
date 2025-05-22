@@ -33,4 +33,11 @@ public class Helpers {
         Toggle selected = group.getSelectedToggle();
         return selected != null ? (T) selected.getUserData() : null;
     }
+
+    public static long fpsToNanos(int fps) {
+        if (fps <= 0) {
+            throw new IllegalArgumentException("FPS must be greater than zero");
+        }
+        return 1_000_000_000L / fps;
+    }
 }
