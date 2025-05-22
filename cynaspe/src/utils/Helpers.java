@@ -1,6 +1,10 @@
 package utils;
 
+import java.util.function.UnaryOperator;
+
 import enums.WallDirection;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
@@ -39,5 +43,29 @@ public class Helpers {
             throw new IllegalArgumentException("FPS must be greater than zero");
         }
         return 1_000_000_000L / fps;
+    }
+
+    public static void restrictToNumericInput(TextField textField, long minValue, long maxValue) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                try {
+                    long value = newText.isEmpty() ? 0 : Long.parseLong(newText);
+                    if (value >= minValue && value <= maxValue) {
+                        return change;
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+            return null;
+        };
+
+        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal && textField.getText().isEmpty()) {
+                textField.setText("0");
+            }
+        });
+
+        textField.setTextFormatter(new TextFormatter<>(filter));
     }
 }
