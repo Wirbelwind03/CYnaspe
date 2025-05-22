@@ -26,12 +26,14 @@ public class MazeReader {
             int numCols = Integer.parseInt(mazeSizeParts[1]);
 
             TileModel[][] tiles = new TileModel[numRows][numCols];
+            // For each line, read the written tile
             for (int i = 1; i < lines.size(); i++) {
                 String line = lines.get(i);
                 String[] parts = line.split(",");
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
                 String wallBits = parts[2];
+                // Get the wall of the tile
                 Map<WallDirection, Boolean> walls = TileModel.getWalls(wallBits);
                 tiles[row][col] = new TileModel(row, col, walls);
             }

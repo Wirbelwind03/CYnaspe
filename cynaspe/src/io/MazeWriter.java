@@ -15,6 +15,8 @@ public class MazeWriter {
             for (TileModel[] row : maze.tiles){
                 for (TileModel tile: row){
                     // row,column,wallsBits
+                    // Example : row = 0, column = 1, walls = TOP, RIGHT
+                    // = 0,1,1100
                     writer.write(String.format("%d,%d,%s\n", tile.row, tile.column, tile.getWallBits()));
                 }
             }

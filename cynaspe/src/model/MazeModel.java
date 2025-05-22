@@ -7,6 +7,9 @@ import enums.TileStatus;
 import enums.WallDirection;
 import utils.Helpers;
 
+/**
+ * Class that represent a maze
+ */
 public class MazeModel {
     public int numRows;
     public int numCols;

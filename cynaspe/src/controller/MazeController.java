@@ -40,6 +40,15 @@ public class MazeController extends Controller {
         return maze != null;
     }
 
+    /**
+     * Get a tile from the maze
+     * @param row
+     * The row we want to get the tile from
+     * @param column
+     * The column we want to get the tile from
+     * @return
+     * A TileModel if it was inside the maze
+     */
     public TileModel getTile(int row, int column){
         return maze.getTile(row, column);
     }

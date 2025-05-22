@@ -7,7 +7,7 @@ import enums.TileStatus;
 import enums.WallDirection;
 
 /**
- * Model that represent the case in a grid
+ * Class that represent the case in a maze
  */
 public class TileModel {
     public int row; // The row where the tile is placed
@@ -16,8 +16,8 @@ public class TileModel {
     // Represented like this
     // {TOP: false, RIGHT: false, LEFT: false, BOTTOM: false}
     public Map<WallDirection, Boolean> walls = new HashMap<>(); 
-    public boolean isVisited = false; // If the tile has been visited
-
+    public boolean isVisited = false; // If the tile has been visited during generation
+    // The status of the tile during solving
     public TileStatus status = TileStatus.UNVISITED;
 
     /**
@@ -166,10 +166,11 @@ public class TileModel {
      */
     public String getWallBits(){
         StringBuilder wallBits = new StringBuilder();
-        wallBits.append(walls.get(WallDirection.TOP) ? "1" : "0");
-        wallBits.append(walls.get(WallDirection.RIGHT) ? "1" : "0");
-        wallBits.append(walls.get(WallDirection.BOTTOM) ? "1" : "0");
-        wallBits.append(walls.get(WallDirection.LEFT) ? "1" : "0");
+        // Write "1" if there's a wall, "0" if not
+        wallBits.append(walls.get(WallDirection.TOP) ? "1" : "0"); // First bit
+        wallBits.append(walls.get(WallDirection.RIGHT) ? "1" : "0"); // Second bit
+        wallBits.append(walls.get(WallDirection.BOTTOM) ? "1" : "0"); // Third bit
+        wallBits.append(walls.get(WallDirection.LEFT) ? "1" : "0"); // Fourth bit
         return wallBits.toString();
     }
 
@@ -186,10 +187,10 @@ public class TileModel {
      */
     public static Map<WallDirection, Boolean> getWalls(String wallBits){
         Map<WallDirection, Boolean> walls = new HashMap<>();
-        walls.put(WallDirection.TOP,    wallBits.charAt(0) == '1');
-        walls.put(WallDirection.RIGHT,  wallBits.charAt(1) == '1');
-        walls.put(WallDirection.BOTTOM, wallBits.charAt(2) == '1');
-        walls.put(WallDirection.LEFT,   wallBits.charAt(3) == '1');
+        walls.put(WallDirection.TOP,    wallBits.charAt(0) == '1'); // First bit
+        walls.put(WallDirection.RIGHT,  wallBits.charAt(1) == '1'); // Second bit
+        walls.put(WallDirection.BOTTOM, wallBits.charAt(2) == '1'); // Third bit
+        walls.put(WallDirection.LEFT,   wallBits.charAt(3) == '1'); // Fourth bit
     
         return walls;
     }

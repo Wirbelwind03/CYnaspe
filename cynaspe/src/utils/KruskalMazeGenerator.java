@@ -11,17 +11,33 @@ import model.MazeModel;
 import model.TileModel;
 
 public class KruskalMazeGenerator {
+    // The type of maze to generate
     private MazeType mazeType = MazeType.PERFECT;
+    // Index used for looping through edges during the maze generation
     private int currentIndex = 0;
+    // List of edges between tile in the maze
     private List<EdgeModel> edges;
+    // Disjoint set to track connected tiles
     private DisjointSet disjointSet;
 
+    /**
+     * Constructor to initialize the generator
+     * @param maze
+     * The grid of tiles to generate the maze on
+     * @param mazeConfigurationController
+     * Controller managing the maze settings
+     * @param mazeType
+     * The type of maze (PERFECT or IMPERFECT)
+     */
     public  KruskalMazeGenerator(MazeModel maze, MazeConfigurationController mazeConfigurationController, MazeType mazeType){
+        // Set the maze type
         this.mazeType = mazeType;
 
         disjointSet = new DisjointSet();
 
         edges = maze.getEdges();
+        // Shuffle the edges randomly for random maze structure
+        // Seed for re-creating a maze
         Collections.shuffle(edges, new Random(mazeConfigurationController.getMazeSeed()));
 
         for (TileModel[] row : maze.tiles){

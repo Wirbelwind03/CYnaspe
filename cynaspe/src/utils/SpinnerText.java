@@ -1,9 +1,9 @@
 package utils;
 
 public class SpinnerText {
-    private final String[] frames = {"◐", "◓", "◑", "◒"};
-    private int index = 0;
-    private int callCount = 0;
+    private final String[] frames = {"◐", "◓", "◑", "◒"}; // The frames of the spinnerText
+    private int index = 0; // Index used for jumping to the next frame, reset to 0 when the next happens
+    private int callCount = 0; // The number of times the class has been called
     private final int skipFrames; // How many frame to skip before it get updated
 
     /**
