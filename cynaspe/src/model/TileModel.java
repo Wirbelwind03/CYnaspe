@@ -37,6 +37,21 @@ public class TileModel {
     }
 
     /**
+     * Construct a case with the row, column and walls given
+     * @param row
+     * Row where the tile is placed
+     * @param column
+     * Column where the tile is placed
+     * @param walls
+     * The walls of the tile
+     */
+    public TileModel(int row, int column, Map<WallDirection,Boolean> walls){
+        this.row = row;
+        this.column = column;
+        this.walls = walls;
+    }
+
+    /**
      * Remove the wall to get access to the neighbor
      * @param neighbor
      * The neighbor tile we want to access
@@ -140,5 +155,31 @@ public class TileModel {
      */
     public boolean isWallPresent(WallDirection direction) {
         return walls.getOrDefault(direction, false) == true;
+    }
+
+    /*
+     * Return the walls of the tile in bits format
+     * Order is TOP -> RIGHT -> BOTTOM -> LEFT
+     * Example :
+     * {TOP: false, RIGHT: true, LEFT: false, BOTTOM: false}
+     * = 0100
+     */
+    public String getWallBits(){
+        StringBuilder wallBits = new StringBuilder();
+        wallBits.append(walls.get(WallDirection.TOP) ? "1" : "0");
+        wallBits.append(walls.get(WallDirection.RIGHT) ? "1" : "0");
+        wallBits.append(walls.get(WallDirection.BOTTOM) ? "1" : "0");
+        wallBits.append(walls.get(WallDirection.LEFT) ? "1" : "0");
+        return wallBits.toString();
+    }
+
+    public static Map<WallDirection, Boolean> getWalls(String wallBits){
+        Map<WallDirection, Boolean> walls = new HashMap<>();
+        walls.put(WallDirection.TOP,    wallBits.charAt(0) == '1');
+        walls.put(WallDirection.RIGHT,  wallBits.charAt(1) == '1');
+        walls.put(WallDirection.BOTTOM, wallBits.charAt(2) == '1');
+        walls.put(WallDirection.LEFT,   wallBits.charAt(3) == '1');
+    
+        return walls;
     }
 }
