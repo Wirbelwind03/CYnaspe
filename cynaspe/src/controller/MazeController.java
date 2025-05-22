@@ -48,6 +48,7 @@ public class MazeController {
         // Use Kruskal algorithm to generate the maze
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
 
+        isGenerating = true;
         // Show the maze generation depending on the mode
         switch (mazeConfigurationController.getGenerationMode()) {
             case GenerationMode.COMPLETE:
@@ -56,19 +57,19 @@ public class MazeController {
                     generator.step();
                 }
                 renderMaze();
+                isGenerating = false;
                 break;
 
             case GenerationMode.STEP:
                 SpinnerText spinner = new SpinnerText(4);
-                LabelGenerationStatus.setText(spinner.currentFrame());
-                isGenerating = true;
-                /// step by step
+                LabelGenerationStatus.setText(spinner.getCurrentFrame());
+                
                 AnimationTimer timer = new AnimationTimer() {
                     private long lastUpdate = 0;
 
                     @Override
                     public void handle(long now) {
-                        // Update every 10 fps
+                        
                         if (now - lastUpdate >= getFPS(spinnerGenerationSpeed.getValue())) {
                             lastUpdate = now;
 
