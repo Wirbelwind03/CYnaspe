@@ -52,7 +52,7 @@ public class KruskalMazeGenerator {
             edge.tile1.isVisited = true;
             edge.tile2.isVisited = true;
         } else if (mazeType == MazeType.IMPERFECT){
-            if (Math.random() < 0.10) {
+            if (Math.random() < 0.50) {
                 edge.tile1.removeWall(edge.tile2);
             }
         }
