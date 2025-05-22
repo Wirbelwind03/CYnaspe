@@ -95,12 +95,14 @@ public class DjikstraSolver implements ISolverAlgorithm {
         if (pathTracing && pathStep != null) {
             if (previous.containsKey(pathStep)) {
                 pathStep.status = TileStatus.PATH;
+                pathCount++;
                 pathStep = previous.get(pathStep);
                 return false; // Continue tracing
             } else {
                 // Reached the start tile
                 if (pathStep == mazeController.getStartTile()) {
                     pathStep.status = TileStatus.PATH;
+                    pathCount++;
                 }
                 pathStep = null;
                 pathTracing = false;
