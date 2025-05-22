@@ -8,19 +8,17 @@ import java.util.*;
 import controller.MazeController;
 import enums.TileStatus;
 
-public class BreadthFirstSolver implements ISolverAlgorithm {
+public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
-    private MazeController mazeController;
-    private Map<TileModel, TileModel> parentMap = new HashMap<>();
+    // Queue for the algorithm
     private Queue<TileModel> queue = new LinkedList<>();
-    private Set<TileModel> visited = new HashSet<>();
-
-    private boolean isFinished = false;
-    private TileModel pathStep = null;
-    private int pathCount = 0;
 
     public BreadthFirstSolver(MazeController mazeController) {
         this.mazeController = mazeController;
+
+        TileModel start = mazeController.getStartTile();
+        queue.add(start);
+        visited.add(start);
     }
 
     @Override
@@ -35,12 +33,6 @@ public class BreadthFirstSolver implements ISolverAlgorithm {
         }
 
         if (!isFinished) {
-            if (queue.isEmpty()) {
-                TileModel start = mazeController.getStartTile();
-                queue.add(start);
-                visited.add(start);
-            }
-
             if (!queue.isEmpty()) {
                 TileModel current = queue.poll();
 

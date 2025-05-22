@@ -15,29 +15,19 @@ import enums.TileStatus;
 import model.MazeModel;
 import model.TileModel;
 
-public class DjikstraSolver implements ISolverAlgorithm {
-    MazeController mazeController;
-
+public class DjikstraSolver extends Solver implements ISolverAlgorithm {
     // The distance from the start to each tile,
     private Map<TileModel, Integer> distance;
-    // The previous tiles with the shortest path
-    private Map<TileModel, TileModel> previous;
-    // The tiles that have been visited
-    private Set<TileModel> visited;
     // Queue used to always expand the closest unvisited tile next
     private PriorityQueue<TileModel> queue;
 
-    private boolean isFinished = false;
-    private TileModel pathStep = null;
     private boolean pathTracing = false;
-
-    private int pathCount = 0;
 
     public DjikstraSolver(MazeController mazeController) {
         this.mazeController = mazeController;
 
         distance = new HashMap<>();
-        previous = new HashMap<>();
+        parentMap = new HashMap<>();
         visited = new HashSet<>();
         queue = new PriorityQueue<>(Comparator.comparingInt(distance::get));
 
@@ -77,7 +67,7 @@ public class DjikstraSolver implements ISolverAlgorithm {
                     int alt = distance.get(current) + 1;
                     if (alt < distance.get(neighbor)) {
                         distance.put(neighbor, alt);
-                        previous.put(neighbor, current);
+                        parentMap.put(neighbor, current);
                         queue.add(neighbor);
                     }
                 }
@@ -93,10 +83,10 @@ public class DjikstraSolver implements ISolverAlgorithm {
         }
 
         if (pathTracing && pathStep != null) {
-            if (previous.containsKey(pathStep)) {
+            if (parentMap.containsKey(pathStep)) {
                 pathStep.status = TileStatus.PATH;
                 pathCount++;
-                pathStep = previous.get(pathStep);
+                pathStep = parentMap.get(pathStep);
                 return false; // Continue tracing
             } else {
                 // Reached the start tile
