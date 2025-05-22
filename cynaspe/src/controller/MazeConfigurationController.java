@@ -42,7 +42,6 @@ public class MazeConfigurationController {
         SpinnerValueFactory<Integer> seedValueFactory = 
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE);
         seedValueFactory.setValue(Math.abs(random.nextInt()));
-
         SpinnerSeed.setValueFactory(seedValueFactory);
 
         SpinnerValueFactory<Integer> mazeRowsValueFactory =
