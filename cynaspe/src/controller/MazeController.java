@@ -6,11 +6,16 @@ import enums.WallDirection;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+
 import model.MazeModel;
 import model.TileModel;
+import utils.Helpers;
 import utils.KruskalMazeGenerator;
+import utils.SpinnerText;
 
 public class MazeController {
     public MazeModel maze;
@@ -21,6 +26,8 @@ public class MazeController {
 
     public TileModel hoveredTile = null;
     public WallDirection hoveredWall = WallDirection.RIGHT;
+
+    private int dotCount = 0;
 
     public MazeController(Canvas mazeCanvas) {
         this.mazeCanvas = mazeCanvas;
@@ -36,7 +43,7 @@ public class MazeController {
     /**
      * Create the maze 
      */
-    public void constructMaze(MazeConfigurationController mazeConfigurationController){
+    public void constructMaze(MazeConfigurationController mazeConfigurationController, Label LabelGenerationStatus, Spinner<Integer> spinnerGenerationSpeed){
         maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
         // Use Kruskal algorithm to generate the maze
         KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
@@ -52,6 +59,8 @@ public class MazeController {
                 break;
 
             case GenerationMode.STEP:
+                SpinnerText spinner = new SpinnerText(4);
+                LabelGenerationStatus.setText(spinner.currentFrame());
                 isGenerating = true;
                 /// step by step
                 AnimationTimer timer = new AnimationTimer() {
@@ -60,15 +69,18 @@ public class MazeController {
                     @Override
                     public void handle(long now) {
                         // Update every 10 fps
-                        if (now - lastUpdate >= 100_000_000) {
+                        if (now - lastUpdate >= getFPS(spinnerGenerationSpeed.getValue())) {
                             lastUpdate = now;
 
                             if (!generator.isComplete()) {
                                 generator.step();
                                 renderMaze();
+                                spinner.nextFrame();
+                                LabelGenerationStatus.setText(spinner.nextFrame());
                             } else {
                                 stop();
                                 isGenerating = false;
+                                LabelGenerationStatus.setText("Génération terminée");
                             }
                         }
                     }
@@ -199,18 +211,14 @@ public class MazeController {
     }
 
     public void addWall(TileModel tile, WallDirection wallDirection){
-        if (!tile.isWallPresent(wallDirection)){
-            tile.walls.put(wallDirection, true);
-        }
-        // add wall of neighbor too
+        maze.addWall(tile, wallDirection);
     }
 
     public void removeWall(TileModel tile, WallDirection wallDirection){
-        if (tile.isWallPresent(wallDirection)){
-            tile.walls.put(wallDirection, false);
-        }
-        // remove wall of neighbor too
+        maze.removeWall(tile, wallDirection);
+    }
 
-        
+    public long getFPS(int fps){
+        return Helpers.fpsToNanos(fps);
     }
 }
