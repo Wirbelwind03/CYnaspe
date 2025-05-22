@@ -71,7 +71,7 @@ public class MainController extends Controller {
     public void initialize(){
         // Set the value of the spinner for the generation speed
         SpinnerValueFactory<Integer> generationSpeedValueFactory = 
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(1,60);
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(1,120);
         generationSpeedValueFactory.setValue(10);
         SpinnerGenerationSpeed.setValueFactory(generationSpeedValueFactory);
 
@@ -399,6 +399,12 @@ public class MainController extends Controller {
         
         mazeController.resetTileStatus();
         MazeButtonSolve.setDisable(true);
+
+        // Desactivate these menu items
+        // The user shouldn't be able to load a maze during the generation
+        MenuItemMazeLoad.setDisable(true);
+        // The user shouldn't be able to save a unfinished maze
+        MenuItemMazeSave.setDisable(true);
 
         switch (selectedSolverAlgorithms) {
             case SolveAlgorithms.DFS:
