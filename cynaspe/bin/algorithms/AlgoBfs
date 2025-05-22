@@ -1,0 +1,90 @@
+import java.util.*;
+
+/**
+ * Implements the Breadth-First Search (BFS) algorithm.
+ */
+public class BFS {
+
+    /**
+     * Performs a BFS traversal from the given start node.
+     * @param graph The graph to traverse.
+     * @param start The starting node.
+     * @return A list of nodes visited in BFS order.
+     */
+    public List<Node> traverse(Graph graph, Node start) {
+        List<Node> visitedOrder = new ArrayList<>();
+        Set<Node> visited = new HashSet<>();
+        Queue<Node> queue = new LinkedList<>();
+
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            visitedOrder.add(current);
+
+            for (Node neighbor : graph.getNeighbors(current)) {
+                if (!visited.contains(neighbor)) {
+                    queue.add(neighbor);
+                    visited.add(neighbor);
+                }
+            }
+        }
+
+        return visitedOrder;
+    }
+
+    /**
+     * Finds a shortest path between two nodes using BFS.
+     * @param graph The graph.
+     * @param start The starting node.
+     * @param goal The target node.
+     * @return Optional containing the path list or empty if no path.
+     */
+    public Optional<List<Node>> findPath(Graph graph, Node start, Node goal) {
+        Map<Node, Node> parentMap = new HashMap<>();
+        Set<Node> visited = new HashSet<>();
+        Queue<Node> queue = new LinkedList<>();
+
+        queue.add(start);
+        visited.add(start);
+        parentMap.put(start, null);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+
+            if (current.equals(goal)) {
+                return Optional.of(reconstructPath(parentMap, goal));
+            }
+
+            for (Node neighbor : graph.getNeighbors(current)) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                    parentMap.put(neighbor, current);
+                }
+            }
+        }
+
+        return Optional.empty(); // No path found
+    }
+
+    private List<Node> reconstructPath(Map<Node, Node> parentMap, Node goal) {
+        List<Node> path = new ArrayList<>();
+        for (Node current = goal; current != null; current = parentMap.get(current)) {
+            path.add(current);
+        }
+        Collections.reverse(path);
+        return path;
+    }
+
+    public void printPath(List<Node> path) {
+        for (int i = 0; i < path.size(); i++) {
+            System.out.print(path.get(i));
+            if (i < path.size() - 1) {
+                System.out.print(" -> ");
+            }
+        }
+        System.out.println();
+    }
+}
