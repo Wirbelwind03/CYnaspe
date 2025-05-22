@@ -1,54 +1,87 @@
-package solver;
+package algorithms;
 
 import model.MazeModel;
 import model.TileModel;
 
 import java.util.*;
 
-public class BreadthFirstSolver {
+import controller.MazeController;
+import enums.TileStatus;
 
-    private MazeModel maze;
+public class BreadthFirstSolver implements ISolverAlgorithm {
+
+    private MazeController mazeController;
     private Map<TileModel, TileModel> parentMap = new HashMap<>();
+    private Queue<TileModel> queue = new LinkedList<>();
+    private Set<TileModel> visited = new HashSet<>();
 
-    public BreadthFirstSolver(MazeModel maze) {
-        this.maze = maze;
+    private boolean isFinished = false;
+    private TileModel pathStep = null;
+
+    private int pathCount = 0;
+
+    public BreadthFirstSolver(MazeController mazeController) {
+        this.mazeController = mazeController;
     }
 
-    public boolean solve() {
-        TileModel start = maze.getStartTile();
-        TileModel end = maze.getEndTile();
+    @Override
+    public boolean step() {
+        // Trace the path
+        if (isFinished && pathStep != null) {
+            pathStep.status = TileStatus.PATH;
+            pathCount++;
+            pathStep = parentMap.get(pathStep);
 
-        Queue<TileModel> file = new LinkedList<>();
-        Set<TileModel> visited = new HashSet<>();
+            return pathStep == null;
+        }
 
-        file.add(start);
-        visited.add(start);
-
-        while (!file.isEmpty()) {
-            TileModel current = file.poll();
-
-            if (current.equals(end)) {
-                marquerChemin(end);
-                return true;
+        if (!isFinished) {
+            if (queue.isEmpty()) {
+                TileModel start = mazeController.getStartTile();
+                queue.add(start);
+                visited.add(start);
             }
 
-            for (TileModel voisin : maze.getVoisinsAccessibles(current)) {
-                if (!visited.contains(voisin)) {
-                    visited.add(voisin);
-                    file.add(voisin);
-                    parentMap.put(voisin, current);
+            if (!queue.isEmpty()) {
+                TileModel current = queue.poll();
+
+                if (current.equals(mazeController.getEndTile())) {
+                    isFinished = true;
+                    pathStep = current;
+                    return false;
                 }
-            }
-        }
 
-        return false; // pas de solution
+                for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.add(neighbor);
+                        parentMap.put(neighbor, current);
+                        neighbor.status = TileStatus.VISITED;
+                    }
+                }
+
+                return false;
+            }
+
+            // No path found
+            isFinished = true;
+            return true;
+        }
+        return true;
     }
 
-    private void marquerChemin(TileModel end) {
-        TileModel current = end;
-        while (current != null) {
-            current.setAsPath();
-            current = parentMap.get(current);
-        }
+    @Override
+    public int getVisitedCount() {
+        return visited.size();
+    }
+
+    @Override
+    public int getPathCount() {
+        return pathCount;
+    }
+
+    @Override
+    public boolean isComplete() {
+        return isFinished;
     }
 }

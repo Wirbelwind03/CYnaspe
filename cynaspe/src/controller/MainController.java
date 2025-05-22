@@ -1,5 +1,6 @@
 package controller;
 
+import algorithms.BreadthFirstSolver;
 import algorithms.DjikstraSolver;
 import algorithms.ISolverAlgorithm;
 import enums.DialogResult;
@@ -184,7 +185,7 @@ public class MainController {
             mazeController.isGenerating = true;
             
             mazeController.maze.resetTileStatus();
-            solverAlgorithm = new DjikstraSolver(mazeController);
+            solverAlgorithm = new BreadthFirstSolver(mazeController);
 
             switch (solveMode) {
                 case GenerationMode.COMPLETE:
