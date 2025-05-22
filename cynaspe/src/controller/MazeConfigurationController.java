@@ -14,7 +14,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class MazeConfigurationController {
+public class MazeConfigurationController extends Controller {
 
     public DialogResult dialogResult = DialogResult.CLOSED;
 
