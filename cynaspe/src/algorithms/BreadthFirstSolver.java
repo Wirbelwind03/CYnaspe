@@ -17,7 +17,6 @@ public class BreadthFirstSolver implements ISolverAlgorithm {
 
     private boolean isFinished = false;
     private TileModel pathStep = null;
-
     private int pathCount = 0;
 
     public BreadthFirstSolver(MazeController mazeController) {
@@ -82,6 +81,6 @@ public class BreadthFirstSolver implements ISolverAlgorithm {
 
     @Override
     public boolean isComplete() {
-        return isFinished;
+        return isFinished && pathStep == null;
     }
 }
