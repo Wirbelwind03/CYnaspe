@@ -35,7 +35,7 @@ public class SpinnerText {
      * @return
      * A String of the current frame
      */
-    public String currentFrame(){
+    public String getCurrentFrame(){
         return frames[index];
     }
 }
