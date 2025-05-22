@@ -9,10 +9,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import utils.Helpers;
 
 public class MazeConfigurationController extends Controller {
 
@@ -20,7 +22,8 @@ public class MazeConfigurationController extends Controller {
 
     @FXML private GridPane GridPaneRoot;
 
-    @FXML private Spinner<Integer> SpinnerSeed;
+    // @FXML private Spinner<Integer> SpinnerSeed;
+    @FXML private TextField TextFieldSeed;
     
     @FXML private Spinner<Integer> SpinnerNumCols;
     @FXML private Spinner<Integer> SpinnerNumRows;
@@ -39,10 +42,12 @@ public class MazeConfigurationController extends Controller {
     public void initialize(){
         Random random = new Random();
 
-        SpinnerValueFactory<Integer> seedValueFactory = 
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE);
-        seedValueFactory.setValue(Math.abs(random.nextInt()));
-        SpinnerSeed.setValueFactory(seedValueFactory);
+        // SpinnerValueFactory<Integer> seedValueFactory = 
+        //     new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE);
+        // seedValueFactory.setValue(Math.abs(random.nextInt()));
+        // SpinnerSeed.setValueFactory(seedValueFactory);
+        Helpers.restrictToNumericInput(TextFieldSeed, 0, Integer.MAX_VALUE);
+        TextFieldSeed.setText(String.valueOf(Math.abs(random.nextInt())));
 
         SpinnerValueFactory<Integer> mazeRowsValueFactory =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(2,256);
@@ -74,7 +79,7 @@ public class MazeConfigurationController extends Controller {
      * The seed of the maze
      */
     public int getMazeSeed(){
-        return SpinnerSeed.getValue();
+        return Integer.parseInt(TextFieldSeed.getText());
     }
 
     /**
