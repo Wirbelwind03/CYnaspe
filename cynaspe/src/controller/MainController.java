@@ -4,6 +4,7 @@ import algorithms.DjikstraSolver;
 import algorithms.ISolverAlgorithm;
 import enums.DialogResult;
 import enums.GenerationMode;
+import enums.SolveAlgorithms;
 import enums.WallDirection;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -24,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import utils.Helpers;
+import utils.SpinnerText;
 
 public class MainController {
     private MazeController mazeController;
@@ -131,6 +133,7 @@ public class MainController {
         if (mazeController.hoveredTile == null) return;
 
         switch (event.getCode()) {
+            // Arrow keys
             case UP:
                 if (mazeController.hoveredTile.row == 0)
                     return;
@@ -151,6 +154,7 @@ public class MainController {
                     return;
                 mazeController.hoveredWall = WallDirection.LEFT;
                 break;
+            // Del key
             case DELETE:
                 mazeController.removeWall(mazeController.hoveredTile, mazeController.hoveredWall);
                 break;
@@ -165,11 +169,17 @@ public class MainController {
     private void MazeButtonSolveOnAction(){
         if (mazeController.isGenerating) return;
 
+        // Get the selected solve mode from the radio buttons group
         GenerationMode solveMode = Helpers.getSelectedUserData(MazeSolverModeGroup);
+        // If there isn't any solve mode selected, stop the function
         if (solveMode == null) return;
 
-        Toggle selectedSolverAlgorithm = MazeSolverGroup.getSelectedToggle();
+        // Get the selected solver algorithm from the radio buttons group
+        SolveAlgorithms selectedSolverAlgorithm = Helpers.getSelectedUserData(MazeSolverGroup);
+        // If there isn't selected solver algorithm, stop function
+        // if (selectedSolverAlgorithm == null) return;
 
+        // If there's a maze
         if (mazeController.maze != null){
             mazeController.isGenerating = true;
             
@@ -182,9 +192,15 @@ public class MainController {
                         solverAlgorithm.step();
                     }
                     mazeController.renderMaze();
+                    mazeController.isGenerating = false;
+                    LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
+                    LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
                     break;
 
                 case GenerationMode.STEP:
+                    SpinnerText spinner = new SpinnerText(4);
+                    LabelGenerationStatus.setText(spinner.getCurrentFrame());
+
                     AnimationTimer timer = new AnimationTimer() {
                         private long lastUpdate = 0;
                         
@@ -192,12 +208,17 @@ public class MainController {
                         public void handle(long now) {
                             if (now - lastUpdate >= mazeController.getFPS(SpinnerGenerationSpeed.getValue())) {
                                 lastUpdate = now;
+
                                 LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
+                                LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
                                 boolean done = solverAlgorithm.step();
                                 mazeController.renderMaze();
+                                spinner.nextFrame();
+                                LabelGenerationStatus.setText(spinner.getCurrentFrame());
                                 if (done){
                                     stop();
                                     mazeController.isGenerating = false;
+                                    LabelGenerationStatus.setText("Traitement terminée");
                                 } 
                             }
                         }
@@ -208,7 +229,6 @@ public class MainController {
                 default:
                     break;
             }
-
         }
     }
 }
