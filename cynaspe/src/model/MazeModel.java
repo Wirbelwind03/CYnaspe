@@ -29,12 +29,12 @@ public class MazeModel {
     /**
      * Construct a maze with a 2d array of TileModel
      * @param tiles
-     * 
+     * The 2D array of tile we want to create the maze from
      */
     public MazeModel(TileModel[][] tiles){
         this.tiles = tiles;
         this.numRows = tiles.length;
-        this.numCols = (tiles.length > 0) ? tiles[0].length : 0;
+        this.numCols = (tiles.length > 0) ? tiles[0].length : 0; // Check if there are row before getting the number of columns
     }
 
     /**
@@ -44,9 +44,13 @@ public class MazeModel {
      */
     private TileModel[][] ConstructGrid(){
         TileModel[][] tiles = new TileModel[numRows][];
+        // For each row
         for (int row = 0; row < numRows; row++){
+            // Assign columns to the row
             tiles[row] = new TileModel[numCols];
+            // For each column
             for (int column = 0; column < numCols; column++){
+                // Create the tile
                 tiles[row][column] = new TileModel(row, column);
             }
         }
@@ -80,7 +84,19 @@ public class MazeModel {
         return edges;
     }
 
+    /**
+     * Get a tile from the maze
+     * @param row
+     * The row we want to get the tile from
+     * @param column
+     * The column we want to get the tile from
+     * @return
+     * A TileModel if it was inside the maze
+     */
     public TileModel getTile(int row, int column){
+        if (!isInsideMaze(row, column)){
+            throw new IndexOutOfBoundsException("Invalid tile position: (" + row + ", " + column + ")");
+        }
         return tiles[row][column];
     }
 
@@ -89,25 +105,28 @@ public class MazeModel {
      * @param tile
      * The tile which we want to get the neighbor
      * @param direction
-     * The direction the neighbor is going to be get
+     * The direction to get the neighbor
      * @return
-     * The neighbor tile
+     * A TileModel that represent the neighbor of the tile entered in argument
+     * Null otherwise
      */
     public TileModel getNeighbor(TileModel tile, WallDirection direction) {
         int newRow = tile.row;
         int newCol = tile.column;
 
         switch (direction) {
-            case TOP:    newRow--; break;
-            case BOTTOM: newRow++; break;
-            case LEFT:   newCol--; break;
-            case RIGHT:  newCol++; break;
+            case TOP:    newRow--; break; // Move up
+            case BOTTOM: newRow++; break; // Move down
+            case LEFT:   newCol--; break; // Move left
+            case RIGHT:  newCol++; break; // Move right
         }
 
-        //
+        // Check if the new position is inside the maze
         if (isInsideMaze(newRow, newCol)) {
+            // Return the neighbor tile
             return tiles[newRow][newCol];
         }
+        // Otherwise, return null
         return null;
     }
 
@@ -161,26 +180,41 @@ public class MazeModel {
         }
     }
 
+    /**
+     * Get all the neighbor accessible (aka that doesn't have a wall between them) from the tile entered in argument
+     * @param tile
+     * The tile we want to get the accessible neighbors
+     * @return
+     * A List<TileModel> of the accessible neighbors of the tile entered as argument
+     */
     public List<TileModel> getAccessibleNeighbors(TileModel tile) {
         List<TileModel> neighbors = new ArrayList<>();
+        // Get the position of the argument tile
         int r = tile.row;
         int c = tile.column;
 
-        if (r > 0) {
+        // Check top
+        if (r > 0) { // Check if it's not the top row
             TileModel up = tiles[r - 1][c];
-            if (!tile.hasWallWith(up)) neighbors.add(up);
+            if (!tile.hasWallWith(up)) neighbors.add(up); // If there isn't a wall at the top, the neighbor is accessible
         }
-        if (r < numRows - 1) {
+
+        // Check bottom
+        if (r < numRows - 1) { // Check if it's not the bottom row
             TileModel down = tiles[r + 1][c];
-            if (!tile.hasWallWith(down)) neighbors.add(down);
+            if (!tile.hasWallWith(down)) neighbors.add(down); // If there isn't a wall at the bottom, the neighbor is accessible
         }
-        if (c > 0) {
+
+        // Check left
+        if (c > 0) { // Check if it's not the left column
             TileModel left = tiles[r][c - 1];
-            if (!tile.hasWallWith(left)) neighbors.add(left);
+            if (!tile.hasWallWith(left)) neighbors.add(left); // If there isn't a wall at the left, the neighbor is accessible
         }
-        if (c < numCols - 1) {
+
+        // Check right
+        if (c < numCols - 1) { // Check if it's not the right column
             TileModel right = tiles[r][c + 1];
-            if (!tile.hasWallWith(right)) neighbors.add(right);
+            if (!tile.hasWallWith(right)) neighbors.add(right); // If there isn't a wall at the right, the neighbor is accessible
         }
 
         return neighbors;
