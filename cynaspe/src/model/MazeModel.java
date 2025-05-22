@@ -25,6 +25,18 @@ public class MazeModel {
         tiles = ConstructGrid();
     }
 
+
+    /**
+     * Construct a maze with a 2d array of TileModel
+     * @param tiles
+     * 
+     */
+    public MazeModel(TileModel[][] tiles){
+        this.tiles = tiles;
+        this.numRows = tiles.length;
+        this.numCols = (tiles.length > 0) ? tiles[0].length : 0;
+    }
+
     /**
      * Construct the grid by putting a TileModel in each row and column
      * @return
