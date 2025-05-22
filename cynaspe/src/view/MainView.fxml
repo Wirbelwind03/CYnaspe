@@ -37,7 +37,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Canvas fx:id="mazeCanvas" height="200.0" onKeyPressed="#onMazeCanvasKeyPressed" onMouseClicked="#onMazeCanvasClicked" onMouseEntered="#onMazeCanvasEntered" onMouseExited="#onMazeCanvasMouseExited" onMouseMoved="#onMazeCanvasMouseMoved" width="200.0" GridPane.columnIndex="1" />
+            <Canvas fx:id="mazeCanvas" height="200.0" onKeyPressed="#onMazeCanvasKeyPressed" onMouseClicked="#onMazeCanvasClicked" onMouseEntered="#onMazeCanvasEntered" onMouseExited="#onMazeCanvasMouseExited" onMouseMoved="#onMazeCanvasMouseMoved" width="200.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Canvas>
             <GridPane style="-fx-border-color: black; -fx-border-width: 0 1 0 0;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
