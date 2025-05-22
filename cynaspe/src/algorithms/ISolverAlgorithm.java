@@ -5,4 +5,5 @@ public interface ISolverAlgorithm {
     public int getVisitedCount();
     public int getPathCount();
     public boolean isComplete();
+    public long getExecutionTime();
 }

@@ -18,10 +18,14 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
         TileModel start = mazeController.getStartTile();
         queue.add(start);
         visited.add(start);
+
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public boolean step() {
+        endTime = System.currentTimeMillis();
+
         // Trace the path
         if (isFinished && pathStep != null) {
             pathStep.status = TileStatus.PATH;
@@ -73,5 +77,10 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
     @Override
     public boolean isComplete() {
         return isFinished && pathStep == null;
+    }
+
+    @Override
+    public long getExecutionTime(){
+        return isFinished ? (endTime - startTime) : 0;
     }
 }

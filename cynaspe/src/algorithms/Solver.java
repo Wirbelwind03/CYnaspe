@@ -22,4 +22,7 @@ public abstract class Solver {
     protected TileModel pathStep = null;
     // How many path tile there are
     protected int pathCount = 0;
+
+    protected long startTime = 0;
+    protected long endTime = 0;
 }

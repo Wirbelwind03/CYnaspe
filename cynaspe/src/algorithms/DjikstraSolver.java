@@ -36,10 +36,14 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
         TileModel start = mazeController.getStartTile();
         distance.put(start, 0);
         queue.add(start);
+
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public boolean step(){
+        endTime = System.currentTimeMillis();
+
         if (!isFinished) {
             if (!queue.isEmpty()) {
                 TileModel current = queue.poll();
@@ -113,5 +117,8 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
         return isFinished && !pathTracing && pathStep == null;
     }
 
-    
+    @Override
+    public long getExecutionTime(){
+        return isFinished ? (endTime - startTime) : 0;
+    }
 }
