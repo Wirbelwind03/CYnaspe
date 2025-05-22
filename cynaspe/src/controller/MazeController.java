@@ -17,7 +17,7 @@ import utils.Helpers;
 import utils.KruskalMazeGenerator;
 import utils.SpinnerText;
 
-public class MazeController {
+public class MazeController extends Controller {
     public MazeModel maze;
     private Canvas mazeCanvas;
     private GraphicsContext gc;
@@ -40,66 +40,15 @@ public class MazeController {
         this.mazeCanvas.heightProperty().bind(cell.heightProperty());
     }
 
-    /**
-     * Create the maze 
-     */
-    public void constructMaze(MazeConfigurationController mazeConfigurationController, Label LabelGenerationStatus, Spinner<Integer> spinnerGenerationSpeed){
-        maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
-        // Use Kruskal algorithm to generate the maze
-        KruskalMazeGenerator generator = new KruskalMazeGenerator(maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
-
-        isGenerating = true;
-        // Show the maze generation depending on the mode
-        switch (mazeConfigurationController.getGenerationMode()) {
-            case GenerationMode.COMPLETE:
-                // instant
-                while (!generator.isComplete()){
-                    generator.step();
-                }
-                renderMaze();
-                isGenerating = false;
-                break;
-
-            case GenerationMode.STEP:
-                SpinnerText spinner = new SpinnerText(4);
-                LabelGenerationStatus.setText(spinner.getCurrentFrame());
-                
-                AnimationTimer timer = new AnimationTimer() {
-                    private long lastUpdate = 0;
-
-                    @Override
-                    public void handle(long now) {
-                        
-                        if (now - lastUpdate >= getFPS(spinnerGenerationSpeed.getValue())) {
-                            lastUpdate = now;
-
-                            if (!generator.isComplete()) {
-                                generator.step();
-                                renderMaze();
-                                spinner.nextFrame();
-                                LabelGenerationStatus.setText(spinner.nextFrame());
-                            } else {
-                                stop();
-                                isGenerating = false;
-                                LabelGenerationStatus.setText("Génération terminée");
-                            }
-                        }
-                    }
-                };
-
-                timer.start();
-                break;
-        
-            
-            default:
-                break;
-        }
+    public void setMaze(MazeModel maze){
+        this.maze = maze;
+        renderMaze(false);
     }
 
     /**
      * Render the maze on the canvas
      */
-    public void renderMaze(){
+    public void renderMaze(boolean isGenerating){
         // Clear the entire canvas
         double width = mazeCanvas.getWidth();
         double height = mazeCanvas.getHeight();
@@ -123,7 +72,7 @@ public class MazeController {
                 else if (row == maze.numRows - 1 && column == maze.numCols - 1)
                     color = Color.RED;
                 // Draw the other tiles
-                else if (!tile.isVisited)
+                else if (!tile.isVisited && isGenerating)
                     color = Color.GREY;
                 else if (tile.status == TileStatus.PATH)
                     color = Color.YELLOW;
@@ -217,9 +166,5 @@ public class MazeController {
 
     public void removeWall(TileModel tile, WallDirection wallDirection){
         maze.removeWall(tile, wallDirection);
-    }
-
-    public long getFPS(int fps){
-        return Helpers.fpsToNanos(fps);
     }
 }
