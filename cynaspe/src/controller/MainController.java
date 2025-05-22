@@ -64,6 +64,7 @@ public class MainController extends Controller {
     @FXML private Label LabelVisitedTiles; // Label showing the number of tiles visited
     @FXML private Label LabelGenerationTime; // Label showing the maze solving generation time
 
+    @FXML private MenuItem MenuItemMazeLoad;
     @FXML private MenuItem MenuItemMazeSave;
 
     @FXML
@@ -118,8 +119,6 @@ public class MainController extends Controller {
         // If the dialog has the result OK, create the maze
         if (mazeConfigurationController.dialogResult == DialogResult.OK){
             constructMaze(mazeConfigurationController);
-            // Activate this menu item so the maze can saved
-            MenuItemMazeSave.setDisable(false);
         }
     }
 
@@ -321,6 +320,12 @@ public class MainController extends Controller {
         // Use Kruskal algorithm to generate the maze
         KruskalMazeGenerator generator = new KruskalMazeGenerator(mazeController.maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
 
+        // Desactivate these menu items
+        // The user shouldn't be able to load a maze during the generation
+        MenuItemMazeLoad.setDisable(true);
+        // The user shouldn't be able to save a unfinished maze
+        MenuItemMazeSave.setDisable(true);
+
         mazeController.isGenerating = true;
         // Show the maze generation depending on the mode
         switch (mazeConfigurationController.getGenerationMode()) {
@@ -331,6 +336,9 @@ public class MainController extends Controller {
                 }
                 mazeController.renderMaze(false);
                 mazeController.isGenerating = false;
+                MenuItemMazeLoad.setDisable(false);
+                // Activate this menu item so the maze can saved
+                MenuItemMazeSave.setDisable(false);
                 break;
 
             case GenerationMode.STEP:
@@ -365,6 +373,10 @@ public class MainController extends Controller {
                                 if (selectedSolverMode != null && selectedSolverAlgorithms != null){
                                     MazeButtonSolve.setDisable(false);
                                 }
+                                
+                                MenuItemMazeLoad.setDisable(false);
+                                // Activate this menu item so the maze can saved
+                                MenuItemMazeSave.setDisable(false);
                             }
                         }
                     }
@@ -459,5 +471,6 @@ public class MainController extends Controller {
     private void updateSolverLabels(){
         LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
         LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
+        LabelGenerationTime.setText(String.format("Temps de génération : %d ms", solverAlgorithm.getExecutionTime()));
     }
 }
