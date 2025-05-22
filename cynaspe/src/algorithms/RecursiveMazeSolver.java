@@ -1,20 +1,21 @@
-package solver;
+package algorithms;
 
+import controller.MazeController;
+import enums.TileStatus;
 import model.MazeModel;
 import model.TileModel;
 
 public class RecursiveMazeSolver {
 
-    private MazeModel maze;
-    private boolean solutionTrouvee = false;
+    private MazeController mazeController;
 
-    public RecursiveMazeSolver(MazeModel maze) {
-        this.maze = maze;
+    public RecursiveMazeSolver(MazeController mazeController) {
+        this.mazeController = mazeController;
     }
 
     public boolean solve() {
-        TileModel start = maze.getStartTile();
-        TileModel end = maze.getEndTile();
+        TileModel start = mazeController.getStartTile();
+        TileModel end = mazeController.getEndTile();
         return explore(start, end);
     }
 
@@ -24,14 +25,13 @@ public class RecursiveMazeSolver {
         current.isVisited = true;
 
         if (current.equals(end)) {
-            current.setAsPath();
-            solutionTrouvee = true;
+            current.status = TileStatus.PATH;
             return true;
         }
 
-        for (TileModel voisin : maze.getVoisinsAccessibles(current)) {
+        for (TileModel voisin : mazeController.maze.getAccessibleNeighbors(current)) {
             if (explore(voisin, end)) {
-                current.setAsPath(); // marquer le chemin au retour
+                current.status = TileStatus.PATH;
                 return true;
             }
         }
