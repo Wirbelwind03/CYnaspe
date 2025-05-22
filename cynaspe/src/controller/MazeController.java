@@ -36,6 +36,14 @@ public class MazeController extends Controller {
         renderMaze(false);
     }
 
+    public boolean hasMaze(){
+        return maze != null;
+    }
+
+    public TileModel getTile(int row, int column){
+        return maze.getTile(row, column);
+    }
+
     /**
      * Render the maze on the canvas
      */
@@ -145,6 +153,13 @@ public class MazeController extends Controller {
 
     public TileModel getEndTile(){
         return maze.tiles[maze.numRows - 1][maze.numCols - 1];
+    }
+
+    /**
+     * Reset all the tiles to unvisited
+     */
+    public void resetTileStatus(){
+        maze.resetTileStatus();
     }
 
     public boolean isInsideMaze(int row, int column){

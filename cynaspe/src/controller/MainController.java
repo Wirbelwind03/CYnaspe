@@ -43,19 +43,21 @@ public class MainController extends Controller {
     private GenerationMode selectedSolverMode = null;
     private SolveAlgorithms selectedSolverAlgorithms = null;
 
-    @FXML private Spinner<Integer> SpinnerGenerationSpeed;
-    @FXML private Label LabelGenerationStatus;
+    @FXML private Spinner<Integer> SpinnerGenerationSpeed; // Spinner that change the speed of the generation or the solve
+    @FXML private Label LabelGenerationStatus; // Label that show the generation or solve status
 
     @FXML private Canvas mazeCanvas; // Canvas for rendering the maze
 
-    @FXML private ToggleGroup MazeSolverGroup; // Radio buttons group for the maze solving algorithm
+    // Radio buttons group for the maze solving algorithm
+    @FXML private ToggleGroup MazeSolverGroup; 
     @FXML private RadioButton RadioButtonMazeSolverDFS;
     @FXML private RadioButton RadioButtonMazeSolverBFS;
     @FXML private RadioButton RadioButtonMazeSolverDjisktra;
-    
-    @FXML private ToggleGroup MazeSolverModeGroup; // Radio buttons group for the solving mode 
+    // Radio buttons group for the solving mode 
+    @FXML private ToggleGroup MazeSolverModeGroup; 
     @FXML private RadioButton RadioButtonMazeSolverModeComplete;
     @FXML private RadioButton RadioButtonMazeSolverModeStep;
+
     @FXML private Button MazeButtonSolve; // "Résoudre" button
 
     @FXML private Label LabelPath; // Label showing the number of path tiles 
@@ -83,7 +85,7 @@ public class MainController extends Controller {
         RadioButtonMazeSolverDjisktra.setUserData(SolveAlgorithms.DJIKSTRA);
         MazeSolverGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             selectedSolverAlgorithms = Helpers.getSelectedUserData(MazeSolverGroup);
-            if (selectedSolverMode != null && mazeController.maze != null){
+            if (selectedSolverMode != null && mazeController.hasMaze() && !mazeController.isGenerating){
                 MazeButtonSolve.setDisable(newToggle == null);
             }
         });
@@ -92,7 +94,7 @@ public class MainController extends Controller {
         RadioButtonMazeSolverModeStep.setUserData(GenerationMode.STEP);
         MazeSolverModeGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             selectedSolverMode = Helpers.getSelectedUserData(MazeSolverModeGroup);
-            if (selectedSolverAlgorithms != null && mazeController.maze != null) {
+            if (selectedSolverAlgorithms != null && mazeController.hasMaze() && !mazeController.isGenerating) {
                 MazeButtonSolve.setDisable(newToggle == null);
             }
         });
@@ -116,21 +118,36 @@ public class MainController extends Controller {
         // If the dialog has the result OK, create the maze
         if (mazeConfigurationController.dialogResult == DialogResult.OK){
             constructMaze(mazeConfigurationController);
+            // Activate this menu item so the maze can saved
             MenuItemMazeSave.setDisable(false);
         }
     }
 
+    //#region MazeCanvas events
+
+    /**
+     * When the user mouse hover over the MazeCanvas
+     * @param event
+     * The mouse hovering over
+     */
     @FXML
     private void onMazeCanvasEntered(MouseEvent event){
         mazeCanvas.requestFocus();
     }
 
+    /**
+     * When the user mouse click on the MazeCanvas
+     * @param event
+     * The mouse that has clicked
+     */
     @FXML
     private void onMazeCanvasClicked(MouseEvent event) {
-        if (mazeController.isGenerating || mazeController.maze == null || mazeController.hoveredTile == null) return;
+        if (mazeController.isGenerating || !mazeController.hasMaze() || mazeController.hoveredTile == null) return;
         
+        // Add a wall with the direction the user want
         mazeController.addWall(mazeController.hoveredTile, mazeController.hoveredWall);
 
+        // Render the maze with the new added wall
         mazeController.renderMaze(false);
     }
 
@@ -141,7 +158,7 @@ public class MainController extends Controller {
      */
     @FXML
     private void onMazeCanvasMouseMoved(MouseEvent event) {
-        if (mazeController.isGenerating || mazeController.maze == null) return;
+        if (mazeController.isGenerating || !mazeController.hasMaze()) return;
     
         // Get the position of the mouse
         double x = event.getX();
@@ -156,7 +173,7 @@ public class MainController extends Controller {
     
         // Assign the hovered tile by getting the tile where the mouse is
         if (mazeController.isInsideMaze(row, column)) {
-            mazeController.hoveredTile = mazeController.maze.getTile(row, column); 
+            mazeController.hoveredTile = mazeController.getTile(row, column); 
         }
     }
 
@@ -177,26 +194,30 @@ public class MainController extends Controller {
      */
     @FXML
     private void onMazeCanvasKeyPressed(KeyEvent event){
-        if (mazeController.isGenerating || mazeController.maze == null || mazeController.hoveredTile == null) return;
+        if (mazeController.isGenerating || !mazeController.hasMaze() || mazeController.hoveredTile == null) return;
 
         switch (event.getCode()) {
-            // Arrow keys
+            // ZQSD keys
             case Z:
+                // If the user is at the top border
                 if (mazeController.hoveredTile.row == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.TOP;
                 break;
             case D:
+                // If the user is at the right border
                 if (mazeController.hoveredTile.column == mazeController.maze.numCols - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.RIGHT;
                 break;
             case S:
+                // If the user is at the bottom border
                 if (mazeController.hoveredTile.row == mazeController.maze.numRows - 1)
                     return;
                 mazeController.hoveredWall = WallDirection.BOTTOM;
                 break;
             case Q:
+                // If the user is at the left border
                 if (mazeController.hoveredTile.column == 0)
                     return;
                 mazeController.hoveredWall = WallDirection.LEFT;
@@ -209,47 +230,82 @@ public class MainController extends Controller {
                 return;
         }
 
+        // Render the wall that is going to be added
         mazeController.renderMaze(false);
     }
 
+    //#endregion
 
-@FXML
-    private void MenuItemChargerOnAction(ActionEvent event) throws Exception{
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Charger un labyrinthe");
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Fichier labyrinthe", "*.maze")
-        );
-        File file = fileChooser.showOpenDialog(primaryStage);
-        if (file != null){
-            MazeModel maze = MazeReader.read(file);
-            mazeController.setMaze(maze);
-            MenuItemMazeSave.setDisable(false);
-        }
-    }
+    //#region MenuItem
 
+    /**
+     * When the user click on the MenuItem "Charger"
+     * @param event
+     * The action done on the menuItem
+     */
     @FXML
-    private void MenuItemSauvegarderOnAction(ActionEvent event) throws Exception{
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Sauvegarder un labyrinthe");
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Fichier labyrinthe", "*.maze")
-        );
-        File file = fileChooser.showSaveDialog(primaryStage);
-        if (file != null){
-            MazeWriter.write(mazeController.maze, file);
+    private void MenuItemChargerOnAction(ActionEvent event) {
+        try {
+            File file = fileDialogForMazeFile("Charger un labyrinthe", false);
+            // If a file has been opened
+            if (file != null){
+                // Read the maze file and set it on the mazeController
+                MazeModel maze = MazeReader.read(file);
+                mazeController.setMaze(maze);
+                // Activate the menu item to save a maze
+                MenuItemMazeSave.setDisable(false);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * When the user click on the MenuItem "Sauvegarder"
+     * @param event
+     * The action done on the menuItem 
+     */
+    @FXML
+    private void MenuItemSauvegarderOnAction(ActionEvent event){
+        try {
+            File file = fileDialogForMazeFile("Sauvegarder un labyrinthe", true);
+            if (file != null) {
+                // Write the maze to the file
+                MazeWriter.write(mazeController.maze, file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    /**
+     * Open a file dialog, used for actions tied to the maze file
+     * @param title
+     * The title of the file dialog
+     * @param saveMode
+     * True if the user is saving a maze file, False if the user is opening a maze file
+     * @return
+     * File that has been opened
+     */
+    private File fileDialogForMazeFile(String title, boolean saveMode) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier labyrinthe", "*.maze"));
+        return saveMode ? fileChooser.showSaveDialog(primaryStage) : fileChooser.showOpenDialog(primaryStage);
+    }
+
+    //#endregion
 
     /**
      * When the user click on the "Résoudre" button
      */
     @FXML
     private void MazeButtonSolveOnAction(){
-        if (mazeController.isGenerating 
-        || selectedSolverMode == null 
-        || selectedSolverAlgorithms == null
-        || mazeController.maze == null) 
+        if (mazeController.isGenerating  // If the maze is still generating
+        || selectedSolverMode == null // If there's not a solving mode selected
+        || selectedSolverAlgorithms == null // If there's not a solving algorithm selected
+        || !mazeController.hasMaze())  // If there's not maze on the mazeController
             return;
 
         solveMaze();
@@ -278,9 +334,11 @@ public class MainController extends Controller {
                 break;
 
             case GenerationMode.STEP:
+                // Show the spinner text
                 SpinnerText spinner = new SpinnerText(4);
                 LabelGenerationStatus.setText(spinner.getCurrentFrame());
                 
+                // Start the animation
                 AnimationTimer timer = new AnimationTimer() {
                     private long lastUpdate = 0;
 
@@ -291,14 +349,22 @@ public class MainController extends Controller {
                             lastUpdate = now;
 
                             if (!generator.isComplete()) {
+                                // Show each step of the algorithm
                                 generator.step();
                                 mazeController.renderMaze(true);
-                                spinner.nextFrame();
+                                // Show the next frame (aka character) of the spinner text
+                                // Update the label that show the spinner text
                                 LabelGenerationStatus.setText(spinner.nextFrame());
                             } else {
+                                // When the algorithm has finished
                                 stop();
                                 mazeController.isGenerating = false;
                                 LabelGenerationStatus.setText("Génération terminée");
+                                // If there has been a solver mode and solver algorithm selected during the generation
+                                // Activate this button
+                                if (selectedSolverMode != null && selectedSolverAlgorithms != null){
+                                    MazeButtonSolve.setDisable(false);
+                                }
                             }
                         }
                     }
@@ -319,8 +385,8 @@ public class MainController extends Controller {
     private void solveMaze(){
         mazeController.isGenerating = true;
         
-        mazeController.maze.resetTileStatus();
-        
+        mazeController.resetTileStatus();
+        MazeButtonSolve.setDisable(true);
 
         switch (selectedSolverAlgorithms) {
             case SolveAlgorithms.DFS:
@@ -346,9 +412,7 @@ public class MainController extends Controller {
                         solverAlgorithm.step();
                     }
                     mazeController.renderMaze(false);
-                    mazeController.isGenerating = false;
-                    LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
-                    LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
+                    finishedSolving();
                     break;
     
                 case GenerationMode.STEP:
@@ -363,16 +427,14 @@ public class MainController extends Controller {
                             if (now - lastUpdate >= Helpers.fpsToNanos(SpinnerGenerationSpeed.getValue())) {
                                 lastUpdate = now;
     
-                                LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
-                                LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
                                 boolean done = solverAlgorithm.step();
                                 mazeController.renderMaze(false);
+                                updateSolverLabels();
                                 spinner.nextFrame();
                                 LabelGenerationStatus.setText(spinner.getCurrentFrame());
                                 if (done){
                                     stop();
-                                    mazeController.isGenerating = false;
-                                    LabelGenerationStatus.setText("Traitement terminée");
+                                    finishedSolving();
                                 } 
                             }
                         }
@@ -385,5 +447,17 @@ public class MainController extends Controller {
             }
         }
         
+    }
+
+    private void finishedSolving(){
+        mazeController.isGenerating = false;
+        updateSolverLabels();
+        LabelGenerationStatus.setText("Traitement terminée");
+        MazeButtonSolve.setDisable(false);
+    }
+
+    private void updateSolverLabels(){
+        LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
+        LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
     }
 }

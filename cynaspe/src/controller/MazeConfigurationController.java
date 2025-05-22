@@ -74,7 +74,7 @@ public class MazeConfigurationController extends Controller {
     }
 
     /**
-     * Get the seed of the maze
+     * Get the seed of the maze from the TextField
      * @return
      * The seed of the maze
      */
@@ -83,7 +83,7 @@ public class MazeConfigurationController extends Controller {
     }
 
     /**
-     * Get the number of rows of the maze
+     * Get the number of rows of the maze from the Spinner
      * @return
      * The number of rows of the maze
      */
@@ -92,7 +92,7 @@ public class MazeConfigurationController extends Controller {
     }
 
     /**
-     * Get the number of columns of the maze
+     * Get the number of columns of the maze from the Spinner
      * @return
      * The number of columns of the maze
      */
