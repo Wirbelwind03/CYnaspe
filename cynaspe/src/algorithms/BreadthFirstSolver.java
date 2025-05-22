@@ -1,6 +1,5 @@
 package algorithms;
 
-import model.MazeModel;
 import model.TileModel;
 
 import java.util.*;

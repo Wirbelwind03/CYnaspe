@@ -1,21 +1,14 @@
 package controller;
 
-import enums.GenerationMode;
 import enums.TileStatus;
 import enums.WallDirection;
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 import model.MazeModel;
 import model.TileModel;
-import utils.Helpers;
-import utils.KruskalMazeGenerator;
-import utils.SpinnerText;
 
 public class MazeController extends Controller {
     public MazeModel maze;
@@ -26,8 +19,6 @@ public class MazeController extends Controller {
 
     public TileModel hoveredTile = null;
     public WallDirection hoveredWall = WallDirection.RIGHT;
-
-    private int dotCount = 0;
 
     public MazeController(Canvas mazeCanvas) {
         this.mazeCanvas = mazeCanvas;
