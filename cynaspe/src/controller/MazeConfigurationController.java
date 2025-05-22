@@ -46,11 +46,11 @@ public class MazeConfigurationController {
 
         SpinnerValueFactory<Integer> mazeRowsValueFactory =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(2,256);
-        mazeRowsValueFactory.setValue(2);
+        mazeRowsValueFactory.setValue(16);
 
         SpinnerValueFactory<Integer> mazeColsValueFactory =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(2,256);
-        mazeColsValueFactory.setValue(2);
+        mazeColsValueFactory.setValue(16);
 
         SpinnerNumCols.setValueFactory(mazeColsValueFactory);
         SpinnerNumRows.setValueFactory(mazeRowsValueFactory);
