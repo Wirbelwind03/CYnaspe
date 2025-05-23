@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import controller.MazeConfigurationController;
 import enums.MazeType;
 import model.EdgeModel;
 import model.MazeModel;
@@ -29,7 +28,7 @@ public class KruskalMazeGenerator {
      * @param mazeType
      * The type of maze (PERFECT or IMPERFECT)
      */
-    public  KruskalMazeGenerator(MazeModel maze, MazeConfigurationController mazeConfigurationController, MazeType mazeType){
+    public  KruskalMazeGenerator(MazeModel maze, int seed, MazeType mazeType){
         // Set the maze type
         this.mazeType = mazeType;
 
@@ -38,7 +37,7 @@ public class KruskalMazeGenerator {
         edges = maze.getEdges();
         // Shuffle the edges randomly for random maze structure
         // Seed for re-creating a maze
-        Collections.shuffle(edges, new Random(mazeConfigurationController.getMazeSeed()));
+        Collections.shuffle(edges, new Random(seed));
 
         for (TileModel[] row : maze.tiles){
             for (TileModel tile: row){
