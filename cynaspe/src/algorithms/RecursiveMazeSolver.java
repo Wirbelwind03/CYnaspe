@@ -1,3 +1,5 @@
+package algorithms;
+
 import java.util.Stack;
 
 import controller.MazeController;
@@ -37,19 +39,21 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
 
                 for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
                     if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    stack.push(neighbor);
-                    parentMap.put(neighbor, current);
-                    neighbor.status = TileStatus.VISITED;
+                        visited.add(neighbor);
+                        stack.push(neighbor);
+                        parentMap.put(neighbor, current);
+                        neighbor.status = TileStatus.VISITED;
                     }
                 }
+
                 return false;
             }
+
             // No path found
             isFinished = true;
             return true;
         }
-        
+
         return true;
     }
 
@@ -69,7 +73,7 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
     }
 
     @Override
-    public long getExecutionTime() {
+    public long getExecutionTime(){
         return isFinished ? (endTime - startTime) : 0;
     }
 }
