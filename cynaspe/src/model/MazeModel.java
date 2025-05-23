@@ -222,4 +222,68 @@ public class MazeModel {
 
         return neighbors;
     }
+
+    /**
+     * Get the start tile of the maze
+     * @return
+     * A TileModel that represent the start tile
+     */
+    public TileModel getStartTile(){
+        return tiles[0][0];
+    }
+
+    /**
+     * Get the end tile of the maze
+     * @return
+     * A TileModel that represent the end tile
+     */
+    public TileModel getEndTile(){
+        return tiles[numRows - 1][numCols - 1];
+    }
+
+    public void renderMazeConsole(){
+        for (int row = 0; row < numRows; row++) {
+            /// Print each wall direction
+            /// Example of a tile with all walls
+            /// +---+
+            /// |   |
+            /// +---+
+
+            // Print top wall for each tile in the row
+            for (int col = 0; col < numCols; col++) {
+                TileModel tile = getTile(row, col);
+                System.out.print("+");
+                System.out.print(tile.isWallPresent(WallDirection.TOP) ? "---" : "   ");
+            }
+            System.out.println("+"); // Print the last corner and jump to the next line
+
+            // Print left wall and the content of tile
+            for (int col = 0; col < numCols; col++) {
+                TileModel tile = getTile(row, col);
+                System.out.print(tile.isWallPresent(WallDirection.LEFT) ? "|" : " ");
+                if (tile.status == TileStatus.PATH) {
+                    System.out.print(" # ");
+                } 
+                else if (tile.status == TileStatus.VISITED){
+                    System.out.print(" o ");
+                }
+                else {
+                    System.out.print("   ");
+                }
+            }
+            // Right wall of the last tile
+            TileModel lastTile = getTile(row, numCols - 1);
+            System.out.println(lastTile.isWallPresent(WallDirection.RIGHT) ? "|" : " ");
+
+            // Print bottom walls at the end
+            if (row == numRows - 1) {
+                for (int col = 0; col < numCols; col++) {
+                    TileModel tile = getTile(row, col);
+                    System.out.print("+");
+                    System.out.print(tile.isWallPresent(WallDirection.BOTTOM) ? "---" : "   ");
+                }
+                System.out.println("+");
+            }
+        }
+    }
 }
