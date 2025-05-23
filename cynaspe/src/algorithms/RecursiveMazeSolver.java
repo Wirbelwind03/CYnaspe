@@ -16,6 +16,8 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
         TileModel start = maze.getStartTile();
         stack.push(start);
         visited.add(start);
+
+        startTime = System.currentTimeMillis();
     }
 
     @Override
