@@ -4,6 +4,7 @@ import enums.WallDirection;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import model.TileModel;
 
 public class MazeCanvasController {
     private final MazeController mazeController;
@@ -60,7 +61,15 @@ public class MazeCanvasController {
     
         // Assign the hovered tile by getting the tile where the mouse is
         if (mazeController.isInsideMaze(row, column)) {
-            mazeController.hoveredTile = mazeController.getTile(row, column); 
+            TileModel newHovered = mazeController.getTile(row, column);
+            // If the hovered tile is a new one
+            if (mazeController.hoveredTile == null ||
+                newHovered.row != mazeController.hoveredTile.row ||
+                newHovered.column != mazeController.hoveredTile.column) {
+                // Assign it and render the maze, so the hovered tile is shown
+                mazeController.hoveredTile = newHovered;
+                mazeController.renderMaze(false);
+            }
         }
     }
 
@@ -100,7 +109,9 @@ public class MazeCanvasController {
                 break;
             // Del key
             case DELETE:
-                mazeController.removeWall(mazeController.hoveredTile, mazeController.hoveredWall);
+                if (mazeController.hoveredWall != null) {
+                    mazeController.removeWall(mazeController.hoveredTile, mazeController.hoveredWall);
+                }
                 break;
             default:
                 return;

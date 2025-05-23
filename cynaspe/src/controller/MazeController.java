@@ -79,6 +79,9 @@ public class MazeController extends Controller {
                 // Draw the end tile
                 else if (row == maze.numRows - 1 && column == maze.numCols - 1)
                     color = Color.RED;
+                // Draw the hovered tile
+                else if (hoveredTile != null && row == hoveredTile.row && column == hoveredTile.column)
+                    color = Color.LIGHTGRAY;
                 // Draw the other tiles
                 else if (!tile.isVisited && isGenerating)
                     color = Color.GREY;
