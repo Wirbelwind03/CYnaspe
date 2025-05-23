@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <MenuBar prefWidth="629.0">
         <menus>
@@ -37,7 +37,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Canvas fx:id="mazeCanvas" height="200.0" onKeyPressed="#onMazeCanvasKeyPressed" onMouseClicked="#onMazeCanvasClicked" onMouseEntered="#onMazeCanvasEntered" onMouseExited="#onMazeCanvasMouseExited" onMouseMoved="#onMazeCanvasMouseMoved" width="200.0" GridPane.columnIndex="1">
+            <Canvas fx:id="mazeCanvas" height="200.0" width="200.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></Canvas>
