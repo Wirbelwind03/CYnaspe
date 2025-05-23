@@ -43,6 +43,8 @@ public class MainController extends Controller {
     private GenerationMode selectedSolverMode = null;
     private SolveAlgorithms selectedSolverAlgorithms = null;
 
+    private AnimationTimer solverTimer = null;
+
     @FXML private Spinner<Integer> SpinnerGenerationSpeed; // Spinner that change the speed of the generation or the solve
     @FXML private Label LabelGenerationStatus; // Label that show the generation or solve status
 
@@ -64,6 +66,7 @@ public class MainController extends Controller {
     @FXML private Label LabelVisitedTiles; // Label showing the number of tiles visited
     @FXML private Label LabelGenerationTime; // Label showing the maze solving generation time
 
+    @FXML private MenuItem MenuItemMazeNew;
     @FXML private MenuItem MenuItemMazeLoad;
     @FXML private MenuItem MenuItemMazeSave;
 
@@ -347,7 +350,7 @@ public class MainController extends Controller {
                 LabelGenerationStatus.setText(spinner.getCurrentFrame());
                 
                 // Start the animation
-                AnimationTimer timer = new AnimationTimer() {
+                solverTimer = new AnimationTimer() {
                     private long lastUpdate = 0;
 
                     @Override
@@ -382,7 +385,7 @@ public class MainController extends Controller {
                     }
                 };
 
-                timer.start();
+                solverTimer.start();
                 break;
         
             
@@ -401,6 +404,7 @@ public class MainController extends Controller {
         MazeButtonSolve.setDisable(true);
 
         // Desactivate these menu items
+        MenuItemMazeNew.setDisable(true);
         // The user shouldn't be able to load a maze during the generation
         MenuItemMazeLoad.setDisable(true);
         // The user shouldn't be able to save a unfinished maze
@@ -471,6 +475,7 @@ public class MainController extends Controller {
         mazeController.isGenerating = false;
         updateSolverLabels();
         LabelGenerationStatus.setText("Traitement terminée");
+        MenuItemMazeNew.setDisable(false);
         MazeButtonSolve.setDisable(false);
     }
 
