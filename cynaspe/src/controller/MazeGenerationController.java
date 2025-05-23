@@ -63,7 +63,7 @@ public class MazeGenerationController {
     public void constructMaze(MazeConfigurationController mazeConfigurationController){
         mazeController.maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
         // Use Kruskal algorithm to generate the maze
-        KruskalMazeGenerator generator = new KruskalMazeGenerator(mazeController.maze, mazeConfigurationController, mazeConfigurationController.getMazeType());
+        KruskalMazeGenerator generator = new KruskalMazeGenerator(mazeController.maze, mazeConfigurationController.getMazeSeed(), mazeConfigurationController.getMazeType());
 
         if (onGenerationStarted != null) onGenerationStarted.run();
 
