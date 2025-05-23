@@ -40,7 +40,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
 
     @Override
     public boolean step(){
-        endTime = System.currentTimeMillis();
+        
 
         if (isFinished && pathStep != null) {
             if (parentMap.containsKey(pathStep)) {
@@ -75,6 +75,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
                 // The algoritm has finished
                 if (current.equals(maze.getEndTile())) {
                     isFinished = true;
+                    endTime = System.currentTimeMillis();
                     pathStep = current;
                     // return false because we have to do the path tracing
                     return false;
@@ -102,6 +103,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
             } else {
                 // No more tiles to explore, and end not reached
                 isFinished = true;
+                endTime = System.currentTimeMillis();
                 pathStep = maze.getEndTile();
                 return false;
             }

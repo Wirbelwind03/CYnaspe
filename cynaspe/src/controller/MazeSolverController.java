@@ -161,12 +161,13 @@ public class MazeSolverController {
         mazeController.isGenerating = false;
         updateSolverLabels();
         labelStatus.setText("Traitement terminée");
+        labelTime.setText(String.format("Temps de génération : %d ms", solverAlgorithm.getExecutionTime()));
         if (onSolvingFinished != null) onSolvingFinished.run();
     }
 
     private void updateSolverLabels(){
         labelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
         labelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
-        labelTime.setText(String.format("Temps de génération : %d ms", solverAlgorithm.getExecutionTime()));
+        
     }
 }

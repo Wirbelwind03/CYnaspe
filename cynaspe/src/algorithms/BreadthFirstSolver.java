@@ -26,8 +26,6 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
     @Override
     public boolean step() {
-        endTime = System.currentTimeMillis();
-
         // If the algorithm has finished, start tracing the path starting from the end tile
         if (isFinished && pathStep != null) {
             // Mark the current tile as being the path
@@ -49,6 +47,7 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
                 // The algoritm has finished
                 if (current.equals(maze.getEndTile())) {
                     isFinished = true;
+                    endTime = System.currentTimeMillis();
                     pathStep = current;
                     // return false because we have to do the path tracing
                     return false;
@@ -74,6 +73,7 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
             // No path has been found
             isFinished = true;
+            endTime = System.currentTimeMillis();
             return true;
         }
         // End the algorithm
