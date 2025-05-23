@@ -104,6 +104,11 @@ public class MainController extends Controller {
         });
     }
 
+    /**
+     * 
+     * @param event
+     * @throws Exception
+     */
     @FXML
     private void MBMazeNew_Click(ActionEvent event) throws Exception{
         // Open the MazeConfigurationView
@@ -401,6 +406,7 @@ public class MainController extends Controller {
         mazeController.isGenerating = true;
         
         mazeController.resetTileStatus();
+        // Disable the button until the solver has finished
         MazeButtonSolve.setDisable(true);
 
         // Desactivate these menu items
@@ -448,12 +454,13 @@ public class MainController extends Controller {
                         public void handle(long now) {
                             if (now - lastUpdate >= Helpers.fpsToNanos(SpinnerGenerationSpeed.getValue())) {
                                 lastUpdate = now;
-    
+                                // Jump to the next step of the algorithm
                                 boolean done = solverAlgorithm.step();
                                 mazeController.renderMaze(false);
                                 updateSolverLabels();
-                                spinner.nextFrame();
-                                LabelGenerationStatus.setText(spinner.getCurrentFrame());
+                                // Show the next frame of the spinner
+                                LabelGenerationStatus.setText(spinner.nextFrame());
+                                // If the algorithm has finished
                                 if (done){
                                     stop();
                                     finishedSolving();
@@ -471,6 +478,9 @@ public class MainController extends Controller {
         
     }
 
+    /**
+     * Update when the solver has finished
+     */
     private void finishedSolving(){
         mazeController.isGenerating = false;
         updateSolverLabels();
@@ -479,6 +489,9 @@ public class MainController extends Controller {
         MazeButtonSolve.setDisable(false);
     }
 
+    /**
+     * Update label that show information of the solve
+     */
     private void updateSolverLabels(){
         LabelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
         LabelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));

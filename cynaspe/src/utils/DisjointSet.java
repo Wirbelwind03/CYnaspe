@@ -34,8 +34,9 @@ public class DisjointSet {
     /**
      * Connect two TileModel
      * @param tile1
-     * 
+     * The first tile
      * @param tile2
+     * The second tile
      */
     public void union(TileModel tile1, TileModel tile2){
         TileModel root1 = find(tile1);
@@ -48,9 +49,11 @@ public class DisjointSet {
     /**
      * Check if two TileModel are connected
      * @param tile1
+     * The first tile
      * @param tile2
+     * The second tile
      * @return
-     * A boolean that say it the two args are connected
+     * True if the two tiles are connected, False if not
      */
     public boolean connected(TileModel tile1, TileModel tile2) {
         return find(tile1) == find(tile2);

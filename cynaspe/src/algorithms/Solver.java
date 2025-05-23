@@ -23,6 +23,8 @@ public abstract class Solver {
     // How many path tile there are
     protected int pathCount = 0;
 
+    // Used to start the timer
     protected long startTime = 0;
+    // Time taken by the algorithm
     protected long endTime = 0;
 }

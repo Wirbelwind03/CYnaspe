@@ -82,8 +82,10 @@ public class MazeController extends Controller {
                 // Draw the other tiles
                 else if (!tile.isVisited && isGenerating)
                     color = Color.GREY;
+                // Draw the path tile
                 else if (tile.status == TileStatus.PATH)
                     color = Color.YELLOW;
+                // Draw tile that has been visited
                 else if (tile.status == TileStatus.VISITED)
                     color = Color.DARKGRAY;
                 else
@@ -95,15 +97,13 @@ public class MazeController extends Controller {
     }
 
     /**
-     * Dessine une case sur un canvas
+     * Draw a tile on a canvas
      * @param tileModel
-     * La case à dessiner
-     * @param rowSize
-     * La taille des lignes pour les cases
-     * @param colSize
-     * La taille des colonnes pour les cases
+     * The tile to draw
+     * @param tileSize
+     * The size of the tile
      * @param color
-     * La couleur de la case
+     * The color of the tile
      */
     public void drawTile(TileModel tileModel, double tileSize, Color color){
         long x = Math.round(tileModel.column * tileSize);
@@ -126,6 +126,15 @@ public class MazeController extends Controller {
         drawHoveredWall(tileSize);
     }
 
+    /**
+     * Draw a wall of a tile
+     * @param tile
+     * The tile to draw a wall to
+     * @param tileSize
+     * The size of the tile
+     * @param wallDirection
+     * The direction of the wall to draw
+     */
     private void drawWall(TileModel tile, double tileSize, WallDirection wallDirection){
         double x = tile.column * tileSize;
         double y = tile.row * tileSize;
@@ -138,28 +147,51 @@ public class MazeController extends Controller {
         }
     }
 
+    /**
+     * Draw the wall of the hovered tile
+     * @param tileSize
+     * The size of the tile
+     */
     private void drawHoveredWall(double tileSize){
         if (hoveredTile != null){
+            // If there is a wall present, color it transparent red
             if (hoveredTile.isWallPresent(hoveredWall)){
                 gc.setStroke(Color.color(1, 0, 0, 0.3)); 
+            // If there is not, color it transparent black
             } else {
                 gc.setStroke(Color.color(0, 0, 0, 0.3));
             }
 
             gc.setLineWidth(6);
     
+            // Draw the hovered wall
             drawWall(hoveredTile, tileSize, hoveredWall);
         }
     }
 
+    /**
+     * Get the size of the tile from the canvas
+     * @return
+     * The tile size
+     */
     public double getTileSize(){
         return Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
     }
 
+    /**
+     * Get the start tile of the maze
+     * @return
+     * A TileModel that represent the start tile
+     */
     public TileModel getStartTile(){
         return maze.tiles[0][0];
     }
 
+    /**
+     * Get the end tile of the maze
+     * @return
+     * A TileModel that represent the end tile
+     */
     public TileModel getEndTile(){
         return maze.tiles[maze.numRows - 1][maze.numCols - 1];
     }
@@ -171,14 +203,37 @@ public class MazeController extends Controller {
         maze.resetTileStatus();
     }
 
+    /**
+     * Check if the row and column given is inside the maze
+     * @param row
+     * The row index to check
+     * @param column
+     * The column index to check
+     * @return
+     * True if inside the maze, False if not
+     */
     public boolean isInsideMaze(int row, int column){
         return maze.isInsideMaze(row, column);
     }
 
+    /**
+     * Add a wall to a tile
+     * @param tile
+     * The tile we want to add a wall
+     * @param wallDirection
+     * The direction of the wall we want to add
+     */
     public void addWall(TileModel tile, WallDirection wallDirection){
         maze.addWall(tile, wallDirection);
     }
 
+    /**
+     * Remove the wall of a tile
+     * @param tile
+     * The tile we want to remove a wall
+     * @param wallDirection
+     * The direction of the wall we want to remove
+     */
     public void removeWall(TileModel tile, WallDirection wallDirection){
         maze.removeWall(tile, wallDirection);
     }

@@ -66,10 +66,15 @@ public class MazeConfigurationController extends Controller {
         RadioButtonGenerationModeStep.setUserData(GenerationMode.STEP);
     }
 
+    /**
+     * When the "OK" button has been clicked
+     */
     @FXML
     private void ButtonOK_Click(){
+        // Close the configuration window
         Stage stage = (Stage) GridPaneRoot.getScene().getWindow();
         stage.close();
+        // Return a OK dialog result
         dialogResult = DialogResult.OK;
     }
 
