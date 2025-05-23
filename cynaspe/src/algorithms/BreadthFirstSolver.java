@@ -15,10 +15,12 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
     public BreadthFirstSolver(MazeController mazeController) {
         this.mazeController = mazeController;
 
+        // Get the start tile of the maze and add it to the queue so the BFS can start
         TileModel start = mazeController.getStartTile();
         queue.add(start);
+        // Mark the start tile as visited
         visited.add(start);
-
+        // Start the timer
         startTime = System.currentTimeMillis();
     }
 
@@ -26,41 +28,55 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
     public boolean step() {
         endTime = System.currentTimeMillis();
 
-        // Trace the path
+        // If the algorithm has finished, start tracing the path starting from the end tile
         if (isFinished && pathStep != null) {
+            // Mark the current tile as being the path
             pathStep.status = TileStatus.PATH;
             pathCount++;
+            // Move to the parent tile (previous step) in the path
             pathStep = parentMap.get(pathStep);
-
+            // True if path tracing has finished (no more parents)
             return pathStep == null;
         }
 
         if (!isFinished) {
+            // If there are tiles left to go
             if (!queue.isEmpty()) {
+                // Dequeue the next tile to go
                 TileModel current = queue.poll();
 
+                // If the current tile is the end tile
+                // The algoritm has finished
                 if (current.equals(mazeController.getEndTile())) {
                     isFinished = true;
                     pathStep = current;
+                    // return false because we have to do the path tracing
                     return false;
                 }
 
+                // Loop over the accessible neigbhors of the tile
                 for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                    // If the neighbor wasn't been visited
                     if (!visited.contains(neighbor)) {
+                        // Add that the neighbor has been visited
                         visited.add(neighbor);
-                        queue.add(neighbor);
-                        parentMap.put(neighbor, current);
                         neighbor.status = TileStatus.VISITED;
+                        // Add the neigbhor to be explored later
+                        queue.add(neighbor);
+                        // Track that we went to this neighbor with the current tile
+                        parentMap.put(neighbor, current);
                     }
                 }
 
+                // Algorithm is still going
                 return false;
             }
 
-            // No path found
+            // No path has been found
             isFinished = true;
             return true;
         }
+        // End the algorithm
         return true;
     }
 
