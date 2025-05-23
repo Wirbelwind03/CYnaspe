@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import controller.MazeController;
+import model.MazeModel;
 import model.TileModel;
 
 public abstract class Solver {
-    protected MazeController mazeController;
+    protected MazeModel maze;
 
     // Stores the parent of each visited tile for the reconstruction of the path
     protected Map<TileModel, TileModel> parentMap = new HashMap<>();

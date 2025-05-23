@@ -2,18 +2,18 @@ package algorithms;
 
 import java.util.Stack;
 
-import controller.MazeController;
 import enums.TileStatus;
+import model.MazeModel;
 import model.TileModel;
 
 public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
 
     private Stack<TileModel> stack = new Stack<>();
 
-    public RecursiveMazeSolver(MazeController mazeController) {
-        this.mazeController = mazeController;
+    public RecursiveMazeSolver(MazeModel maze) {
+        this.maze = maze;
 
-        TileModel start = mazeController.getStartTile();
+        TileModel start = maze.getStartTile();
         stack.push(start);
         visited.add(start);
     }
@@ -39,7 +39,7 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
 
                 // If the current tile is the end tile
                 // The algoritm has finished
-                if (current.equals(mazeController.getEndTile())) {
+                if (current.equals(maze.getEndTile())) {
                     isFinished = true;
                     pathStep = current;
                     // return false because we have to do the path tracing
@@ -47,7 +47,7 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
                 }
 
                 // Loop over the accessible neigbhors of the tile
-                for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                for (TileModel neighbor : maze.getAccessibleNeighbors(current)) {
                     // If the neighbor wasn't been visited
                     if (!visited.contains(neighbor)) {
                         // Add that the neighbor has been visited

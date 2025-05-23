@@ -90,15 +90,15 @@ public class MazeSolverController {
 
         switch (selectedAlgorithm) {
             case SolveAlgorithms.DFS:
-                solverAlgorithm = new RecursiveMazeSolver(mazeController);
+                solverAlgorithm = new RecursiveMazeSolver(mazeController.maze);
                 break;
 
             case SolveAlgorithms.BFS:
-                solverAlgorithm = new BreadthFirstSolver(mazeController);
+                solverAlgorithm = new BreadthFirstSolver(mazeController.maze);
                 break;
 
             case SolveAlgorithms.DJIKSTRA:
-                solverAlgorithm = new DjikstraSolver(mazeController);
+                solverAlgorithm = new DjikstraSolver(mazeController.maze);
                 break;
         
             default:

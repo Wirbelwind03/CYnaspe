@@ -1,10 +1,10 @@
 package algorithms;
 
+import model.MazeModel;
 import model.TileModel;
 
 import java.util.*;
 
-import controller.MazeController;
 import enums.TileStatus;
 
 public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
@@ -12,11 +12,11 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
     // Queue for the algorithm
     private Queue<TileModel> queue = new LinkedList<>();
 
-    public BreadthFirstSolver(MazeController mazeController) {
-        this.mazeController = mazeController;
+    public BreadthFirstSolver(MazeModel maze) {
+        this.maze = maze;
 
         // Get the start tile of the maze and add it to the queue so the BFS can start
-        TileModel start = mazeController.getStartTile();
+        TileModel start = maze.getStartTile();
         queue.add(start);
         // Mark the start tile as visited
         visited.add(start);
@@ -47,7 +47,7 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
                 // If the current tile is the end tile
                 // The algoritm has finished
-                if (current.equals(mazeController.getEndTile())) {
+                if (current.equals(maze.getEndTile())) {
                     isFinished = true;
                     pathStep = current;
                     // return false because we have to do the path tracing
@@ -55,7 +55,7 @@ public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
                 }
 
                 // Loop over the accessible neigbhors of the tile
-                for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                for (TileModel neighbor : maze.getAccessibleNeighbors(current)) {
                     // If the neighbor wasn't been visited
                     if (!visited.contains(neighbor)) {
                         // Add that the neighbor has been visited

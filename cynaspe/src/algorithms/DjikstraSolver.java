@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-import controller.MazeController;
 import enums.TileStatus;
+import model.MazeModel;
 import model.TileModel;
 
 public class DjikstraSolver extends Solver implements ISolverAlgorithm {
@@ -16,22 +16,22 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
     // Queue used to always expand the closest unvisited tile next
     private PriorityQueue<TileModel> queue;
 
-    public DjikstraSolver(MazeController mazeController) {
-        this.mazeController = mazeController;
+    public DjikstraSolver(MazeModel maze) {
+        this.maze = maze;
 
         distance = new HashMap<>();
         parentMap = new HashMap<>();
         visited = new HashSet<>();
         queue = new PriorityQueue<>(Comparator.comparingInt(distance::get));
 
-        for (int r = 0; r < mazeController.maze.numRows; r++) {
-            for (int c = 0; c < mazeController.maze.numCols; c++) {
-                TileModel tile = mazeController.maze.tiles[r][c];
+        for (int r = 0; r < maze.numRows; r++) {
+            for (int c = 0; c < maze.numCols; c++) {
+                TileModel tile = maze.tiles[r][c];
                 distance.put(tile, Integer.MAX_VALUE);
             }
         }
 
-        TileModel start = mazeController.getStartTile();
+        TileModel start = maze.getStartTile();
         distance.put(start, 0);
         queue.add(start);
 
@@ -50,7 +50,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
                 return false; // Continue tracing
             } else {
                 // Reached the start tile
-                if (pathStep == mazeController.getStartTile()) {
+                if (pathStep == maze.getStartTile()) {
                     pathStep.status = TileStatus.PATH;
                     pathCount++;
                 }
@@ -73,7 +73,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
     
                 // If the current tile is the end tile
                 // The algoritm has finished
-                if (current.equals(mazeController.getEndTile())) {
+                if (current.equals(maze.getEndTile())) {
                     isFinished = true;
                     pathStep = current;
                     // return false because we have to do the path tracing
@@ -81,7 +81,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
                 }
     
                 // Loop over the accessible neigbhors of the tile
-                for (TileModel neighbor : mazeController.maze.getAccessibleNeighbors(current)) {
+                for (TileModel neighbor : maze.getAccessibleNeighbors(current)) {
                     // If the neighbor has already been visited, skip
                     if (visited.contains(neighbor)) continue;
     
@@ -102,7 +102,7 @@ public class DjikstraSolver extends Solver implements ISolverAlgorithm {
             } else {
                 // No more tiles to explore, and end not reached
                 isFinished = true;
-                pathStep = mazeController.getEndTile();
+                pathStep = maze.getEndTile();
                 return false;
             }
         }
