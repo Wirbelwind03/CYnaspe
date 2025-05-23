@@ -1,7 +1,6 @@
 package controller;
 
 import enums.WallDirection;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
