@@ -67,4 +67,9 @@ public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
     public boolean isComplete() {
         return isFinished && pathStep == null;
     }
+
+    @Override
+    public long getExecutionTime() {
+        return isFinished ? (endTime - startTime) : 0;
+    }
 }
