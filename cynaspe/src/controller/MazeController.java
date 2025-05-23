@@ -184,7 +184,7 @@ public class MazeController extends Controller {
      * A TileModel that represent the start tile
      */
     public TileModel getStartTile(){
-        return maze.tiles[0][0];
+        return maze.getStartTile();
     }
 
     /**
@@ -193,7 +193,7 @@ public class MazeController extends Controller {
      * A TileModel that represent the end tile
      */
     public TileModel getEndTile(){
-        return maze.tiles[maze.numRows - 1][maze.numCols - 1];
+        return maze.getEndTile();
     }
 
     /**
