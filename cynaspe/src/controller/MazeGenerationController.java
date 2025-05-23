@@ -18,6 +18,8 @@ public class MazeGenerationController {
     private Runnable onGenerationStarted;
     private Runnable onGenerationFinished;
 
+    private AnimationTimer generationTimer;
+
     /**
      * Controller that handle the maze generation
      * @param mazeController
@@ -61,6 +63,12 @@ public class MazeGenerationController {
      * The controller used to create the maze
      */
     public void constructMaze(MazeConfigurationController mazeConfigurationController){
+        // If the timer still exist, stop its
+        if (generationTimer != null){
+            generationTimer.stop();
+            generationTimer = null;
+        }
+
         mazeController.maze = new MazeModel(mazeConfigurationController.getMazeNumRows(), mazeConfigurationController.getMazeNumColumns());
         // Use Kruskal algorithm to generate the maze
         KruskalMazeGenerator generator = new KruskalMazeGenerator(mazeController.maze, mazeConfigurationController.getMazeSeed(), mazeConfigurationController.getMazeType());
@@ -85,7 +93,7 @@ public class MazeGenerationController {
                 labelStatus.setText(spinner.getCurrentFrame());
                 
                 // Start the animation
-                AnimationTimer timer = new AnimationTimer() {
+                generationTimer = new AnimationTimer() {
                     private long lastUpdate = 0;
 
                     @Override
@@ -110,7 +118,7 @@ public class MazeGenerationController {
                     }
                 };
 
-                timer.start();
+                generationTimer.start();
                 break;
         
             

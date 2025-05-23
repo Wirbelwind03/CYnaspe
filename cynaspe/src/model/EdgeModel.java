@@ -14,6 +14,9 @@ public class EdgeModel {
      * The second tile
      */
     public EdgeModel(TileModel tile1, TileModel tile2){
+        if (tile1 == null || tile2 == null) {
+            throw new IllegalArgumentException("Tiles cannot be null");
+        }
         this.tile1 = tile1;
         this.tile2 = tile2;
     }

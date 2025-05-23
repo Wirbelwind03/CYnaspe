@@ -23,6 +23,9 @@ public class MazeModel {
      * The number of column for the grid
      */
     public MazeModel(int numRows, int numCols){
+        if (numRows <= 0 || numCols <= 0) {
+            throw new IllegalArgumentException("Number of rows and columns must be positive");
+        }
         this.numRows = numRows;
         this.numCols = numCols;
         tiles = ConstructGrid();
@@ -35,6 +38,15 @@ public class MazeModel {
      * The 2D array of tile we want to create the maze from
      */
     public MazeModel(TileModel[][] tiles){
+        if (tiles == null || tiles.length == 0) {
+            throw new IllegalArgumentException("Tiles cannot be null or empty");
+        }
+        int cols = tiles[0].length;
+        for (TileModel[] row : tiles) {
+            if (row == null || row.length != cols) {
+                throw new IllegalArgumentException("All rows must be non-null and have the same number of columns");
+            }
+        }
         this.tiles = tiles;
         this.numRows = tiles.length;
         this.numCols = (tiles.length > 0) ? tiles[0].length : 0; // Check if there are row before getting the number of columns
@@ -114,6 +126,10 @@ public class MazeModel {
      * Null otherwise
      */
     public TileModel getNeighbor(TileModel tile, WallDirection direction) {
+        if (tile == null) {
+            throw new IllegalArgumentException("Tile cannot be null");
+        }
+
         int newRow = tile.row;
         int newCol = tile.column;
 
@@ -229,6 +245,9 @@ public class MazeModel {
      * A TileModel that represent the start tile
      */
     public TileModel getStartTile(){
+        if (numRows == 0 || numCols == 0) {
+            throw new IllegalStateException("Maze has no tiles");
+        }
         return tiles[0][0];
     }
 
@@ -238,6 +257,9 @@ public class MazeModel {
      * A TileModel that represent the end tile
      */
     public TileModel getEndTile(){
+        if (numRows == 0 || numCols == 0) {
+            throw new IllegalStateException("Maze has no tiles");
+        }
         return tiles[numRows - 1][numCols - 1];
     }
 

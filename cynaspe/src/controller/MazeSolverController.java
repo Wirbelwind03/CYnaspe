@@ -29,6 +29,8 @@ public class MazeSolverController {
     private Runnable onSolvingStarted;
     private Runnable onSolvingFinished;
 
+    private AnimationTimer solverTimer;
+
     public MazeSolverController(
         MazeController mazeController,
         Spinner<Integer> speedSpinner,
@@ -76,6 +78,12 @@ public class MazeSolverController {
      * Solve the maze with an algorithm and mode
      */
     public void solve(){
+        // If the timer still exist, stop it
+        if (solverTimer != null){
+            solverTimer.stop();
+            solverTimer = null;
+        }
+
         if (mazeController.isGenerating  // If the maze is still generating
         || selectedMode == null // If there's not a solving mode selected
         || selectedAlgorithm == null // If there's not a solving algorithm selected
@@ -119,7 +127,7 @@ public class MazeSolverController {
                     SpinnerText spinner = new SpinnerText(4);
                     labelStatus.setText(spinner.getCurrentFrame());
     
-                    AnimationTimer timer = new AnimationTimer() {
+                    solverTimer = new AnimationTimer() {
                         private long lastUpdate = 0;
                         
                         @Override
@@ -139,7 +147,7 @@ public class MazeSolverController {
                             }
                         }
                     };
-                    timer.start();
+                    solverTimer.start();
                     break;
             
                 default:

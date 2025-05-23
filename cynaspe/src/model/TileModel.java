@@ -57,6 +57,10 @@ public class TileModel {
      * The neighbor tile we want to access
      */
     public void removeWall(TileModel neighbor) {
+        if (neighbor == null) {
+            throw new IllegalArgumentException("neighbor cannot be null");
+        }
+
         // See if the tile is a neighbor by calculating the distance difference between the two
         // For example : A case with (2,0) and the neighbor is (3,0)
         // dx = 0 - 0 = 0
@@ -186,7 +190,19 @@ public class TileModel {
      * = {TOP: false, RIGHT: true, LEFT: false, BOTTOM: false}
      */
     public static Map<WallDirection, Boolean> getWalls(String wallBits){
+        if (wallBits == null || wallBits.length() != 4) {
+            throw new IllegalArgumentException("wallBits must be a string of length 4");
+        }
+
         Map<WallDirection, Boolean> walls = new HashMap<>();
+        // Check the bits of the walls are correct
+        for (int i = 0; i < 4; i++) {
+            char c = wallBits.charAt(i);
+            if (c != '0' && c != '1') {
+                throw new IllegalArgumentException("wallBits must be only '0' or '1'");
+            }
+        }
+
         walls.put(WallDirection.TOP,    wallBits.charAt(0) == '1'); // First bit
         walls.put(WallDirection.RIGHT,  wallBits.charAt(1) == '1'); // Second bit
         walls.put(WallDirection.BOTTOM, wallBits.charAt(2) == '1'); // Third bit

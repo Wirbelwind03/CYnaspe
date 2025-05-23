@@ -29,6 +29,11 @@ public class KruskalMazeGenerator {
      * The type of maze (PERFECT or IMPERFECT)
      */
     public  KruskalMazeGenerator(MazeModel maze, int seed, MazeType mazeType){
+        // Check if the maze is correct
+        if (maze == null) throw new IllegalArgumentException("Maze cannot be null");
+        if (maze.getEdges() == null) throw new IllegalArgumentException("Maze edges cannot be null");
+        if (maze.tiles == null) throw new IllegalArgumentException("Maze tiles cannot be null");
+
         // Set the maze type
         this.mazeType = mazeType;
 
@@ -40,7 +45,9 @@ public class KruskalMazeGenerator {
         Collections.shuffle(edges, new Random(seed));
 
         for (TileModel[] row : maze.tiles){
+            if (row == null) throw new IllegalArgumentException("Row cannot be null");
             for (TileModel tile: row){
+                if (tile == null) throw new IllegalArgumentException("Tile cannot be null");
                 disjointSet.makeSet(tile);
             }
         }
