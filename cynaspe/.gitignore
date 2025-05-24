@@ -4,3 +4,4 @@ out/*
 !out/view/
 !out/view/**
 .idea/
+mazeOutputs/
