@@ -19,6 +19,7 @@ Ce projet vise à sensibiliser les étudiants à l'algorithmique avancée et à 
 L'application contient deux modes :
 - Console
 Dans lequel l'utilisateur peut créer, charger, résoudre et sauvegarder des labyrinthes à travers la console
+Lors de la sauvegarde, le fichier est sauvegardé dans un dossier appelée "mazeOutputs" qui est crée automatiquement s'il n'existe pas et qui se trouve dans le dossier du project.
 - Interface Graphique
 Dans lequel l'utilisateur peut faire les même choses que la version console, mais avec une vue visuelle du labyrinthe et une génération plus en détail avec le mode pas à pas
 
