@@ -81,8 +81,8 @@ public class MazeGenerationController extends Controller {
      * @param callback
      * The logic to run when "onGenerationFinished" get run
      */
-    public void setOnGenerationFinished(Runnable callBack) {
-        this.onGenerationFinished = callBack;
+    public void setOnGenerationFinished(Runnable callback) {
+        this.onGenerationFinished = callback;
     }
 
     /**

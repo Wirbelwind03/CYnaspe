@@ -7,7 +7,6 @@ import algorithms.RecursiveMazeSolver;
 import enums.GenerationMode;
 import enums.SolveAlgorithms;
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import utils.Helpers;

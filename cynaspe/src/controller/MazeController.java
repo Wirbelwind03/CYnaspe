@@ -98,8 +98,11 @@ public class MazeController extends Controller {
         return maze.getTile(row, column);
     }
 
+
     /**
      * Render the maze on the canvas
+     * @param isGenerating
+     * If the maze was generating
      */
     public void renderMaze(boolean isGenerating){
         // Clear the entire canvas

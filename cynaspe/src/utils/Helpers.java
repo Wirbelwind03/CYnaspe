@@ -13,6 +13,13 @@ import javafx.scene.control.ToggleGroup;
  */
 public class Helpers {
     /**
+     * Default constructor  
+     */
+    public Helpers() {
+
+    }
+
+    /**
      * Get the opposite wall of a wall
      * @param direction
      * The direction of the wall we want to get the opposite wall direction
@@ -36,7 +43,7 @@ public class Helpers {
      * @param group
      * The ToggleGroup which we get the user data
      * @return
-     * The user data cast to <T>,
+     * The user data cast to type T,
      * {@code null} if no toggle or the group is null
      */
     public static <T> T getSelectedUserData(ToggleGroup group) {

@@ -8,9 +8,9 @@ package model;
  * </p>
  */
 public class EdgeModel {
-    // The first tile connected by this edge
+    /** The first tile connected by this edge */ 
     public TileModel tile1; 
-    // The second tile connected by this edge
+    /** The second tile connected by this edge */ 
     public TileModel tile2;
 
     /**

@@ -10,6 +10,14 @@ import javafx.stage.Stage;
  * </p>
  */
 public abstract class Controller {
+    /**
+     * Default constructor.
+     */
+    public Controller() {
+        
+    }
+
+
     /** The primary stage of the JavaFX application */
     public Stage primaryStage; 
 

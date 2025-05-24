@@ -36,6 +36,13 @@ import utils.Helpers;
  */
 public class MainController extends Controller {
     /**
+     * Default constructor
+     */
+    public MainController(){
+
+    }
+
+    /**
      * Controller for the maze data and logic management.
      */
     private MazeController mazeController;

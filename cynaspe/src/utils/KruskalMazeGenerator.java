@@ -30,8 +30,8 @@ public class KruskalMazeGenerator {
      * Constructor to initialize the generator
      * @param maze
      * The grid of tiles to generate the maze on
-     * @param mazeConfigurationController
-     * Controller managing the maze settings
+     * @param seed
+     * The seed used for the generation, can re-create a same maze
      * @param mazeType
      * The type of maze (PERFECT or IMPERFECT)
      */

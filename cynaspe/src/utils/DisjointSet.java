@@ -15,6 +15,13 @@ import model.TileModel;
  */
 public class DisjointSet {
     /**
+     * Default constructor.
+     */
+    public DisjointSet() {
+        
+    }
+
+    /**
      * Maps each tile to its parent in the disjoint-set.
      * If a tile is its own parent, it's the root of it own set.
      */

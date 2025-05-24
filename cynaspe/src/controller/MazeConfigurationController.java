@@ -24,6 +24,12 @@ import utils.Helpers;
  * </p>
  */
 public class MazeConfigurationController extends Controller {
+    /**
+     * Default constructor
+     */
+    public MazeConfigurationController(){
+
+    }
 
     /** The dialog result when the user exit the dialog */
     public DialogResult dialogResult = DialogResult.CLOSED;
