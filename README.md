@@ -13,15 +13,18 @@ permettant de générer puis de résoudre des labyrinthes.
 ## Introduction
 
 Le projet CYnapse a pour objectif de concevoir une application graphique Java permettant de générer et résoudre des labyrinthes, en mettant en œuvre des algorithmes sur des graphes non orientés. L’application doit proposer différents modes de génération (parfait ou non), des résolutions par plusieurs algorithmes (DFS, BFS, A*, etc.), une visualisation dynamique, et des modifications locales du labyrinthe.
-<br>
-Ce projet vise à sensibiliser les étudiants à l'algorithmique avancée et à la conception d’interfaces en JavaFX, dans un cadre ludique, interactif et technique. Une version console permet de tester toutes les fonctionnalités indépendamment de l’interface graphique.
-<br>
+  
+Ce projet vise à sensibiliser les étudiants à l'algorithmique avancée et à la conception d’interfaces en JavaFX, dans un cadre ludique, interactif et technique. Une version console permet de tester toutes les fonctionnalités indépendamment de l’interface graphique.  
+  
 L'application contient deux modes :
-- Console
-Dans lequel l'utilisateur peut créer, charger, résoudre et sauvegarder des labyrinthes à travers la console
-Lors de la sauvegarde, le fichier est sauvegardé dans un dossier appelée "mazeOutputs" qui est crée automatiquement s'il n'existe pas et qui se trouve dans le dossier du project.
-- Interface Graphique
-Dans lequel l'utilisateur peut faire les même choses que la version console, mais avec une vue visuelle du labyrinthe et une génération plus en détail avec le mode pas à pas
+
+- **Console**  
+  Dans ce mode, l'utilisateur peut créer, charger, résoudre et sauvegarder des labyrinthes via la console.  
+  Lors de la sauvegarde, le fichier est stocké dans un dossier nommé `mazeOutputs`, qui est créé automatiquement s'il n'existe pas. Ce dossier se trouve à la racine du projet.
+
+- **Interface Graphique**  
+  Ce mode permet à l'utilisateur de réaliser les mêmes actions que dans la console, mais avec une vue visuelle du labyrinthe.  
+  La génération est plus détaillée, notamment grâce à un mode pas à pas.
 
 
 ## Requirements
