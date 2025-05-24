@@ -1,11 +1,18 @@
 package enums;
 
 /**
- * Enum that represent the wall directions of a tile
+ * Enum that represents the wall directions of a tile.
  */
 public enum WallDirection {
-    TOP, // The top wall
-    RIGHT, // The right wall
-    BOTTOM, // The bottom wall
-    LEFT, // The left wall
+    /** The top wall */
+    TOP,
+
+    /** The right wall */
+    RIGHT,
+
+    /** The bottom wall */
+    BOTTOM,
+
+    /** The left wall */
+    LEFT
 }

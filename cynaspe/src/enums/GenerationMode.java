@@ -1,7 +1,12 @@
 package enums;
 
-// The mode used for the generation and the solving
+/**
+ * Enum representing the mode used for maze generation and solving.
+ */
 public enum GenerationMode {
-    COMPLETE, // Show instantly
-    STEP // Step by step
+    /** Show instantly */
+    COMPLETE,
+
+    /** Step by step */
+    STEP
 }

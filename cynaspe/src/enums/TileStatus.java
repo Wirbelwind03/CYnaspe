@@ -1,11 +1,16 @@
 package enums;
 
 /**
- * Enum to specify the tile status for solving
- * Used for the render
+ * Enum to specify the tile status for solving.
+ * Used for rendering.
  */
 public enum TileStatus {
-    UNVISITED, // Tile has not been visited
-    VISITED, // Tile has been visited
-    PATH // Tile is the path
+    /** Tile has not been visited */
+    UNVISITED,
+
+    /** Tile has been visited */
+    VISITED,
+
+    /** Tile is the path */
+    PATH
 }

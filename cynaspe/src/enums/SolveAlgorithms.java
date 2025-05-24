@@ -1,10 +1,15 @@
 package enums;
 
 /**
- * Enum that of the algorithms available for the solving
+ * Enum of the algorithms available for solving.
  */
 public enum SolveAlgorithms {
-    DFS, // DFS
-    BFS, // BFS
-    DJIKSTRA // Djikstra
+    /** Depth-First Search */
+    DFS,
+
+    /** Breadth-First Search */
+    BFS,
+
+    /** Dijkstra's algorithm */
+    DJIKSTRA
 }

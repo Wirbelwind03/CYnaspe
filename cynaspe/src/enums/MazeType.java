@@ -1,7 +1,12 @@
 package enums;
 
-// Represent the type of maze
+/**
+ * Enum representing the type of maze.
+ */
 public enum MazeType {
-    PERFECT, // A perfect maze
-    IMPERFECT // A imperfect maze
+    /** A perfect maze */
+    PERFECT,
+
+    /** An imperfect maze */
+    IMPERFECT
 }

@@ -22,34 +22,66 @@ import utils.SpinnerText;
  * </p>
  */
 public class MazeSolverController extends Controller {
-    // The maze controller holding the maze data
+    /**
+     * The maze controller holding the maze data.
+     */
     private final MazeController mazeController;
 
-    // The selected algorithm for solving the maze
+    /**
+     * The selected algorithm for solving the maze.
+     */
     private SolveAlgorithms selectedAlgorithm;
-    // The selected mode for solving the maze
+
+    /**
+     * The selected mode for solving the maze.
+     */
     private GenerationMode selectedMode;
-    // The instance of the algorithm used to solve the maze
+
+    /**
+     * The instance of the algorithm used to solve the maze.
+     */
     private ISolverAlgorithm solverAlgorithm;
 
-    // Spinner that handle the speed of the solving
+    /**
+     * Spinner that handles the speed of the solving.
+     */
     private final Spinner<Integer> spinnerSpeed;
-    // Label that show the status of the solving
+
+    /**
+     * Label that shows the status of the solving.
+     */
     private final Label labelStatus;
-    // Label that show the number of visited tiles
+
+    /**
+     * Label that shows the number of visited tiles.
+     */
     private final Label labelVisitedTiles;
-    // Label that show the number of paths
+
+    /**
+     * Label that shows the number of paths.
+     */
     private final Label labelPath;
-    // Label that show the execution time of the solving algorithm
+
+    /**
+     * Label that shows the execution time of the solving algorithm.
+     */
     private final Label labelTime;
 
-    // Callback to call when the solving algo has started
+    /**
+     * Callback to call when the solving algorithm has started.
+     */
     private Runnable onSolvingStarted;
-    // Callback to call when the solving algo has finished
+
+    /**
+     * Callback to call when the solving algorithm has finished.
+     */
     private Runnable onSolvingFinished;
 
-    // Timer used for showing the solving step by step
+    /**
+     * Timer used for showing the solving step by step.
+     */
     private AnimationTimer solverTimer;
+
 
     /**
      * Constructs a new {@code MazeSolverController}.
