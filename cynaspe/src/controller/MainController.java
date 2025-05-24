@@ -64,7 +64,7 @@ public class MainController extends Controller {
     public void initialize(){
         // Set the value of the spinner for the generation speed
         SpinnerValueFactory<Integer> generationSpeedValueFactory = 
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(1,60);
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(1,200);
         generationSpeedValueFactory.setValue(10);
         SpinnerGenerationSpeed.setValueFactory(generationSpeedValueFactory);
 
