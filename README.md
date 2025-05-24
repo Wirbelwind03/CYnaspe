@@ -3,12 +3,19 @@
 ## Sommaire
 
 - [Introduction](#introduction)
-- [Guide de démarrage](#Guide)
+- [Requirements](#requirements)
+- [Guide de démarrage](#guide)
 
 ## Introduction
 
 Le projet CYnapse a pour objectif de concevoir une application graphique Java permettant de générer et résoudre des labyrinthes, en mettant en œuvre des algorithmes sur des graphes non orientés. L’application doit proposer différents modes de génération (parfait ou non), des résolutions par plusieurs algorithmes (DFS, BFS, A*, etc.), une visualisation dynamique, et des modifications locales du labyrinthe.
 Ce projet vise à sensibiliser les étudiants à l'algorithmique avancée et à la conception d’interfaces en JavaFX, dans un cadre ludique, interactif et technique. Une version console permet de tester toutes les fonctionnalités indépendamment de l’interface graphique.
+
+## Requirements
+
+### JavaFX
+Testée avec la version 21.0.7
+https://gluonhq.com/products/javafx/
 
 ## Guide
 
