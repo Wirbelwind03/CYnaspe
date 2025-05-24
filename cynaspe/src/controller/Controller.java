@@ -2,14 +2,21 @@ package controller;
 
 import javafx.stage.Stage;
 
+/**
+ * Abstract base class for JavaFX controllers.
+ * <p>
+ * Provides common functionality for controllers, such as managing the primary stage
+ * of the application window.
+ * </p>
+ */
 public abstract class Controller {
-    public Stage primaryStage;
+    public Stage primaryStage; // The primary stage of the JavaFX application
 
     /**
      * Set the primary stage of the controller
      * Called by the application when initializing the controller
      * @param stage
-     * The primary stage of the application
+     * A {@code Stage} that represent primary stage of the application
      */
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;

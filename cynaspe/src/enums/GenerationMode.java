@@ -1,6 +1,7 @@
 package enums;
 
+// The mode used for the generation and the solving
 public enum GenerationMode {
-    COMPLETE,
-    STEP
+    COMPLETE, // Show instantly
+    STEP // Step by step
 }

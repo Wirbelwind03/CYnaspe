@@ -1,10 +1,16 @@
 package model;
 
 /**
- * Class that represent edge between two tiles in a maze
+ * Represents an edge between two tiles in a maze.
+ * <p>
+ * This class models a connection or adjacency between two {@code TileModel} instances,
+ * which can be used in maze generation or pathfinding algorithms.
+ * </p>
  */
 public class EdgeModel {
+    // The first tile connected by this edge
     public TileModel tile1; 
+    // The second tile connected by this edge
     public TileModel tile2;
 
     /**

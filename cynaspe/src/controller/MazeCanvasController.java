@@ -6,16 +6,36 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import model.TileModel;
 
+/**
+ * Controller responsible for managing the maze canvas UI component.
+ * <p>
+ * This class extends the base {@code Controller} and handle the rendering of the maze
+ * and user interactions on the canvas.
+ * </p>
+ */
 public class MazeCanvasController extends Controller {
+    // The maze controller used for the logic and data of the maze
     private final MazeController mazeController;
+    // The canvas where the maze is rendered
     private final Canvas canvas;
 
+    /**
+     * Constructs a new {@code MazeCanvasController} that handle the maze on the canvas
+     * Used for handling the event of the canvas
+     * @param canvas
+     * The canvas where the maze is
+     * @param mazeController
+     * The controller handling the maze
+     */
     public MazeCanvasController(Canvas canvas, MazeController mazeController) {
         this.canvas = canvas;
         this.mazeController = mazeController;
         setup();
     }
 
+    /**
+     * Initialize the controller
+     */
     private void setup(){
         canvas.setFocusTraversable(true);
         canvas.setOnMouseEntered(e -> canvas.requestFocus());

@@ -6,10 +6,23 @@ import enums.TileStatus;
 import model.MazeModel;
 import model.TileModel;
 
+/**
+ * DFS algorithm to find a path through the maze.
+ * <p>
+ * This class extends {@code Solver} and implements the {@code ISolverAlgorithm}
+ * interface. It uses a stack to manage the traversal order of tiles,
+ * exploring as deep as possible before backtracking.
+ * </p>
+ */
 public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
 
+    // Stack used to keep track of tiles to visit during the DFS algorithm
     private Stack<TileModel> stack = new Stack<>();
 
+    /**
+     * Constructor for a DFS solver.
+     * @param maze the maze to be solved
+     */
     public RecursiveMazeSolver(MazeModel maze) {
         this.maze = maze;
 

@@ -9,19 +9,32 @@ import utils.Helpers;
 import utils.KruskalMazeGenerator;
 import utils.SpinnerText;
 
+/**
+ * Controller responsible for managing maze generation settings.
+ * <p>
+ * This class extends the base {@code Controller} and handles user inputs and logic
+ * related to generating new mazes.
+ * </p>
+ */
 public class MazeGenerationController extends Controller {
+    // The controller managing the maze data
     private final MazeController mazeController;
 
+    // The Spinner used to set the speed of the generation
     private final Spinner<Integer> spinnerSpeed;
+    // The Label that show the generation status
     private final Label labelStatus;
 
+    // The callback to call when the generation has started
     private Runnable onGenerationStarted;
+    // The callback to call when the generation has finished
     private Runnable onGenerationFinished;
 
+    // The timer used for the step by step generation
     private AnimationTimer generationTimer;
 
     /**
-     * Controller that handle the maze generation
+     * Constructs a new {@code MazeGenerationController} that handle the maze generation
      * @param mazeController
      * The controller handling the maze backend
      * @param speedSpinner

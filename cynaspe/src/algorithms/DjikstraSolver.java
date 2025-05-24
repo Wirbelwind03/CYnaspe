@@ -10,12 +10,24 @@ import enums.TileStatus;
 import model.MazeModel;
 import model.TileModel;
 
+/**
+ * Dijkstra's algorithm to find the shortest path in a maze.
+ * <p>
+ * This class extends the base {@code Solver} and implements the {@code ISolverAlgorithm}
+ * interface, using a priority queue to explore the maze based on the shortest known distances
+ * from the start tile to each other tile.
+ * </p>
+ */
 public class DjikstraSolver extends Solver implements ISolverAlgorithm {
     // The distance from the start to each tile,
     private Map<TileModel, Integer> distance;
     // Queue used to always expand the closest unvisited tile next
     private PriorityQueue<TileModel> queue;
 
+    /**
+     * Constructor for a Dijkstra solver.
+     * @param maze the maze to be solved
+     */
     public DjikstraSolver(MazeModel maze) {
         this.maze = maze;
 

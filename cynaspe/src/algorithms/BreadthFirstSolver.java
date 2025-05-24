@@ -7,11 +7,23 @@ import java.util.*;
 
 import enums.TileStatus;
 
+/**
+ * BFS algorithm to find the shortest path through the maze.
+ * <p>
+ * This class extends {@code Solver} and implements the {@code ISolverAlgorithm}
+ * interface. It explores all neighbors at the current depth before moving to
+ * the next level, guaranteeing the shortest path in an unweighted maze.
+ * </p>
+ */
 public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
-    // Queue for the algorithm
+    // Queue used to keep track of tiles to visit during the DFS algorithm
     private Queue<TileModel> queue = new LinkedList<>();
 
+    /**
+     * Constuctor for the BFS solver algorithm
+     * @param maze The maze used to solve
+     */
     public BreadthFirstSolver(MazeModel maze) {
         this.maze = maze;
 

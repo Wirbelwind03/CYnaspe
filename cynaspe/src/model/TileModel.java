@@ -7,7 +7,11 @@ import enums.TileStatus;
 import enums.WallDirection;
 
 /**
- * Class that represent the case in a maze
+ * Represents a single tile in a maze.
+ * <p>
+ * Each tile has a position (row and column), walls on its four sides,
+ * and status information used during maze generation and solving.
+ * </p>
  */
 public class TileModel {
     public int row; // The row where the tile is placed
@@ -130,7 +134,7 @@ public class TileModel {
      * @param neighbor
      * The neighbor of the tile we want to see if there's a wall
      * @return
-     * If there's a wall
+     * {@code true} if there is a wall, {@code false} if not
      */
     public boolean hasWallWith(TileModel neighbor) {
         int dx = neighbor.column - this.column;
@@ -155,7 +159,7 @@ public class TileModel {
      * @param direction
      * The direction of the wall
      * @return
-     * A boolean that is True if there's a wall, or False if there's not
+     * {@code true} if there's a wall, or {@code false} if there's not
      */
     public boolean isWallPresent(WallDirection direction) {
         return walls.getOrDefault(direction, false) == true;
@@ -184,7 +188,7 @@ public class TileModel {
      * The bits of the wall, 
      * Order is TOP -> RIGHT -> BOTTOM -> LEFT
      * @return
-     * Map of the actual walls
+     * {@code Map<WallDirection, Boolean>} of the actual walls
      * Example : 
      * 0100
      * = {TOP: false, RIGHT: true, LEFT: false, BOTTOM: false}

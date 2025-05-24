@@ -16,8 +16,16 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import utils.Helpers;
 
+/**
+ * Controller for managing the maze configuration settings UI.
+ * <p>
+ * This class extends the base {@code Controller} and handles user inputs
+ * related to configuring maze parameters such as size, seed and generation options.
+ * </p>
+ */
 public class MazeConfigurationController extends Controller {
 
+    // The dialog result when the user exit the dialog
     public DialogResult dialogResult = DialogResult.CLOSED;
 
     @FXML private GridPane GridPaneRoot;
@@ -80,7 +88,7 @@ public class MazeConfigurationController extends Controller {
     /**
      * Get the seed of the maze from the TextField
      * @return
-     * The seed of the maze
+     * A {@code int} that represent the seed of the maze
      */
     public int getMazeSeed(){
         return Integer.parseInt(TextFieldSeed.getText());
@@ -89,7 +97,7 @@ public class MazeConfigurationController extends Controller {
     /**
      * Get the number of rows of the maze from the Spinner
      * @return
-     * The number of rows of the maze
+     * A {@code int} that represent number of rows of the maze
      */
     public int getMazeNumRows(){
         return SpinnerNumRows.getValue();
@@ -98,7 +106,7 @@ public class MazeConfigurationController extends Controller {
     /**
      * Get the number of columns of the maze from the Spinner
      * @return
-     * The number of columns of the maze
+     * A {@code int} that represent number of columns of the maze
      */
     public int getMazeNumColumns(){
         return SpinnerNumCols.getValue();
@@ -107,7 +115,7 @@ public class MazeConfigurationController extends Controller {
     /**
      * Get the generation mode of the maze
      * @return
-     * The generation mode used for the maze
+     * A {@code GenerationMode} used for the maze
      */
     public GenerationMode getGenerationMode(){
         Toggle selected = GenerationModeGroup.getSelectedToggle();
@@ -117,7 +125,7 @@ public class MazeConfigurationController extends Controller {
     /**
      * Get the type of maze
      * @return
-     * The type of maze (perfect or imperfect) used for the generation
+     * A {@code MazeType} (perfect or imperfect) used for the generation
      */
     public MazeType getMazeType(){
         Toggle selected = MazeTypeGroup.getSelectedToggle();

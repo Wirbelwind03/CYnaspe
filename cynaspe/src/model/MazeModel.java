@@ -8,11 +8,18 @@ import enums.WallDirection;
 import utils.Helpers;
 
 /**
- * Class that represent a maze
+ * Represents a maze composed of tiles arranged in rows and columns.
+ * <p>
+ * Contains the dimensions of the maze and the 2D array of {@code TileModel} instances
+ * that make up the maze.
+ * </p>
  */
 public class MazeModel {
+    // The number of rows in the maze
     public int numRows;
+    // The number of colums in the maze
     public int numCols;
+    // 2D array of tiles representing the maze grid
     public TileModel[][] tiles;
 
     /**
@@ -55,7 +62,7 @@ public class MazeModel {
     /**
      * Construct the grid by putting a TileModel in each row and column
      * @return
-     * A 2D array made of TileModel
+     * A {@code TileModel} 2D array full of {@code TileModel}
      */
     private TileModel[][] ConstructGrid(){
         TileModel[][] tiles = new TileModel[numRows][];
@@ -86,7 +93,7 @@ public class MazeModel {
     /**
      * Get the edges of the grid
      * @return
-     * A list of the edges of the grid
+     * A {@code List<EdgeModel>} of the edges of the grid
      */
     public List<EdgeModel> getEdges(){
         List<EdgeModel> edges = new ArrayList<>();
@@ -106,7 +113,8 @@ public class MazeModel {
      * @param column
      * The column we want to get the tile from
      * @return
-     * A TileModel if it was inside the maze
+     * A {@code TileModel} if it was inside the maze
+     * Otherwise {@code null} or throw a exception
      */
     public TileModel getTile(int row, int column){
         if (!isInsideMaze(row, column)){
@@ -122,8 +130,8 @@ public class MazeModel {
      * @param direction
      * The direction to get the neighbor
      * @return
-     * A TileModel that represent the neighbor of the tile entered in argument
-     * Null otherwise
+     * A {@code TileModel} that represent the neighbor of the tile entered in argument
+     * {@code null} otherwise
      */
     public TileModel getNeighbor(TileModel tile, WallDirection direction) {
         if (tile == null) {
@@ -156,7 +164,7 @@ public class MazeModel {
      * @param column
      * The column we want to check
      * @return
-     * A boolean that is True if it's inside the maze, and False if not
+     * A {@code boolean} that is {@code true} if it's inside the maze, and {@code false} if not
      */
     public boolean isInsideMaze(int row, int column){
         if (row >= 0 && row < numRows && column >= 0 && column < numCols) {
@@ -204,7 +212,7 @@ public class MazeModel {
      * @param tile
      * The tile we want to get the accessible neighbors
      * @return
-     * A List<TileModel> of the accessible neighbors of the tile entered as argument
+     * A {@code List<TileModel>} of the accessible neighbors of the tile entered as argument
      */
     public List<TileModel> getAccessibleNeighbors(TileModel tile) {
         List<TileModel> neighbors = new ArrayList<>();
@@ -242,7 +250,7 @@ public class MazeModel {
     /**
      * Get the start tile of the maze
      * @return
-     * A TileModel that represent the start tile
+     * A {@code TileModel} that represent the start tile
      */
     public TileModel getStartTile(){
         if (numRows == 0 || numCols == 0) {
@@ -254,7 +262,7 @@ public class MazeModel {
     /**
      * Get the end tile of the maze
      * @return
-     * A TileModel that represent the end tile
+     * A {@code TileModel} that represent the end tile
      */
     public TileModel getEndTile(){
         if (numRows == 0 || numCols == 0) {
@@ -263,6 +271,9 @@ public class MazeModel {
         return tiles[numRows - 1][numCols - 1];
     }
 
+    /**
+     * Render a maze in the console
+     */
     public void renderMazeConsole(){
         for (int row = 0; row < numRows; row++) {
             /// Print each wall direction

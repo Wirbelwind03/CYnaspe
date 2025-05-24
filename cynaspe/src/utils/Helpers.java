@@ -8,13 +8,16 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
+/**
+ * Utility class providing helper methods.
+ */
 public class Helpers {
     /**
      * Get the opposite wall of a wall
      * @param direction
      * The direction of the wall we want to get the opposite wall direction
      * @return
-     * The opposite wall direction
+     * The opposite {@code WallDirection}
      */
     public static WallDirection getOppositeDirection(WallDirection direction) {
         switch (direction) {
@@ -34,7 +37,7 @@ public class Helpers {
      * The ToggleGroup which we get the user data
      * @return
      * The user data cast to <T>,
-     * Null if no toggle or the group is null
+     * {@code null} if no toggle or the group is null
      */
     public static <T> T getSelectedUserData(ToggleGroup group) {
         if (group == null) return null;
@@ -47,7 +50,7 @@ public class Helpers {
      * @param fps
      * The FPS to convert from
      * @return
-     * A long that represent Nanos
+     * A {@code long} that represent Nanos
      */
     public static long fpsToNanos(int fps) {
         if (fps <= 0) {

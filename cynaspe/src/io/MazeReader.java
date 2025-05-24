@@ -11,7 +11,21 @@ import enums.WallDirection;
 import model.MazeModel;
 import model.TileModel;
 
+/**
+ * Class responsible for reading maze data from a file.
+ * <p>
+ * Provides a static method to parse a maze file and create a {@code MazeModel}.
+ * </p>
+ */
 public class MazeReader {
+
+    /**
+     * Read a .maze file
+     * @param file
+     * The file to get the maze model from
+     * @return
+     * A {@code MazeModel} generated from the file
+     */
     public static MazeModel read(File file){
         Path path = file.toPath();
         try {

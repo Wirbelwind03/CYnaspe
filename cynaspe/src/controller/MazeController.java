@@ -10,16 +10,35 @@ import javafx.scene.paint.Color;
 import model.MazeModel;
 import model.TileModel;
 
+/**
+ * Controller responsible for managing the maze logic and rendering.
+ * <p>
+ * This class extends the base {@code Controller} and handles maze generation,
+ * user interaction with the maze (such as hovered tiles and walls), and
+ * rendering the maze on the canvas.
+ * </p>
+ */
 public class MazeController extends Controller {
+    // The maze being rendered and managed
     public MazeModel maze;
+    // The canvas where the maze is rendered
     private Canvas mazeCanvas;
+    // Graphics context used for drawing on the canvas
     private GraphicsContext gc;
     
+    // If the maze is currently being generated or solved
     public boolean isGenerating = false;
 
+    // The tile being currently hovered
     public TileModel hoveredTile = null;
+    // The direction choosen during hovering a tile
     public WallDirection hoveredWall = WallDirection.RIGHT;
 
+    /**
+     * Constructs a new {@code MazeController} associated with a canvas
+     * @param mazeCanvas
+     * The canvas where to render the canvas
+     */
     public MazeController(Canvas mazeCanvas) {
         this.mazeCanvas = mazeCanvas;
         this.gc = this.mazeCanvas.getGraphicsContext2D();
@@ -31,11 +50,21 @@ public class MazeController extends Controller {
         this.mazeCanvas.heightProperty().bind(cell.heightProperty());
     }
 
+    /**
+     * Set the maze of the controller and render it again
+     * @param maze
+     * The maze to set on
+     */
     public void setMaze(MazeModel maze){
         this.maze = maze;
         renderMaze(false);
     }
 
+    /**
+     * Check if the maze is set
+     * @return
+     * {@code true} if a maze is set; {@code false} otherwise
+     */
     public boolean hasMaze(){
         return maze != null;
     }
@@ -47,7 +76,8 @@ public class MazeController extends Controller {
      * @param column
      * The column we want to get the tile from
      * @return
-     * A TileModel if it was inside the maze
+     * A {@code TileModel} if it was inside the maze
+     * Otherwise {@code null} or throw a exception
      */
     public TileModel getTile(int row, int column){
         return maze.getTile(row, column);
@@ -175,7 +205,7 @@ public class MazeController extends Controller {
     /**
      * Get the size of the tile from the canvas
      * @return
-     * The tile size
+     * A {@code double} that represent the tile size
      */
     public double getTileSize(){
         return Math.min(mazeCanvas.getWidth() / maze.numCols, mazeCanvas.getHeight() / maze.numRows);
@@ -184,7 +214,7 @@ public class MazeController extends Controller {
     /**
      * Get the start tile of the maze
      * @return
-     * A TileModel that represent the start tile
+     * A {@code TileModel} that represent the start tile
      */
     public TileModel getStartTile(){
         return maze.getStartTile();
@@ -193,7 +223,7 @@ public class MazeController extends Controller {
     /**
      * Get the end tile of the maze
      * @return
-     * A TileModel that represent the end tile
+     * A {@code TileModel} that represent the end tile
      */
     public TileModel getEndTile(){
         return maze.getEndTile();
@@ -213,7 +243,7 @@ public class MazeController extends Controller {
      * @param column
      * The column index to check
      * @return
-     * True if inside the maze, False if not
+     * {@code true} if inside the maze, {@code false} if not
      */
     public boolean isInsideMaze(int row, int column){
         return maze.isInsideMaze(row, column);

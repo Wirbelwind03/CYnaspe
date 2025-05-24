@@ -14,11 +14,18 @@ import io.MazeWriter;
 import model.MazeModel;
 import utils.KruskalMazeGenerator;
 
+/**
+ * Controller that manages interaction for the maze in the console.
+ * <p>
+ * Handles input and output through the command line.
+ * </p>
+ */
 public class MazeConsoleController {
+    // Used for reading the user input in the console
     private Scanner scanner;
 
     /**
-     * Controller that handle the maze in console version
+     * Constructs a new {@code MazeConsoleController} that handle the maze in console version
      * @param scanner
      * The console where the user write/read
      */
@@ -171,7 +178,7 @@ public class MazeConsoleController {
      * @param canBeEmpty
      * If the input can be empty, if it is, return a random between mix and max
      * @return
-     * The value entered by the user in the console
+     * A {@code int} that represent the value entered by the user in the console
      * Random value if the user entered nothing and the input can be empty
      */
     public int askNumber(String prompt, int min, int max, boolean canBeEmpty) {

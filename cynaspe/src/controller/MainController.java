@@ -26,13 +26,27 @@ import javafx.stage.Stage;
 import model.MazeModel;
 import utils.Helpers;
 
+/**
+ * Main controller class for the application
+ * <p>
+ * This class extends the base {@code Controller} class.
+ * It manages all the primary UI logic and interactions,
+ * handling events and coordinating between the view and the models.
+ * </p>
+ */
 public class MainController extends Controller {
+    // Controller for the maze data and logic management
     private MazeController mazeController;
+    // Controller managing the canvas rendering of the maze
     private MazeCanvasController mazeCanvasController;
+    // Controller handling maze solving algorithms
     private MazeSolverController mazeSolverController;
+    // Controller managing maze generation settings
     private MazeGenerationController mazeGenerationController;
 
+    // Selected mode for the generation or solving
     private GenerationMode selectedSolverMode = null;
+    // Selected solver algorithm for thte solving
     private SolveAlgorithms selectedSolverAlgorithms = null;
 
     @FXML private Spinner<Integer> SpinnerGenerationSpeed; // Spinner that change the speed of the generation or the solve
@@ -79,7 +93,6 @@ public class MainController extends Controller {
             LabelVisitedTiles, 
             LabelPath, 
             LabelGenerationTime, 
-            MazeButtonSolve
         );
         mazeSolverController.setOnSolvingStarted(() -> {
             MazeButtonSolve.setDisable(true);
@@ -223,7 +236,7 @@ public class MainController extends Controller {
      * @param saveMode
      * True if the user is saving a maze file, False if the user is opening a maze file
      * @return
-     * File that has been opened
+     * A {@code File} that has been opened
      */
     private File fileDialogForMazeFile(String title, boolean saveMode) {
         FileChooser fileChooser = new FileChooser();

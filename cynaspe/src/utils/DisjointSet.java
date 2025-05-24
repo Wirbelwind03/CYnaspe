@@ -5,7 +5,19 @@ import java.util.Map;
 
 import model.TileModel;
 
+/**
+ * Disjoint-set (union-find) data structure for managing connected components
+ * <p>
+ * This class is used in maze generation algorithms
+ * to efficiently track and merge disjoint sets of tiles. Each tile starts in its own set,
+ * and sets can be merged using union operations while checking connectivity using find operations.
+ * </p>
+ */
 public class DisjointSet {
+    /**
+     * Maps each tile to its parent in the disjoint-set.
+     * If a tile is its own parent, it's the root of it own set.
+     */
     private Map<TileModel, TileModel> parent = new HashMap<>();
 
     /**

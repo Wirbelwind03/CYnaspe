@@ -9,6 +9,13 @@ import model.EdgeModel;
 import model.MazeModel;
 import model.TileModel;
 
+/**
+ * Maze generator using Kruskal's algorithm.
+ * <p>
+ * This generator creates a maze by treating each tile as a node and
+ * connecting them with edges, ensuring no cycles.
+ * </p>
+ */
 public class KruskalMazeGenerator {
     // The type of maze to generate
     private MazeType mazeType = MazeType.PERFECT;
@@ -86,7 +93,7 @@ public class KruskalMazeGenerator {
     /**
      * Check if the algorithm has been completed
      * @return
-     * A boolean that tell if the algorithm has been completed
+     * {@code true} if the algorithm has finished, {@code false} if not
      */
     public boolean isComplete() {
         return currentIndex >= edges.size();

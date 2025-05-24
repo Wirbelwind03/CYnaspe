@@ -13,32 +13,61 @@ import javafx.scene.control.Spinner;
 import utils.Helpers;
 import utils.SpinnerText;
 
+/**
+ * Controller responsible for managing maze solving operations and UI updates.
+ * <p>
+ * This class extends the base {@code Controller} and manage the selection of
+ * solving algorithms, the solving speed, and updates UI labels related
+ * to solving progress and results.
+ * </p>
+ */
 public class MazeSolverController extends Controller {
+    // The maze controller holding the maze data
     private final MazeController mazeController;
 
+    // The selected algorithm for solving the maze
     private SolveAlgorithms selectedAlgorithm;
+    // The selected mode for solving the maze
     private GenerationMode selectedMode;
+    // The instance of the algorithm used to solve the maze
     private ISolverAlgorithm solverAlgorithm;
 
+    // Spinner that handle the speed of the solving
     private final Spinner<Integer> spinnerSpeed;
+    // Label that show the status of the solving
     private final Label labelStatus;
+    // Label that show the number of visited tiles
     private final Label labelVisitedTiles;
+    // Label that show the number of paths
     private final Label labelPath;
+    // Label that show the execution time of the solving algorithm
     private final Label labelTime;
 
+    // Callback to call when the solving algo has started
     private Runnable onSolvingStarted;
+    // Callback to call when the solving algo has finished
     private Runnable onSolvingFinished;
 
+    // Timer used for showing the solving step by step
     private AnimationTimer solverTimer;
 
+    /**
+     * Constructs a new {@code MazeSolverController}.
+     *
+     * @param mazeController reference to the maze controller managing the maze
+     * @param speedSpinner Spinner controlling the solver speed
+     * @param labelStatus Label to display the status
+     * @param labelVisitedTiles Label to display number of visited tiles
+     * @param labelPath Label to display the number of path tiles
+     * @param labelTime label to display the execution solving time
+     */
     public MazeSolverController(
         MazeController mazeController,
         Spinner<Integer> speedSpinner,
         Label labelStatus,
         Label labelVisitedTiles,
         Label labelPath,
-        Label labelTime,
-        Button buttonSolve
+        Label labelTime
     ) {
         this.mazeController = mazeController;
         this.spinnerSpeed = speedSpinner;
@@ -66,10 +95,20 @@ public class MazeSolverController extends Controller {
         this.onSolvingFinished = callback;
     }
 
+    /**
+     * Set the selected generation mode of the maze
+     * @param generationMode
+     * The generation mode used 
+     */
     public void setSelectedMode(GenerationMode generationMode){
         selectedMode = generationMode;
     }
 
+    /**
+     * Set the selected solve algorithm of the maze
+     * @param generationMode
+     * The solve algoritm used 
+     */
     public void setSelectedAlgorithm(SolveAlgorithms solveAlgorithm){
         selectedAlgorithm = solveAlgorithm;
     }
@@ -157,6 +196,9 @@ public class MazeSolverController extends Controller {
         
     }
 
+    /**
+     * When the algorithm has finished solving
+     */
     private void finishedSolving(){
         mazeController.isGenerating = false;
         updateSolverLabels();
@@ -165,6 +207,9 @@ public class MazeSolverController extends Controller {
         if (onSolvingFinished != null) onSolvingFinished.run();
     }
 
+    /**
+     * At each step of the algorithm
+     */
     private void updateSolverLabels(){
         labelVisitedTiles.setText(String.format("Traitées : %d", solverAlgorithm.getVisitedCount()));
         labelPath.setText(String.format("Chemin final : %d", solverAlgorithm.getPathCount()));
