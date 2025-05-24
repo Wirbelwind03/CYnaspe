@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,6 +9,8 @@ import algorithms.DjikstraSolver;
 import algorithms.ISolverAlgorithm;
 import algorithms.RecursiveMazeSolver;
 import enums.MazeType;
+import io.MazeReader;
+import io.MazeWriter;
 import model.MazeModel;
 import utils.KruskalMazeGenerator;
 
@@ -27,23 +30,81 @@ public class MazeConsoleController {
      * Run the maze console version
      */
     public void run(){
-        // Ask the configuration of the maze
-        int numRows = askNumber("Enter nombre de lignes (2-16): ", 2, 16, false);
-        int numCols = askNumber( "Entrer nombre de colonnes (2-16): ", 2, 16, false);
-        int seed = askNumber( "Entrer graine (0, 2147483647), random if empty: ", 0, Integer.MAX_VALUE, true);
-        int mazeTypeInput = askNumber( "Choir le mode de génération\n1 pour PARFAIT\n2 pour IMPARFAIT\n", 1, 2, false);
-        MazeType mazeType = (mazeTypeInput == 2) ? MazeType.IMPERFECT : MazeType.PERFECT;
+        // Used for the loop
+        boolean choosingOptions = true;
 
-        // Generate the maze and render it
-        MazeModel maze = new MazeModel(numRows, numCols);
-        KruskalMazeGenerator kruskalMazeGenerator = new KruskalMazeGenerator(maze, seed, mazeType);
-        while (!kruskalMazeGenerator.isComplete()){
-            kruskalMazeGenerator.step();
+        MazeModel maze = null;
+        while (choosingOptions) {
+            int options = askNumber( "---Options---\n1 pour un nouveau labyrinthe\n2 pour charger un labyrinthe existant\n", 1, 2, false);
+            
+            switch (options) {
+                case 1:
+                    // Ask the configuration of the maze
+                    int numRows = askNumber("Enter nombre de lignes (2-16): ", 2, 16, false);
+                    int numCols = askNumber( "Entrer nombre de colonnes (2-16): ", 2, 16, false);
+                    int seed = askNumber( "Entrer graine (0, 2147483647), random if empty: ", 0, Integer.MAX_VALUE, true);
+                    int mazeTypeInput = askNumber( "Choir le mode de génération\n1 pour PARFAIT\n2 pour IMPARFAIT\n", 1, 2, false);
+                    MazeType mazeType = (mazeTypeInput == 2) ? MazeType.IMPERFECT : MazeType.PERFECT;
+    
+                    // Generate the maze and render it
+                    maze = new MazeModel(numRows, numCols);
+                    KruskalMazeGenerator kruskalMazeGenerator = new KruskalMazeGenerator(maze, seed, mazeType);
+                    while (!kruskalMazeGenerator.isComplete()){
+                        kruskalMazeGenerator.step();
+                    }
+                    // stop the loop
+                    choosingOptions = false;
+                    break;
+            
+                case 2:
+                    System.out.print("Entrer le chemin du fichier .maze : ");
+                    String filePath = scanner.nextLine();
+    
+                    File file = new File(filePath);
+                    if (file.exists() && file.isFile()) {
+                        maze = MazeReader.read(file);
+                        if (maze != null){
+                            // stop the loop
+                            choosingOptions = false;
+                        } else {
+                            System.out.println("Erreur chargement du fichier");
+                        }
+                    } else {
+                        System.out.println("Chemin invalide");
+                        int stopInput = askNumber( "Voulez vous arretez le programme ?\n1 pour OUI\n2 pour NON\n", 1, 2, false);
+                        if (stopInput == 1){
+                            System.exit(0);
+                        }
+                    }
+                    break;
+    
+                default:
+                    break;
+            }    
         }
+
         maze.renderMazeConsole();
 
+        int askSolveInput = askNumber( "Voulez vous résoudre ce labyrinthe ?\n1 pour OUI\n2 pour NON\n", 1, 2, false);
+        if (askSolveInput == 1){
+            solveMaze(maze);
+        }
+
+        // Sauvegarde du labyrinthe
+        int saveOptions = askNumber( "Voulez vous sauvegarder ce labyrinthe ?\n1 pour OUI\n2 pour NON\n", 1, 2, false);
+        if (saveOptions == 1){
+            saveMaze(maze);
+        }
+    }
+
+    /**
+     * Solve the maze through the console
+     * @param maze
+     * The maze to solve
+     */
+    private void solveMaze(MazeModel maze){
         // Ask which solver algorithm to use
-        int solverAlgoInput = askNumber( "Choir l'algo de résolution\n1 pour DFS\n2 pour BFS\n3 pour Djikstra\n", 1, 3, false);
+        int solverAlgoInput = askNumber( "Choisir l'algorithme de résolution\n1 pour DFS\n2 pour BFS\n3 pour Djikstra\n", 1, 3, false);
 
         ISolverAlgorithm solverAlgorithm;
         switch (solverAlgoInput) {
@@ -67,6 +128,36 @@ public class MazeConsoleController {
             solverAlgorithm.step();
         }
         maze.renderMazeConsole();
+    }
+
+    /**
+     * Save the maze through the console
+     * @param maze
+     * The maze to save
+     */
+    private void saveMaze(MazeModel maze){
+        // Check if the "mazeOutputs" folder exist
+        File outputDir = new File("mazeOutputs");
+        if (!outputDir.exists()) {
+            if (!outputDir.mkdirs()) {
+                System.out.println("Échec de la création du dossier 'mazeOutputs'");
+                System.exit(1);
+            }
+        } 
+
+        // Enter the file name
+        System.out.print("Entrer le nom du fichier : ");
+        String fileName = scanner.nextLine();
+        File saveFile = new File(outputDir, fileName);
+
+        // Add the ".maze" extension
+        if (!fileName.endsWith(".maze")) {
+            saveFile = new File(outputDir, fileName + ".maze");
+        }
+
+        // Write the maze and save it
+        MazeWriter.write(maze, saveFile);
+        System.out.println("Labyrinthe sauvegardé dans : " + saveFile.getAbsolutePath());
     }
   
     /**

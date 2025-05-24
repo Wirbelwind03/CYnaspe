@@ -13,7 +13,7 @@ import javafx.scene.control.Spinner;
 import utils.Helpers;
 import utils.SpinnerText;
 
-public class MazeSolverController {
+public class MazeSolverController extends Controller {
     private final MazeController mazeController;
 
     private SolveAlgorithms selectedAlgorithm;

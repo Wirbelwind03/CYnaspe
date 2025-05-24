@@ -22,7 +22,6 @@ public class MazeConfigurationController extends Controller {
 
     @FXML private GridPane GridPaneRoot;
 
-    // @FXML private Spinner<Integer> SpinnerSeed;
     @FXML private TextField TextFieldSeed;
     
     @FXML private Spinner<Integer> SpinnerNumCols;

@@ -9,7 +9,7 @@ import utils.Helpers;
 import utils.KruskalMazeGenerator;
 import utils.SpinnerText;
 
-public class MazeGenerationController {
+public class MazeGenerationController extends Controller {
     private final MazeController mazeController;
 
     private final Spinner<Integer> spinnerSpeed;

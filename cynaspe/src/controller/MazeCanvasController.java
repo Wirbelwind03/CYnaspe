@@ -6,7 +6,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import model.TileModel;
 
-public class MazeCanvasController {
+public class MazeCanvasController extends Controller {
     private final MazeController mazeController;
     private final Canvas canvas;
 
@@ -47,6 +47,8 @@ public class MazeCanvasController {
      */
     private void onMouseMoved(MouseEvent event) {
         if (mazeController.isGenerating || !mazeController.hasMaze()) return;
+
+        canvas.requestFocus();
     
         // Get the position of the mouse
         double x = event.getX();
