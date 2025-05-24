@@ -51,6 +51,9 @@ public class MazeConfigurationController extends Controller {
     @FXML private RadioButton RadioButtonGenerationModeComplete;
     @FXML private RadioButton RadioButtonGenerationModeStep;
 
+    /**
+     * Initialize the FXML
+     */
     @FXML
     public void initialize(){
         Random random = new Random();

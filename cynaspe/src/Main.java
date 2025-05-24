@@ -10,20 +10,27 @@ import javafx.stage.Stage;
 
 /**
  * Main entry point for the application.
- * <p>
- * Rwo modes:
+ * 
+ * Two modes:
  * <ul>
  *   <li>UI mode (default) - launches the JavaFX GUI</li>
  *   <li>Console mode - runs a text-based console interface</li>
  * </ul>
+ * 
  * Command-line argument:
  * <pre>
  *   java Main ui      // launch GUI
  *   java Main console // launch console mode
  * </pre>
- * </p>
  */
 public class Main extends Application {
+    /**
+     * Default constructor
+     */
+    public Main(){
+
+    }
+
     /**
      * The mode to launch the application in ("ui" or "console").
      */
