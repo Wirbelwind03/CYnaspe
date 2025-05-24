@@ -92,7 +92,7 @@ public class MainController extends Controller {
             LabelGenerationStatus, 
             LabelVisitedTiles, 
             LabelPath, 
-            LabelGenerationTime, 
+            LabelGenerationTime
         );
         mazeSolverController.setOnSolvingStarted(() -> {
             MazeButtonSolve.setDisable(true);
