@@ -18,6 +18,12 @@ import model.TileModel;
  * </p>
  */
 public class MazeReader {
+    /**
+     * Default constructor.
+     */
+    public MazeReader() {
+        
+    }
 
     /**
      * Read a .maze file

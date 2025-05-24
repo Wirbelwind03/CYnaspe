@@ -17,6 +17,13 @@ import model.TileModel;
  */
 public abstract class Solver {
     /**
+     * Default constructor.
+     */
+    public Solver() {
+        
+    }
+
+    /**
      * The maze to use the solver on.
      */
     protected MazeModel maze;

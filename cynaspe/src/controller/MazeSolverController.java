@@ -111,7 +111,7 @@ public class MazeSolverController extends Controller {
 
     /**
      * Set the callBack that will be called when the maze solving has started
-     * @param callBack
+     * @param callback
      * The logic to run when "onSolvingStarted" get run
      */
     public void setOnSolvingStarted(Runnable callback){
@@ -120,7 +120,7 @@ public class MazeSolverController extends Controller {
 
     /**
      * Set the callBack that will be called when the maze solving has finished
-     * @param callBack
+     * @param callback
      * The logic to run when "onSolvingFinished" get run
      */
     public void setOnSolvingFinished(Runnable callback){
@@ -138,7 +138,7 @@ public class MazeSolverController extends Controller {
 
     /**
      * Set the selected solve algorithm of the maze
-     * @param generationMode
+     * @param solveAlgorithm
      * The solve algoritm used 
      */
     public void setSelectedAlgorithm(SolveAlgorithms solveAlgorithm){

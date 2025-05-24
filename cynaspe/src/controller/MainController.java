@@ -91,6 +91,9 @@ public class MainController extends Controller {
     @FXML private MenuItem MenuItemMazeLoad;
     @FXML private MenuItem MenuItemMazeSave;
 
+    /**
+     * Initialize the FXML
+     */
     @FXML
     public void initialize(){
         // Set the value of the spinner for the generation speed

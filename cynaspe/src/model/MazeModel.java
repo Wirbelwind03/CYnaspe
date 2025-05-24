@@ -15,11 +15,19 @@ import utils.Helpers;
  * </p>
  */
 public class MazeModel {
-    // The number of rows in the maze
+    /**
+     * The number of rows in the maze.
+     */
     public int numRows;
-    // The number of colums in the maze
+
+    /**
+     * The number of columns in the maze.
+     */
     public int numCols;
-    // 2D array of tiles representing the maze grid
+
+    /**
+     * 2D array of tiles representing the maze grid.
+     */
     public TileModel[][] tiles;
 
     /**

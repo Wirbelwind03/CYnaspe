@@ -69,7 +69,7 @@ public class MazeGenerationController extends Controller {
 
     /**
      * Set the callBack that will be called when the maze generation has started
-     * @param callBack
+     * @param callback
      * The logic to run when "onGenerationStarted" get run
      */
     public void setOnGenerationStarted(Runnable callback){
@@ -78,7 +78,7 @@ public class MazeGenerationController extends Controller {
 
     /**
      * Set the callBack that will be called when the maze generation has finished
-     * @param callBack
+     * @param callback
      * The logic to run when "onGenerationFinished" get run
      */
     public void setOnGenerationFinished(Runnable callBack) {

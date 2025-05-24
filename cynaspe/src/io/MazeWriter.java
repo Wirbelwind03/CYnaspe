@@ -14,6 +14,12 @@ import model.TileModel;
  * </p>
  */
 public class MazeWriter {
+    /**
+     * Default constructor.
+     */
+    public MazeWriter() {
+        
+    }
 
     /**
      * Write the given maze model to a file.
