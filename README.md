@@ -18,7 +18,10 @@ Ce projet vise à sensibiliser les étudiants à l'algorithmique avancée et à 
    git clone https://github.com/Wirbelwind03/CYnaspe.git
    ```
 2. Aller dans le répertoire
-3. Compiler le projet Java
+   ```sh
+   cd {current path}/CYnaspe/cynaspe
+   ```
+4. Compiler le projet Java
    #### Window
   ```sh
   javac --module-path "{path to javafx}" --add-modules javafx.controls,javafx.fxml -d out -sourcepath src src\Main.java
