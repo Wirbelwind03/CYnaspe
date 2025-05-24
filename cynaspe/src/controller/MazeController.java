@@ -19,19 +19,34 @@ import model.TileModel;
  * </p>
  */
 public class MazeController extends Controller {
-    // The maze being rendered and managed
+    /**
+     * The maze being rendered and managed.
+     */
     public MazeModel maze;
-    // The canvas where the maze is rendered
+
+    /**
+     * The canvas where the maze is rendered.
+     */
     private Canvas mazeCanvas;
-    // Graphics context used for drawing on the canvas
+
+    /**
+     * Graphics context used for drawing on the canvas.
+     */
     private GraphicsContext gc;
-    
-    // If the maze is currently being generated or solved
+
+    /**
+     * Indicates if the maze is currently being generated or solved.
+     */
     public boolean isGenerating = false;
 
-    // The tile being currently hovered
+    /**
+     * The tile currently being hovered.
+     */
     public TileModel hoveredTile = null;
-    // The direction choosen during hovering a tile
+
+    /**
+     * The direction chosen during hovering a tile.
+     */
     public WallDirection hoveredWall = WallDirection.RIGHT;
 
     /**

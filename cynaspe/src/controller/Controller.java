@@ -10,7 +10,8 @@ import javafx.stage.Stage;
  * </p>
  */
 public abstract class Controller {
-    public Stage primaryStage; // The primary stage of the JavaFX application
+    /** The primary stage of the JavaFX application */
+    public Stage primaryStage; 
 
     /**
      * Set the primary stage of the controller

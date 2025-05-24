@@ -17,21 +17,36 @@ import utils.SpinnerText;
  * </p>
  */
 public class MazeGenerationController extends Controller {
-    // The controller managing the maze data
+    /**
+     * The controller managing the maze data.
+     */
     private final MazeController mazeController;
 
-    // The Spinner used to set the speed of the generation
+    /**
+     * The Spinner used to set the speed of the generation.
+     */
     private final Spinner<Integer> spinnerSpeed;
-    // The Label that show the generation status
+
+    /**
+     * The Label that shows the generation status.
+     */
     private final Label labelStatus;
 
-    // The callback to call when the generation has started
+    /**
+     * The callback to call when the generation has started.
+     */
     private Runnable onGenerationStarted;
-    // The callback to call when the generation has finished
+
+    /**
+     * The callback to call when the generation has finished.
+     */
     private Runnable onGenerationFinished;
 
-    // The timer used for the step by step generation
+    /**
+     * The timer used for the step-by-step generation.
+     */
     private AnimationTimer generationTimer;
+
 
     /**
      * Constructs a new {@code MazeGenerationController} that handle the maze generation

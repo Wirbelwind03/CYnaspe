@@ -35,19 +35,36 @@ import utils.Helpers;
  * </p>
  */
 public class MainController extends Controller {
-    // Controller for the maze data and logic management
+    /**
+     * Controller for the maze data and logic management.
+     */
     private MazeController mazeController;
-    // Controller managing the canvas rendering of the maze
+
+    /**
+     * Controller managing the canvas rendering of the maze.
+     */
     private MazeCanvasController mazeCanvasController;
-    // Controller handling maze solving algorithms
+
+    /**
+     * Controller handling maze solving algorithms.
+     */
     private MazeSolverController mazeSolverController;
-    // Controller managing maze generation settings
+
+    /**
+     * Controller managing maze generation settings.
+     */
     private MazeGenerationController mazeGenerationController;
 
-    // Selected mode for the generation or solving
+    /**
+     * Selected mode for the generation or solving.
+     */
     private GenerationMode selectedSolverMode = null;
-    // Selected solver algorithm for thte solving
+
+    /**
+     * Selected solver algorithm for the solving.
+     */
     private SolveAlgorithms selectedSolverAlgorithms = null;
+
 
     @FXML private Spinner<Integer> SpinnerGenerationSpeed; // Spinner that change the speed of the generation or the solve
     @FXML private Label LabelGenerationStatus; // Label that show the generation or solve status

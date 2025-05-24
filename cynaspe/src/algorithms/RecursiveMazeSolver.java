@@ -16,7 +16,7 @@ import model.TileModel;
  */
 public class RecursiveMazeSolver extends Solver implements ISolverAlgorithm {
 
-    // Stack used to keep track of tiles to visit during the DFS algorithm
+    /** Stack used to keep track of tiles to visit during the DFS algorithm */ 
     private Stack<TileModel> stack = new Stack<>();
 
     /**

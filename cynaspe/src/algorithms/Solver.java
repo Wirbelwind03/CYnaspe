@@ -16,23 +16,44 @@ import model.TileModel;
  * </p>
  */
 public abstract class Solver {
-    // The maze to use the solver on
+    /**
+     * The maze to use the solver on.
+     */
     protected MazeModel maze;
 
-    // Stores the parent of each visited tile for the reconstruction of the path
+    /**
+     * Stores the parent of each visited tile for the reconstruction of the path.
+     */
     protected Map<TileModel, TileModel> parentMap = new HashMap<>();
-    // The tiles that have been visited
+
+    /**
+     * The tiles that have been visited.
+     */
     protected Set<TileModel> visited = new HashSet<>();
 
-    // Indicate that the algorithm has finished
+    /**
+     * Indicates that the algorithm has finished.
+     */
     protected boolean isFinished = false;
-    // Tile to trace the path once the algorithm has finished
+
+    /**
+     * Tile to trace the path once the algorithm has finished.
+     */
     protected TileModel pathStep = null;
-    // How many path tile there are
+
+    /**
+     * How many path tiles there are.
+     */
     protected int pathCount = 0;
 
-    // Used to start the timer
+    /**
+     * Used to start the timer.
+     */
     protected long startTime = 0;
-    // Time taken by the algorithm
+
+    /**
+     * Time taken by the algorithm.
+     */
     protected long endTime = 0;
+
 }

@@ -25,7 +25,7 @@ import utils.Helpers;
  */
 public class MazeConfigurationController extends Controller {
 
-    // The dialog result when the user exit the dialog
+    /** The dialog result when the user exit the dialog */
     public DialogResult dialogResult = DialogResult.CLOSED;
 
     @FXML private GridPane GridPaneRoot;

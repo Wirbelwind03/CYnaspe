@@ -19,9 +19,9 @@ import model.TileModel;
  * </p>
  */
 public class DjikstraSolver extends Solver implements ISolverAlgorithm {
-    // The distance from the start to each tile,
+    /** The distance from the start to each tile */ 
     private Map<TileModel, Integer> distance;
-    // Queue used to always expand the closest unvisited tile next
+    /** Queue used to always expand the closest unvisited tile next */ 
     private PriorityQueue<TileModel> queue;
 
     /**

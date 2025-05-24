@@ -17,7 +17,7 @@ import enums.TileStatus;
  */
 public class BreadthFirstSolver extends Solver implements ISolverAlgorithm {
 
-    // Queue used to keep track of tiles to visit during the DFS algorithm
+    /** Queue used to keep track of tiles to visit during the DFS algorithm */ 
     private Queue<TileModel> queue = new LinkedList<>();
 
     /**

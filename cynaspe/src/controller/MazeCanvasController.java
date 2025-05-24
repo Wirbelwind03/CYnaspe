@@ -14,9 +14,9 @@ import model.TileModel;
  * </p>
  */
 public class MazeCanvasController extends Controller {
-    // The maze controller used for the logic and data of the maze
+    /** The maze controller used for the logic and data of the maze */ 
     private final MazeController mazeController;
-    // The canvas where the maze is rendered
+    /** The canvas where the maze is rendered */ 
     private final Canvas canvas;
 
     /**

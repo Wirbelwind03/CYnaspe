@@ -21,7 +21,7 @@ import utils.KruskalMazeGenerator;
  * </p>
  */
 public class MazeConsoleController {
-    // Used for reading the user input in the console
+    /** Used for reading the user input in the console */
     private Scanner scanner;
 
     /**
