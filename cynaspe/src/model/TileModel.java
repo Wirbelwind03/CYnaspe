@@ -183,12 +183,14 @@ public class TileModel {
         return walls.getOrDefault(direction, false) == true;
     }
 
-    /*
+    /**
      * Return the walls of the tile in bits format
      * Order is TOP -> RIGHT -> BOTTOM -> LEFT
      * Example :
      * {TOP: false, RIGHT: true, LEFT: false, BOTTOM: false}
      * = 0100
+     * @return
+     * A {@code String} that reprent the wall in bits
      */
     public String getWallBits(){
         StringBuilder wallBits = new StringBuilder();
