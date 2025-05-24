@@ -14,15 +14,33 @@ import enums.WallDirection;
  * </p>
  */
 public class TileModel {
-    public int row; // The row where the tile is placed
-    public int column; // The column where the tile is placed
-    // The walls of the tile
-    // Represented like this
-    // {TOP: false, RIGHT: false, LEFT: false, BOTTOM: false}
-    public Map<WallDirection, Boolean> walls = new HashMap<>(); 
-    public boolean isVisited = false; // If the tile has been visited during generation
-    // The status of the tile during solving
+    /**
+     * The row where the tile is placed.
+     */
+    public int row;
+
+    /**
+     * The column where the tile is placed.
+     */
+    public int column;
+
+    /**
+     * The walls of the tile.
+     * Represented like this:
+     * {TOP: false, RIGHT: false, LEFT: false, BOTTOM: false}
+     */
+    public Map<WallDirection, Boolean> walls = new HashMap<>();
+
+    /**
+     * Indicates if the tile has been visited during generation.
+     */
+    public boolean isVisited = false;
+
+    /**
+     * The status of the tile during solving.
+     */
     public TileStatus status = TileStatus.UNVISITED;
+
 
     /**
      * Construct a tile with the row and column given
